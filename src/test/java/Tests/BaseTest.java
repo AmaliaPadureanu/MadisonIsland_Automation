@@ -2,6 +2,7 @@ package Tests;
 
 import Pages.LoginPage;
 import Pages.MyAccountPage;
+import Pages.NavigationPage;
 import Utils.BrowserTypes;
 import Utils.BrowserUtils;
 import org.openqa.selenium.WebDriver;
@@ -14,11 +15,13 @@ public class BaseTest {
 
     LoginPage loginPage;
     MyAccountPage myAccountPage;
+    NavigationPage navigationPage;
 
     @BeforeTest
     public void beforeTest() {
         driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
         driver.manage().window().maximize();
+        driver.get("http://demo-store.seleniumacademy.com");
     }
 
     @AfterTest
