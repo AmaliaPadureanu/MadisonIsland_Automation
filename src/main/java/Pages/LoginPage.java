@@ -8,9 +8,9 @@ public class LoginPage extends BasePage {
     private By emailInput = By.id("email");
     private By passwordInput = By.id("pass");
     private By loginButton = By.id("send2");
-    private By emailIsRequiredWarning = By.xpath("(//div[@class='input-box'])[2]");
-    private By passwordIsRequiredWarning = By.xpath("(//div[@class='input-box'])[3]");
-    private By invalidCredentialsError = By.xpath("//span[normalize-space()='Invalid login or password.']");
+    private By emailWarning = By.xpath("(//div[@class='input-box'])[2]");
+    private By passwordWarning = By.xpath("(//div[@class='input-box'])[3]");
+    private By invalidEmailOrPassError = By.xpath("//span[normalize-space()='Invalid login or password.']");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -29,26 +29,25 @@ public class LoginPage extends BasePage {
         return new MyAccountPage(driver);
     }
 
-    public String verifyEmailIsRequiredWarning() {
-        if (find(emailIsRequiredWarning).isDisplayed()) {
-            return find(emailIsRequiredWarning).getText();
+    public String verifyEmailMessage() {
+        if (find(emailWarning).isDisplayed()) {
+            return find(emailWarning).getText();
         }
         return "";
     }
 
-    public String verifyPassIsRequiredWarning() {
-        if (find(passwordIsRequiredWarning).isDisplayed()) {
-            return find(passwordIsRequiredWarning).getText();
+    public String verifyPassMessage() {
+        if (find(passwordWarning).isDisplayed()) {
+            return find(passwordWarning).getText();
         }
         return "";
     }
 
     public String verifyInvalidCredentialsError() {
-        if (find(invalidCredentialsError).isDisplayed()) {
-            return find(invalidCredentialsError).getText();
+        if (find(invalidEmailOrPassError).isDisplayed()) {
+            return find(invalidEmailOrPassError).getText();
         }
         return "";
     }
-
 
 }

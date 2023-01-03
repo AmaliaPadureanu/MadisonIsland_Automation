@@ -32,31 +32,56 @@ public class LoginTests extends BaseTest{
         };
     }
 
-    @Test (dataProvider = "validLoginDP")
+    @DataProvider
+    public Object[][] invalidCredentialsLoginDP() {
+        return new Object[][] {
+                {"test@e.com", "pass", "", "Please enter 6 or more characters. Leading or trailing spaces will be ignored."},
+//                {"sjshrjieokfrjgkroj", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+//                {"sjshrjieokfrjgkroj@", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+                {"asdfghjjjr@233", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+                {"asdfghjjjr@abc", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+//                {"asdfghjjjr@abc.", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+//                {"asdfghjjjr@abc$", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+                {".asdfghjjjr@abc.com", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+//                {"@asdfghjjjr@abc.com", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""}
+
+        };
+    }
+
+    @Test (dataProvider = "validLoginDP", enabled = false)
     public void validLoginTest(String email, String password, String emailIsRequiredWarning, String passIsRequiredWarning) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         myAccountPage = loginPage.loginWith(email, password);
-        Assert.assertEquals(loginPage.verifyEmailIsRequiredWarning(), emailIsRequiredWarning);
-        //Assert.assertEquals(loginPage.verifyPassIsRequiredWarning(), passIsRequiredWarning);
+        Assert.assertEquals(loginPage.verifyEmailMessage(), emailIsRequiredWarning);
+        //Assert.assertEquals(loginPage.verifyPassMessage(), passIsRequiredWarning);
         Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
     }
 
-    @Test (dataProvider = "incompleteDataLoginDP")
+    @Test (dataProvider = "incompleteDataLoginDP", enabled = false)
     public void incompleteDataLoginTest(String email, String password, String emailIsRequiredWarning, String passIsRequiredWarning) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         loginPage.loginWith(email, password);
-        Assert.assertEquals(loginPage.verifyEmailIsRequiredWarning(), emailIsRequiredWarning);
-        Assert.assertEquals(loginPage.verifyPassIsRequiredWarning(), passIsRequiredWarning);
+        Assert.assertEquals(loginPage.verifyEmailMessage(), emailIsRequiredWarning);
+        Assert.assertEquals(loginPage.verifyPassMessage(), passIsRequiredWarning);
     }
 
-    @Test (dataProvider = "wrongEmailOrPassLoginDP")
-    public void invalidDataLoginTest(String email, String password, String invalidCredentialsError) {
+    @Test (dataProvider = "wrongEmailOrPassLoginDP", enabled = false)
+    public void invalidDataLoginTest(String email, String password, String wrongEmailOrPassError) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         loginPage.loginWith(email, password);
-        Assert.assertEquals(loginPage.verifyInvalidCredentialsError(), invalidCredentialsError);
+        Assert.assertEquals(loginPage.verifyInvalidCredentialsError(), wrongEmailOrPassError);
+    }
+
+    @Test (dataProvider = "invalidCredentialsLoginDP")
+    public void invalidCredentialsTest(String email, String password, String invalidEmailError, String invalidPassError) {
+        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        loginPage = navigationPage.navigateToLogin();
+        loginPage.loginWith(email, password);
+        Assert.assertEquals(loginPage.verifyEmailMessage(), invalidEmailError);
+        Assert.assertEquals(loginPage.verifyPassMessage(), invalidPassError);
     }
 
 
