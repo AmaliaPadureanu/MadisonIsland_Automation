@@ -24,6 +24,14 @@ public class LoginTests extends BaseTest{
         };
     }
 
+    @DataProvider
+    public Object[][] wrongEmailOrPassLoginDP() {
+        return new Object[][] {
+                {"test@e.com", "wrongPass", "Invalid login or password."},
+                {"testwr@e.com", "Automation", "Invalid login or password."}
+        };
+    }
+
     @Test (dataProvider = "validLoginDP")
     public void validLoginTest(String email, String password, String emailErr, String passErr) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
@@ -43,7 +51,13 @@ public class LoginTests extends BaseTest{
         Assert.assertEquals(loginPage.verifyPassIsRequiredWarning(), passIsRequiredWarning);
     }
 
-
+    @Test (dataProvider = "wrongEmailOrPassLoginDP")
+    public void invalidDataLoginTest(String email, String password, String invalidCredentialsError) {
+        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        loginPage = navigationPage.navigateToLogin();
+        loginPage.loginWith(email, password);
+        Assert.assertEquals(loginPage.verifyInvalidCredentialsError(), invalidCredentialsError);
+    }
 
 
 }

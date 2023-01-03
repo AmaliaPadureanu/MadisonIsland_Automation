@@ -10,6 +10,7 @@ public class LoginPage extends BasePage {
     private By loginButton = By.id("send2");
     private By emailIsRequiredWarning = By.xpath("(//div[@class='input-box'])[2]");
     private By passwordIsRequiredWarning = By.xpath("(//div[@class='input-box'])[3]");
+    private By invalidCredentialsError = By.xpath("//span[normalize-space()='Invalid login or password.']");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -20,7 +21,9 @@ public class LoginPage extends BasePage {
     }
 
     public MyAccountPage loginWith(String email, String password) {
+        find(emailInput).clear();
         find(emailInput).sendKeys(email);
+        find(passwordInput).clear();
         find(passwordInput).sendKeys(password);
         find(loginButton).click();
         return new MyAccountPage(driver);
@@ -36,6 +39,13 @@ public class LoginPage extends BasePage {
     public String verifyPassIsRequiredWarning() {
         if (find(passwordIsRequiredWarning).isDisplayed()) {
             return find(passwordIsRequiredWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyInvalidCredentialsError() {
+        if (find(invalidCredentialsError).isDisplayed()) {
+            return find(invalidCredentialsError).getText();
         }
         return "";
     }
