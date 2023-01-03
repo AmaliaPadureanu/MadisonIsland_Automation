@@ -20,8 +20,9 @@ public class NavigationPage extends BasePage {
         super(driver);
     }
 
-    public void navigateToLogin() {
+    public LoginPage navigateToLogin() {
         accountLink.click();
         loginLink.click();
+        return new LoginPage(driver);
     }
 }

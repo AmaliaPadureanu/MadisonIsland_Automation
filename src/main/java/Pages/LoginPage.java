@@ -1,23 +1,15 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.CacheLookup;
-import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage {
 
-    @FindBy(id = "email")
-    @CacheLookup
-    WebElement emailInput;
-
-    @FindBy(id = "pass")
-    @CacheLookup
-    WebElement passwordInput;
-
-    @FindBy(id = "send2")
-    @CacheLookup
-    WebElement loginButton;
+    private By emailInput = By.id("email");
+    private By passwordInput = By.id("pass");
+    private By loginButton = By.id("send2");
+    private By emailIsRequiredWarning = By.xpath("(//div[@class='input-box'])[2]");
+    private By passwordIsRequiredWarning = By.xpath("(//div[@class='input-box'])[3]");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -28,10 +20,24 @@ public class LoginPage extends BasePage {
     }
 
     public MyAccountPage loginWith(String email, String password) {
-        emailInput.sendKeys(email);
-        passwordInput.sendKeys(password);
-        loginButton.click();
+        find(emailInput).sendKeys(email);
+        find(passwordInput).sendKeys(password);
+        find(loginButton).click();
         return new MyAccountPage(driver);
+    }
+
+    public String verifyEmailIsRequiredWarning() {
+        if (find(emailIsRequiredWarning).isDisplayed()) {
+            return find(emailIsRequiredWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyPassIsRequiredWarning() {
+        if (find(passwordIsRequiredWarning).isDisplayed()) {
+            return find(passwordIsRequiredWarning).getText();
+        }
+        return "";
     }
 
 
