@@ -1,5 +1,6 @@
 package Tests;
 
+import Pages.ForgotYourPasswordPage;
 import Pages.LoginPage;
 import Pages.MyAccountPage;
 import Pages.NavigationPage;
@@ -18,6 +19,7 @@ public class BaseTest {
     LoginPage loginPage;
     MyAccountPage myAccountPage;
     NavigationPage navigationPage;
+    ForgotYourPasswordPage forgotYourPasswordPage;
 
     @BeforeMethod
     public void beforeMethod() {

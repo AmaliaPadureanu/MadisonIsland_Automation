@@ -11,6 +11,8 @@ public class LoginPage extends BasePage {
     private By emailWarning = By.xpath("(//div[@class='input-box'])[2]");
     private By passwordWarning = By.xpath("(//div[@class='input-box'])[3]");
     private By invalidEmailOrPassError = By.xpath("//span[normalize-space()='Invalid login or password.']");
+    private By forgotPasswordLink = By.xpath("//a[normalize-space()='Forgot Your Password?']");
+    private By resetPasswordMessage = By.cssSelector("body div div div div div div ul li ul li span");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -48,6 +50,14 @@ public class LoginPage extends BasePage {
             return find(invalidEmailOrPassError).getText();
         }
         return "";
+    }
+
+    public void forgotYourPassword() {
+        find(forgotPasswordLink).click();
+    }
+
+    public String getResetPasswordMessage() {
+        return find(resetPasswordMessage).getText();
     }
 
 }

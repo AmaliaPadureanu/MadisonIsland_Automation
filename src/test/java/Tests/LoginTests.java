@@ -1,5 +1,6 @@
 package Tests;
 
+import Pages.ForgotYourPasswordPage;
 import Pages.NavigationPage;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -82,6 +83,16 @@ public class LoginTests extends BaseTest{
         loginPage.loginWith(email, password);
         Assert.assertEquals(loginPage.verifyEmailMessage(), invalidEmailError);
         Assert.assertEquals(loginPage.verifyPassMessage(), invalidPassError);
+    }
+
+    @Test
+    public void forgotPasswordTest() {
+        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        loginPage = navigationPage.navigateToLogin();
+        loginPage.forgotYourPassword();
+        forgotYourPasswordPage = PageFactory.initElements(driver, ForgotYourPasswordPage.class);
+        forgotYourPasswordPage.submitEmailAddress("test@e.com");
+        Assert.assertTrue(loginPage.getResetPasswordMessage().contains("you will receive an email with a link to reset your password"));
     }
 
 
