@@ -33,12 +33,12 @@ public class LoginTests extends BaseTest{
     }
 
     @Test (dataProvider = "validLoginDP")
-    public void validLoginTest(String email, String password, String emailErr, String passErr) {
+    public void validLoginTest(String email, String password, String emailIsRequiredWarning, String passIsRequiredWarning) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         myAccountPage = loginPage.loginWith(email, password);
-        Assert.assertEquals(loginPage.verifyEmailIsRequiredWarning(), emailErr);
-        //Assert.assertEquals(loginPage.verifyPassIsRequiredWarning(), passErr);
+        Assert.assertEquals(loginPage.verifyEmailIsRequiredWarning(), emailIsRequiredWarning);
+        //Assert.assertEquals(loginPage.verifyPassIsRequiredWarning(), passIsRequiredWarning);
         Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
     }
 
