@@ -1,7 +1,9 @@
 package Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class LoginPage extends BasePage {
 
@@ -36,6 +38,12 @@ public class LoginPage extends BasePage {
             return find(emailWarning).getText();
         }
         return "";
+    }
+
+    public String verifyEmailMessageFromPopup() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement field = find(emailInput);
+        return js.executeScript("return arguments[0].validationMessage",field).toString();
     }
 
     public String verifyPassMessage() {

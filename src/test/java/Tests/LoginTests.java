@@ -36,20 +36,20 @@ public class LoginTests extends BaseTest{
     @DataProvider
     public Object[][] invalidCredentialsLoginDP() {
         return new Object[][] {
-                {"test@e.com", "pass", "", "Please enter 6 or more characters. Leading or trailing spaces will be ignored."},
-//                {"sjshrjieokfrjgkroj", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-//                {"sjshrjieokfrjgkroj@", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-                {"asdfghjjjr@233", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-                {"asdfghjjjr@abc", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-//                {"asdfghjjjr@abc.", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-//                {"asdfghjjjr@abc$", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-                {".asdfghjjjr@abc.com", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-//                {"@asdfghjjjr@abc.com", "Automation", "Please enter a valid email address. For example johndoe@domain.com.", ""}
+                {"test@e.com", "pass", "", "", "Please enter 6 or more characters. Leading or trailing spaces will be ignored."},
+                {"sjshrjieokfrjgkroj", "Automation", "Please include an '@' in the email address.", "",""},
+                {"sjshrjieokfrjgkroj@", "Automation", "Please enter a part following '@'", "", ""},
+                {"asdfghjjjr@233", "Automation", "", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+                {"asdfghjjjr@abc", "Automation", "", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+                {"asdfghjjjr@abc.", "Automation", "'.' is used at a wrong position", "", ""},
+                {"asdfghjjjr@abc$", "Automation", "A part following '@' should not contain the symbol", "", ""},
+                {".asdfghjjjr@abc.com", "Automation", "", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+                {"@asdfghjjjr@abc.com", "Automation", "Please enter a part followed by '@'.", "", ""}
 
         };
     }
 
-    @Test (dataProvider = "validLoginDP", enabled = false)
+    @Test (dataProvider = "validLoginDP")
     public void validLoginTest(String email, String password, String emailIsRequiredWarning, String passIsRequiredWarning) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
@@ -59,7 +59,7 @@ public class LoginTests extends BaseTest{
         Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
     }
 
-    @Test (dataProvider = "incompleteDataLoginDP", enabled = false)
+    @Test (dataProvider = "incompleteDataLoginDP")
     public void incompleteDataLoginTest(String email, String password, String emailIsRequiredWarning, String passIsRequiredWarning) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
@@ -68,7 +68,7 @@ public class LoginTests extends BaseTest{
         Assert.assertEquals(loginPage.verifyPassMessage(), passIsRequiredWarning);
     }
 
-    @Test (dataProvider = "wrongEmailOrPassLoginDP", enabled = false)
+    @Test (dataProvider = "wrongEmailOrPassLoginDP")
     public void invalidDataLoginTest(String email, String password, String wrongEmailOrPassError) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
@@ -77,10 +77,11 @@ public class LoginTests extends BaseTest{
     }
 
     @Test (dataProvider = "invalidCredentialsLoginDP")
-    public void invalidCredentialsTest(String email, String password, String invalidEmailError, String invalidPassError) {
+    public void invalidCredentialsTest(String email, String password, String invalidEmailErrorFromPopup, String invalidEmailError, String invalidPassError) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         loginPage.loginWith(email, password);
+        Assert.assertTrue(loginPage.verifyEmailMessageFromPopup().contains(invalidEmailErrorFromPopup));
         Assert.assertEquals(loginPage.verifyEmailMessage(), invalidEmailError);
         Assert.assertEquals(loginPage.verifyPassMessage(), invalidPassError);
     }
