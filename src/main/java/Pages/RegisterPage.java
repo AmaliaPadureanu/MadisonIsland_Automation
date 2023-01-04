@@ -1,9 +1,9 @@
 package Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-
-import java.time.Duration;
+import org.openqa.selenium.WebElement;
 
 public class RegisterPage extends BasePage {
 
@@ -73,6 +73,12 @@ public class RegisterPage extends BasePage {
             return find(confirmPasswordWarning).getText();
         }
         return "";
+    }
+
+    public String verifyEmailMessageFromPopup() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement field = find(emailAddress);
+        return js.executeScript("return arguments[0].validationMessage",field).toString();
     }
 
 }

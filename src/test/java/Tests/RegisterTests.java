@@ -37,12 +37,18 @@ public class RegisterTests extends BaseTest {
     @DataProvider
     public Object[][] invalidRegisterDP() {
         return new Object[][] {
-                {"", "Edward", "Doe", "jddoee@p.com", "thisisapassword123", "thisisapassword123", true, "This is a required field.", "", "", "", ""},
-                {"John", "Edward", "", "jjddoee@p.com", "thisisapassword123", "thisisapassword123", false, "", "This is a required field.", "", "", ""},
-                {"John", "Edward", "Doe", "", "thisisapassword123", "thisisapassword123", true, "", "", "This is a required field.", "", ""},
-                {"John", "Edward", "Doe", "jjjdddooe@j.com", "", "thisisapassword123", false, "", "", "", "This is a required field.", "Please make sure your passwords match."},
-                {"John", "Edward", "Doe", "jjjjddddoee@qk.com", "thisisapassword123", "", true, "", "", "", "", "This is a required field."},
-                {"John", "Edward", "Doe", "jjjjjdddddoooe@hq.com", "thisisapassword123", "thisisanotherpassword", false, "", "", "", "", "Please make sure your passwords match."},
+                {"", "Edward", "Doe", "jddoee@p.com", "thisisapassword123", "thisisapassword123", true, "This is a required field.", "", "", "", "", ""},
+                {"John", "Edward", "", "jjddoee@p.com", "thisisapassword123", "thisisapassword123", false, "", "This is a required field.", "", "", "", ""},
+                {"John", "Edward", "Doe", "", "thisisapassword123", "thisisapassword123", true, "", "", "This is a required field.", "", "", ""},
+                {"John", "Edward", "Doe", "jjjdddooe@j.com", "", "thisisapassword123", false, "", "", "", "", "This is a required field.", "Please make sure your passwords match."},
+                {"John", "Edward", "Doe", "jjjjddddoee@qk.com", "thisisapassword123", "", true, "", "", "", "", "", "This is a required field."},
+                {"John", "Edward", "Doe", "jjjjjdddddoooe@hq.com", "thisisapassword123", "thisisanotherpassword", false, "", "", "", "", "", "Please make sure your passwords match."},
+                {"", "", "", "", "", "", false, "This is a required field.", "This is a required field.", "This is a required field.", "", "This is a required field.", "This is a required field."},
+                {"John", "Edward", "Doe", "@jddoee@p.com", "thisisapassword123", "thisisapassword123", true, "", "", "", "Please enter a part followed by '@'.", "", ""},
+                {"John", "Edward", "Doe", "johndoedoe", "thisisapassword123", "thisisapassword123", true, "", "", "", "Please include an '@' in the email address.", "", ""},
+                {"John", "Edward", "Doe", "johndoedoe@", "thisisapassword123", "thisisapassword123", true, "", "", "", "Please enter a part following '@'", "", ""},
+                {"John", "Edward", "Doe", "johndoedoe@abc.", "thisisapassword123", "thisisapassword123", true, "", "", "", "'.' is used at a wrong position", "", ""},
+                {"John", "Edward", "Doe", "johndoedoe@abc$", "thisisapassword123", "thisisapassword123", true, "", "", "", "A part following '@' should not contain the symbol", "", ""},
         };
     }
 
@@ -58,7 +64,7 @@ public class RegisterTests extends BaseTest {
     @Test (dataProvider = "invalidRegisterDP")
     public void invalidRegisterTest(String firstName, String middleName, String lastName, String email, String pass,
                                   String confirmPass, Boolean subscribeToNewsletter, String firstNameWarning,
-                                  String lastNameWarning, String emailWarning, String passWarning,
+                                  String lastNameWarning, String emailWarning, String emailFromPopupWarning, String passWarning,
                                   String confirmPassWarning) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         registerPage = navigationPage.navigateToRegister();
@@ -66,6 +72,7 @@ public class RegisterTests extends BaseTest {
         Assert.assertEquals(registerPage.verifyFirstNameWarningMessage(), firstNameWarning);
         Assert.assertEquals(registerPage.verifyLastNameWarningMessage(), lastNameWarning);
         Assert.assertEquals(registerPage.verifyEmailWarningMessage(), emailWarning);
+        Assert.assertTrue(registerPage.verifyEmailMessageFromPopup().contains(emailFromPopupWarning));
         Assert.assertEquals(registerPage.verifyPasswordWarningMessage(), passWarning);
         Assert.assertEquals(registerPage.verifyConfirmPasswordWarningMessage(), confirmPassWarning);
     }
