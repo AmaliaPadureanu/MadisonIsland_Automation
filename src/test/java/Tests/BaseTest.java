@@ -1,9 +1,6 @@
 package Tests;
 
-import Pages.ForgotYourPasswordPage;
-import Pages.LoginPage;
-import Pages.MyAccountPage;
-import Pages.NavigationPage;
+import Pages.*;
 import Utils.BrowserTypes;
 import Utils.BrowserUtils;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +15,7 @@ public class BaseTest {
     MyAccountPage myAccountPage;
     NavigationPage navigationPage;
     ForgotYourPasswordPage forgotYourPasswordPage;
+    RegisterPage registerPage;
 
     @BeforeTest
     public void beforeTest() {
