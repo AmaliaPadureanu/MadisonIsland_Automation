@@ -16,6 +16,10 @@ public class NavigationPage extends BasePage {
     @CacheLookup
     WebElement loginLink;
 
+    @FindBy(how = How.CSS, using = "#header-account > div > ul > li:nth-child(5) > a")
+    @CacheLookup
+    WebElement registerLink;
+
     public NavigationPage(WebDriver driver) {
         super(driver);
     }
@@ -24,5 +28,11 @@ public class NavigationPage extends BasePage {
         accountLink.click();
         loginLink.click();
         return new LoginPage(driver);
+    }
+
+    public RegisterPage navigateToRegister() {
+        accountLink.click();
+        registerLink.click();
+        return new RegisterPage(driver);
     }
 }
