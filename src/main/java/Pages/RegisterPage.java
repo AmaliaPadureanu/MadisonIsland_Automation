@@ -3,6 +3,8 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.time.Duration;
+
 public class RegisterPage extends BasePage {
 
     private By firstNameInput = By.id("firstname");
@@ -13,6 +15,11 @@ public class RegisterPage extends BasePage {
     private By confirmPassword = By.id("confirmation");
     private By subscribeToNewsletterCheckbox = By.id("is_subscribed");
     private By registerButton = By.cssSelector("button[title='Register']");
+    private By firstNameWarning = By.xpath("(//div[@class='input-box'])[2]");
+    private By lastNameWarning = By.xpath("(//div[@class='input-box'])[4]");
+    private By emailWarning = By.xpath("(//div[@class='input-box'])[5]");
+    private By passwordWarning = By.xpath("(//div[@class='input-box'])[6]");
+    private By confirmPasswordWarning = By.xpath("(//div[@class='input-box'])[7]");
 
     public RegisterPage(WebDriver driver) {
         super(driver);
@@ -32,4 +39,40 @@ public class RegisterPage extends BasePage {
         find(registerButton).click();
         return new AccountDashboardPage(driver);
     }
+
+    public String verifyFirstNameWarningMessage() {
+        if (find(firstNameWarning).isDisplayed()) {
+            return find(firstNameWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyLastNameWarningMessage() {
+        if (find(lastNameWarning).isDisplayed()) {
+            return find(lastNameWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyEmailWarningMessage() {
+        if (find(emailWarning).isDisplayed()) {
+            return find(emailWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyPasswordWarningMessage() {
+        if (find(passwordWarning).isDisplayed()) {
+            return find(passwordWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyConfirmPasswordWarningMessage() {
+        if (find(confirmPasswordWarning).isDisplayed()) {
+            return find(confirmPasswordWarning).getText();
+        }
+        return "";
+    }
+
 }

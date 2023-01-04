@@ -27,10 +27,23 @@ public class RegisterTests extends BaseTest {
     @DataProvider
     public Object[][] validRegisterDP() {
         return new Object[][] {
-                {"John", "Edward", "Doe", "jedoe@asd.com", "thisisapassword123", "thisisapassword123", true},
-                {"Sarah", "Jessica", "Doe", "sjdoe@asd.com", "thisisapassword123", "thisisapassword123", false},
-                {"Alex", "Andrew", "Jones", "aajones@asd.com", "thisisapassword123", "thisisapassword123", true}
+                {"John", "Edward", "Doe", "jjedoe@qq.com", "thisisapassword123", "thisisapassword123", true},
+                {"Sarah", "Jessica", "Doe", "ssjdoe@ww.com", "thisisapassword123", "thisisapassword123", false},
+                {"Alex", "Andrew", "Jones", "aaajones@ww.com", "thisisapassword123", "thisisapassword123", true},
+                {"Sam", "", "Smith", "ssmithhs@ww.com", "thisisapassword123", "thisisapassword123", false},
             };
+    }
+
+    @DataProvider
+    public Object[][] invalidRegisterDP() {
+        return new Object[][] {
+                {"", "Edward", "Doe", "jddoee@p.com", "thisisapassword123", "thisisapassword123", true, "This is a required field.", "", "", "", ""},
+                {"John", "Edward", "", "jjddoee@p.com", "thisisapassword123", "thisisapassword123", false, "", "This is a required field.", "", "", ""},
+                {"John", "Edward", "Doe", "", "thisisapassword123", "thisisapassword123", true, "", "", "This is a required field.", "", ""},
+                {"John", "Edward", "Doe", "jjjdddooe@j.com", "", "thisisapassword123", false, "", "", "", "This is a required field.", "Please make sure your passwords match."},
+                {"John", "Edward", "Doe", "jjjjddddoee@qk.com", "thisisapassword123", "", true, "", "", "", "", "This is a required field."},
+                {"John", "Edward", "Doe", "jjjjjdddddoooe@hq.com", "thisisapassword123", "thisisanotherpassword", false, "", "", "", "", "Please make sure your passwords match."},
+        };
     }
 
     @Test (dataProvider = "validRegisterDP")
@@ -40,6 +53,21 @@ public class RegisterTests extends BaseTest {
         registerPage = navigationPage.navigateToRegister();
         accountDashboardPage = registerPage.registerUser(firstName, middleName, lastName, email, pass, confirmPass, subscribeToNewsletter);
         Assert.assertEquals(accountDashboardPage.getAfterRegisterMessage(), "Thank you for registering with Madison Island.");
+    }
+
+    @Test (dataProvider = "invalidRegisterDP")
+    public void invalidRegisterTest(String firstName, String middleName, String lastName, String email, String pass,
+                                  String confirmPass, Boolean subscribeToNewsletter, String firstNameWarning,
+                                  String lastNameWarning, String emailWarning, String passWarning,
+                                  String confirmPassWarning) {
+        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        registerPage = navigationPage.navigateToRegister();
+        registerPage.registerUser(firstName, middleName, lastName, email, pass, confirmPass, subscribeToNewsletter);
+        Assert.assertEquals(registerPage.verifyFirstNameWarningMessage(), firstNameWarning);
+        Assert.assertEquals(registerPage.verifyLastNameWarningMessage(), lastNameWarning);
+        Assert.assertEquals(registerPage.verifyEmailWarningMessage(), emailWarning);
+        Assert.assertEquals(registerPage.verifyPasswordWarningMessage(), passWarning);
+        Assert.assertEquals(registerPage.verifyConfirmPasswordWarningMessage(), confirmPassWarning);
     }
 
 }
