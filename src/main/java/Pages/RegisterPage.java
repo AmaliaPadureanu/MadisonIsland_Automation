@@ -18,8 +18,8 @@ public class RegisterPage extends BasePage {
         super(driver);
     }
 
-    public void registerUser(String firstName, String middleName, String lastName, String email, String pass,
-                             String confirmPass, Boolean subscribeToNewsletter) {
+    public AccountDashboardPage registerUser(String firstName, String middleName, String lastName, String email, String pass,
+                                     String confirmPass, Boolean subscribeToNewsletter) {
         find(firstNameInput).sendKeys(firstName);
         find(middleNameInput).sendKeys(middleName);
         find(lastNameInput).sendKeys(lastName);
@@ -30,5 +30,6 @@ public class RegisterPage extends BasePage {
             find(subscribeToNewsletterCheckbox).click();
         }
         find(registerButton).click();
+        return new AccountDashboardPage(driver);
     }
 }
