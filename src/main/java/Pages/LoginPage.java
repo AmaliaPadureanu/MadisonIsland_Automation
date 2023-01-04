@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class LoginPage extends BasePage {
-
     private By emailInput = By.id("email");
     private By passwordInput = By.id("pass");
     private By loginButton = By.id("send2");
