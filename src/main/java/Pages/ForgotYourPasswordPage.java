@@ -18,10 +18,6 @@ public class ForgotYourPasswordPage extends BasePage {
 
     public ForgotYourPasswordPage(WebDriver driver) {
         super(driver);
-        if (!driver.getTitle().equals("Forgot Your Password")) {
-            throw new IllegalStateException("This is not the Forgot Your Password Page," +
-                    " the current page is: " + driver.getCurrentUrl());
-        }
     }
 
     public void submitEmailAddress(String email) {

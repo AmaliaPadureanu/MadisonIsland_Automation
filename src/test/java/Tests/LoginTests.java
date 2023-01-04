@@ -1,6 +1,7 @@
 package Tests;
 
 import Pages.ForgotYourPasswordPage;
+import Pages.LoginPage;
 import Pages.NavigationPage;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -59,7 +60,7 @@ public class LoginTests extends BaseTest{
         Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
     }
 
-    @Test (dataProvider = "incompleteDataLoginDP")
+    @Test (dataProvider = "incompleteDataLoginDP", priority = 2)
     public void incompleteDataLoginTest(String email, String password, String emailIsRequiredWarning, String passIsRequiredWarning) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
@@ -68,16 +69,16 @@ public class LoginTests extends BaseTest{
         Assert.assertEquals(loginPage.verifyPassMessage(), passIsRequiredWarning);
     }
 
-    @Test (dataProvider = "wrongEmailOrPassLoginDP")
-    public void invalidDataLoginTest(String email, String password, String wrongEmailOrPassError) {
+    @Test (dataProvider = "wrongEmailOrPassLoginDP", priority = 1)
+    public void wrongEmailOrPassLoginTest(String email, String password, String wrongEmailOrPassError) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         loginPage.loginWith(email, password);
         Assert.assertEquals(loginPage.verifyInvalidCredentialsError(), wrongEmailOrPassError);
     }
 
-    @Test (dataProvider = "invalidCredentialsLoginDP")
-    public void invalidCredentialsTest(String email, String password, String invalidEmailErrorFromPopup, String invalidEmailError, String invalidPassError) {
+    @Test (dataProvider = "invalidCredentialsLoginDP", priority = 2)
+    public void invalidCredentialsTest(String email, String password, String invalidEmailErrorFromPopup, String invalidEmailError, String invalidPassError) throws InterruptedException {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         loginPage.loginWith(email, password);
@@ -96,5 +97,11 @@ public class LoginTests extends BaseTest{
         Assert.assertTrue(loginPage.getResetPasswordMessage().contains("you will receive an email with a link to reset your password"));
     }
 
-
+    @Test (dependsOnMethods = {"validLoginTest"})
+    public void logoutTest() {
+        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        loginPage = new LoginPage(driver);
+        loginPage.logout();
+        Assert.assertEquals(loginPage.getLogoutMessage(), "You have logged out and will be redirected to our homepage in 5 seconds.");
+    }
 }

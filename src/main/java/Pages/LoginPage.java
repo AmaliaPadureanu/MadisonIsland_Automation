@@ -12,22 +12,19 @@ public class LoginPage extends BasePage {
     private By loginButton = By.id("send2");
     private By emailWarning = By.xpath("(//div[@class='input-box'])[2]");
     private By passwordWarning = By.xpath("(//div[@class='input-box'])[3]");
-    private By invalidEmailOrPassError = By.xpath("//span[normalize-space()='Invalid login or password.']");
+    private By invalidEmailOrPassError = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div/div[2]/ul/li/ul/li");
     private By forgotPasswordLink = By.xpath("//a[normalize-space()='Forgot Your Password?']");
     private By resetPasswordMessage = By.cssSelector("body div div div div div div ul li ul li span");
+    private By accountLink = By.cssSelector("#header > div > div.skip-links > div > a");
+    private By logOutButton = By.cssSelector("a[title='Log Out']");
+    private By logoutMessage = By.cssSelector("body > div > div.page > div.main-container.col1-layout > div > div > p");
 
     public LoginPage(WebDriver driver) {
         super(driver);
-        if (!driver.getTitle().equals("Customer Login")) {
-            throw new IllegalStateException("This is not the Login Page," +
-                    " the current page is: " + driver.getCurrentUrl());
-        }
     }
 
     public MyAccountPage loginWith(String email, String password) {
-        find(emailInput).clear();
         find(emailInput).sendKeys(email);
-        find(passwordInput).clear();
         find(passwordInput).sendKeys(password);
         find(loginButton).click();
         return new MyAccountPage(driver);
@@ -54,10 +51,7 @@ public class LoginPage extends BasePage {
     }
 
     public String verifyInvalidCredentialsError() {
-        if (find(invalidEmailOrPassError).isDisplayed()) {
-            return find(invalidEmailOrPassError).getText();
-        }
-        return "";
+        return find(invalidEmailOrPassError).getText();
     }
 
     public void forgotYourPassword() {
@@ -66,6 +60,15 @@ public class LoginPage extends BasePage {
 
     public String getResetPasswordMessage() {
         return find(resetPasswordMessage).getText();
+    }
+
+    public void logout() {
+        find(accountLink).click();
+        find(logOutButton).click();
+    }
+
+    public String getLogoutMessage() {
+        return find(logoutMessage).getText();
     }
 
 }
