@@ -78,7 +78,7 @@ public class LoginTests extends BaseTest{
     }
 
     @Test (dataProvider = "invalidCredentialsLoginDP", priority = 2)
-    public void invalidCredentialsTest(String email, String password, String invalidEmailErrorFromPopup, String invalidEmailError, String invalidPassError) throws InterruptedException {
+    public void invalidCredentialsTest(String email, String password, String invalidEmailErrorFromPopup, String invalidEmailError, String invalidPassError) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         loginPage.loginWith(email, password);
