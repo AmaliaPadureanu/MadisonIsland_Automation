@@ -18,6 +18,11 @@ public class BasePage {
         return driver.findElement(locator);
     }
 
+    public void clearAndSendKeys(By locator, String text) {
+        find(locator).clear();
+        find(locator).sendKeys(text);
+    }
+
     public String getPageTitle() {
         return this.driver.getTitle();
     }
