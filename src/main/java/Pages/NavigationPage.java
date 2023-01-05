@@ -20,6 +20,10 @@ public class NavigationPage extends BasePage {
     @CacheLookup
     WebElement registerLink;
 
+    @FindBy(how = How.XPATH, using = "//*[@id=\"header-account\"]/div/ul/li[1]/a")
+    @CacheLookup
+    WebElement myAccountLink;
+
     public NavigationPage(WebDriver driver) {
         super(driver);
     }
@@ -34,5 +38,11 @@ public class NavigationPage extends BasePage {
         accountLink.click();
         registerLink.click();
         return new RegisterPage(driver);
+    }
+
+    public AccountDashboardPage navigateToAccountDashboard() {
+        accountLink.click();
+        myAccountLink.click();
+        return new AccountDashboardPage(driver);
     }
 }
