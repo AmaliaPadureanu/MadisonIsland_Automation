@@ -21,6 +21,7 @@ public class BaseTest {
     WishlistPage wishlistPage;
     HomePage homePage;
     AccountDashboardPage accountDashboardPage;
+    NewsletterSubscriptionsPage newsletterSubscriptionsPage;
 
     @BeforeTest
     public void beforeTest() {
