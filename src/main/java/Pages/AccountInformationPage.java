@@ -1,7 +1,9 @@
 package Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class AccountInformationPage extends BasePage {
 
@@ -9,11 +11,13 @@ public class AccountInformationPage extends BasePage {
     private By middleNameInput = By.id("middlename");
     private By lastNameInput = By.id("lastname");
     private By emailInput = By.id("email");
-    private By changePasswordCheckbox = By.id("change_password");
     private By currentPasswordInput = By.id("current_password");
     private By newPasswordInput = By.id("password");
     private By confirmNewPasswordInput = By.id("confirmation");
     private By saveButton = By.xpath("//*[@id=\"form-validate\"]/div[3]/button");
+    private By firstNameWarning = By.xpath("(//div[@class='input-box'])[2]");
+    private By lastNameWarning = By.xpath("(//div[@class='input-box'])[4]");
+    private By emailWarning = By.xpath("(//div[@class='input-box'])[5]");
 
     public AccountInformationPage(WebDriver driver) {
         super(driver);
@@ -25,5 +29,32 @@ public class AccountInformationPage extends BasePage {
         clearAndSendKeys(lastNameInput, lastName);
         clearAndSendKeys(emailInput, email);
         find(saveButton).click();
+    }
+
+    public String verifyFirstNameWarning() {
+        if (find(firstNameWarning).isDisplayed()) {
+            return find(firstNameWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyLastNameWarning() {
+        if (find(lastNameWarning).isDisplayed()) {
+            return find(lastNameWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyEmailWarning() {
+        if (find(emailWarning).isDisplayed()) {
+            return find(emailWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyEmailMessageFromPopup() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement field = find(emailInput);
+        return js.executeScript("return arguments[0].validationMessage",field).toString();
     }
 }

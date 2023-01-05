@@ -18,6 +18,20 @@ public class MyAccountTests extends BaseTest {
            };
    }
 
+   @DataProvider
+   public Object[][] invalidEditContactInformationDP() {
+      return new Object[][] {
+              {"", "", "", "", "This is a required field.", "This is a required field.", "This is a required field.", ""},
+              {"", "Luiza", "", "martaluiza@", "", "", "", "Please enter a part following '@'"},
+              {"Marta", "Luiza", "", "", "", "This is a required field.", "This is a required field.", ""},
+              {"Marta", "Luiza", "", "martaluiza", "", "", "", "Please include an '@' in the email address."},
+              {"", "", "", "martaluiza@abc", "This is a required field.", "This is a required field.", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+              {"Marta", "Luiza", "", "martaluiza@abc.com.", "", "", "", "'.' is used at a wrong position"},
+              {"Marta", "Luiza", "", "martaluiza@abc.com$.", "", "", "", "A part following '@' should not contain the symbol"},
+              {"", "", "Popescu", ".martaluiza@abc.com", "This is a required field.", "", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+      };
+   }
+
    @BeforeClass
     public void beforeMethod() {
        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
@@ -48,6 +62,19 @@ public class MyAccountTests extends BaseTest {
       Assert.assertTrue(accountDashboardPage.getContactInformation().contains(middleName));
       Assert.assertTrue(accountDashboardPage.getContactInformation().contains(lastName));
       Assert.assertTrue(accountDashboardPage.getContactInformation().contains(email));
+   }
+
+   @Test (dataProvider = "invalidEditContactInformationDP")
+   public void invalidEditAccountInformationTest(String firstName, String middleName, String lastName, String email,
+                                                 String firstNameWarning, String lastNameWarning, String emailWarning, String emailWarningPopup) {
+      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+      accountDashboardPage = navigationPage.navigateToAccountDashboard();
+      accountInformationPage = accountDashboardPage.goToAccountInformation();
+      accountInformationPage.editContactInformation(firstName, middleName, lastName, email);
+      Assert.assertEquals(accountInformationPage.verifyFirstNameWarning(), firstNameWarning);
+      Assert.assertEquals(accountInformationPage.verifyLastNameWarning(), lastNameWarning);
+      Assert.assertEquals(accountInformationPage.verifyEmailWarning(), emailWarning);
+      Assert.assertTrue(accountInformationPage.verifyEmailMessageFromPopup().contains(emailWarningPopup));
    }
 
 }
