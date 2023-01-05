@@ -40,6 +40,16 @@ public class MyAccountTests extends BaseTest {
       };
    }
 
+   @DataProvider
+   public Object[][] invalidChangePasswordDP() {
+      return new Object[][] {
+              {"", "", "", "This is a required field.", "This is a required field.", "This is a required field."},
+              {"Automation1", "Automation", "Automation", "", "", ""},
+              {"Automation", "Automation123", "Automation321", "", "", "Please make sure your passwords match."},
+              {"Automation", "", "Automation123", "", "This is a required field.", "Please make sure your passwords match."}
+      };
+   }
+
    @BeforeClass
     public void beforeMethod() {
        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
@@ -92,6 +102,18 @@ public class MyAccountTests extends BaseTest {
       accountInformationPage = accountDashboardPage.goToChangePasswordSection();
       accountInformationPage.changePassword(currentPassword, newPassword, confirmPassword);
       Assert.assertEquals(accountDashboardPage.getAccountInformationWasEditedMessage(), "The account information has been saved.");
+   }
+
+   @Test (dataProvider = "invalidChangePasswordDP")
+   public void invalidChangePasswordTest(String currentPassword, String newPassword, String confirmNewPassword,
+                                         String currentPasswordWarning, String newPasswordWarning, String confirmNewPasswordWarning) {
+      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+      accountDashboardPage = navigationPage.navigateToAccountDashboard();
+      accountInformationPage = accountDashboardPage.goToChangePasswordSection();
+      accountInformationPage.changePassword(currentPassword,newPassword,confirmNewPassword);
+      Assert.assertEquals(accountInformationPage.verifyCurrentPasswordWarning(), currentPasswordWarning);
+      Assert.assertEquals(accountInformationPage.verifyNewPasswordWarning(), newPasswordWarning);
+      Assert.assertEquals(accountInformationPage.verifyConfirmNewPasswordWarning(), confirmNewPasswordWarning);
    }
 
 }

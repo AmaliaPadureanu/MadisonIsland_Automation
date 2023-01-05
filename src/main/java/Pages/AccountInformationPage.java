@@ -18,6 +18,10 @@ public class AccountInformationPage extends BasePage {
     private By firstNameWarning = By.xpath("(//div[@class='input-box'])[2]");
     private By lastNameWarning = By.xpath("(//div[@class='input-box'])[4]");
     private By emailWarning = By.xpath("(//div[@class='input-box'])[5]");
+    private By currentPasswordWarning = By.xpath("(//div[@class='input-box'])[6]");
+    private By newPasswordWarning = By.xpath("(//div[@class='input-box'])[7]");
+    private By confirmNewPasswordWarning = By.xpath("(//div[@class='input-box'])[8]");
+    private By invalidCurrentPasswordMessage = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/ul");
 
     public AccountInformationPage(WebDriver driver) {
         super(driver);
@@ -52,6 +56,27 @@ public class AccountInformationPage extends BasePage {
         return "";
     }
 
+    public String verifyCurrentPasswordWarning() {
+        if (find(currentPasswordWarning).isDisplayed()) {
+            return find(currentPasswordWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyNewPasswordWarning() {
+        if (find(newPasswordWarning).isDisplayed()) {
+            return find(newPasswordWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyConfirmNewPasswordWarning() {
+        if (find(confirmNewPasswordWarning).isDisplayed()) {
+            return find(confirmNewPasswordWarning).getText();
+        }
+        return "";
+    }
+
     public String verifyEmailMessageFromPopup() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebElement field = find(emailInput);
@@ -63,5 +88,12 @@ public class AccountInformationPage extends BasePage {
         clearAndSendKeys(newPasswordInput, newPassword);
         clearAndSendKeys(confirmNewPasswordInput, confirmPassword);
         find(saveButton).click();
+    }
+
+    public String getInvalidCurrentPasswordMessage() {
+        if (find(invalidCurrentPasswordMessage).isDisplayed()) {
+            return find(invalidCurrentPasswordMessage).getText();
+        }
+        return "";
     }
 }
