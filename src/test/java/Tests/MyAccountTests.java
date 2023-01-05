@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class AccountDashboardTests extends BaseTest {
+public class MyAccountTests extends BaseTest {
 
    @BeforeMethod
     public void beforeMethod() {
