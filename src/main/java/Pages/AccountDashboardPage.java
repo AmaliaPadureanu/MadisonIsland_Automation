@@ -10,8 +10,9 @@ public class AccountDashboardPage extends BasePage {
     private By subscriptionWasEditedMessage = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/ul/li/ul/li");
     private By subscriptionStatus = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[2]/div/div[2]/p");
     private By editContactInformationButton = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[1]/a");
-    private By contactInformationWasEditedMessage = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/ul/li/ul/li/span");
+    private By accountInformationWasEditedMessage = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/ul/li/ul/li/span");
     private By contactInformation = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[2]/p");
+    private By changePasswordButton = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[2]/p/a");
 
     public AccountDashboardPage(WebDriver driver) {
         super(driver);
@@ -49,11 +50,16 @@ public class AccountDashboardPage extends BasePage {
         return "The subscription has been saved.";
     }
 
-    public String getContactInformationWasEditedMessage() {
-        return find(contactInformationWasEditedMessage).getText();
+    public String getAccountInformationWasEditedMessage() {
+        return find(accountInformationWasEditedMessage).getText();
     }
 
     public String getContactInformation() {
         return find(contactInformation).getText();
+    }
+
+    public AccountInformationPage goToChangePasswordSection() {
+        find(changePasswordButton).click();
+        return new AccountInformationPage(driver);
     }
 }

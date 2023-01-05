@@ -57,4 +57,11 @@ public class AccountInformationPage extends BasePage {
         WebElement field = find(emailInput);
         return js.executeScript("return arguments[0].validationMessage",field).toString();
     }
+
+    public void changePassword(String currentPassword, String newPassword, String confirmPassword) {
+        clearAndSendKeys(currentPasswordInput, currentPassword);
+        clearAndSendKeys(newPasswordInput, newPassword);
+        clearAndSendKeys(confirmNewPasswordInput, confirmPassword);
+        find(saveButton).click();
+    }
 }

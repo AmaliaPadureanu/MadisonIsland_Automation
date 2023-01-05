@@ -32,6 +32,14 @@ public class MyAccountTests extends BaseTest {
       };
    }
 
+   @DataProvider
+   public Object[][] changePasswordDP() {
+      return new Object[][] {
+              {"Automation", "Automation1", "Automation1"},
+              {"Automation1", "Automation", "Automation"}
+      };
+   }
+
    @BeforeClass
     public void beforeMethod() {
        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
@@ -57,7 +65,7 @@ public class MyAccountTests extends BaseTest {
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToAccountInformation();
       accountInformationPage.editContactInformation(firstName, middleName, lastName, email);
-      Assert.assertEquals(accountDashboardPage.getContactInformationWasEditedMessage(), "The account information has been saved.");
+      Assert.assertEquals(accountDashboardPage.getAccountInformationWasEditedMessage(), "The account information has been saved.");
       Assert.assertTrue(accountDashboardPage.getContactInformation().contains(firstName));
       Assert.assertTrue(accountDashboardPage.getContactInformation().contains(middleName));
       Assert.assertTrue(accountDashboardPage.getContactInformation().contains(lastName));
@@ -75,6 +83,15 @@ public class MyAccountTests extends BaseTest {
       Assert.assertEquals(accountInformationPage.verifyLastNameWarning(), lastNameWarning);
       Assert.assertEquals(accountInformationPage.verifyEmailWarning(), emailWarning);
       Assert.assertTrue(accountInformationPage.verifyEmailMessageFromPopup().contains(emailWarningPopup));
+   }
+
+   @Test (dataProvider = "changePasswordDP")
+   public void changePasswordTest(String currentPassword, String newPassword, String confirmPassword) {
+      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+      accountDashboardPage = navigationPage.navigateToAccountDashboard();
+      accountInformationPage = accountDashboardPage.goToChangePasswordSection();
+      accountInformationPage.changePassword(currentPassword, newPassword, confirmPassword);
+      Assert.assertEquals(accountDashboardPage.getAccountInformationWasEditedMessage(), "The account information has been saved.");
    }
 
 }
