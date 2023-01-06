@@ -2,6 +2,10 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AddressBookPage extends BasePage {
 
@@ -11,12 +15,12 @@ public class AddressBookPage extends BasePage {
     private By companyInput = By.id("company");
     private By telephoneInput = By.id("telephone");
     private By faxInput = By.id("fax");
-    private By streetAddress1Input = By.id("street_1");
-    private By getStreetAddress2Input = By.id("street_2");
+    private By address1Input = By.id("street_1");
+    private By address2Input = By.id("street_2");
     private By cityInput = By.id("city");
-    private By stateDropdown = By.id("region_id");
+    private Select stateDropdown = new Select(find(By.id("region_id")));
     private By zipCodeInput = By.id("zip");
-    private By countryDropdown = By.id("country_id");
+    private Select countryDropdown = new Select(find(By.id("country_id")));
     private By saveAddressButton = By.xpath("//*[@id=\"form-validate\"]/div[3]/button");
     private By firstNameWarning = By.id("advice-required-entry-firstname");
     private By lastNameWarning = By.id("advice-required-entry-lastname");
@@ -37,5 +41,22 @@ public class AddressBookPage extends BasePage {
         clearAndSendKeys(telephoneInput, telephone);
         clearAndSendKeys(faxInput, fax);
         find(saveAddressButton).click();
+    }
+
+    private String capitalizeFirstLetterOfEachWord(final String words) {
+        return Stream.of(words.trim().split("\\s"))
+                .filter(word -> word.length() > 0)
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                .collect(Collectors.joining(" "));
+    }
+
+    public void editAddress(String address1, String address2, String city, String state, String zipCode, String country) {
+        clearAndSendKeys(address1Input, address1);
+        clearAndSendKeys(address2Input, address2);
+        clearAndSendKeys(cityInput, city);
+        stateDropdown.selectByVisibleText(capitalizeFirstLetterOfEachWord(state));
+        clearAndSendKeys(zipCodeInput, zipCode);
+        countryDropdown.selectByVisibleText(capitalizeFirstLetterOfEachWord(country));
+
     }
 }
