@@ -9,10 +9,11 @@ public class AccountDashboardPage extends BasePage {
     private By editNewsletterSubscriptionsLink = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[2]/div/div[1]/a");
     private By subscriptionWasEditedMessage = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/ul/li/ul/li");
     private By subscriptionStatus = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[2]/div/div[2]/p");
-    private By editContactInformationButton = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[1]/a");
+    private By editContactInformationLink = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[1]/a");
     private By accountInformationWasEditedMessage = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/ul/li/ul/li/span");
     private By contactInformation = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[2]/p");
-    private By changePasswordButton = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[2]/p/a");
+    private By changePasswordLink = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[2]/p/a");
+    private By manageAddressesLink = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[4]/div[1]/a");
 
     public AccountDashboardPage(WebDriver driver) {
         super(driver);
@@ -28,7 +29,7 @@ public class AccountDashboardPage extends BasePage {
     }
 
     public AccountInformationPage goToAccountInformation() {
-        find(editContactInformationButton).click();
+        find(editContactInformationLink).click();
         return new AccountInformationPage(driver);
     }
 
@@ -59,7 +60,12 @@ public class AccountDashboardPage extends BasePage {
     }
 
     public AccountInformationPage goToChangePasswordSection() {
-        find(changePasswordButton).click();
+        find(changePasswordLink).click();
         return new AccountInformationPage(driver);
+    }
+
+    public AddressBookPage goToAddressBook() {
+        find(manageAddressesLink).click();
+        return new AddressBookPage(driver);
     }
 }

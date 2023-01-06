@@ -28,4 +28,14 @@ public class AddressBookPage extends BasePage {
     public AddressBookPage(WebDriver driver) {
         super(driver);
     }
+
+    public void editContactInformation(String firstName, String middleName, String lastName, String company, String telephone, String fax) {
+        clearAndSendKeys(firstNameInput, firstName);
+        clearAndSendKeys(middleNameInput, middleName);
+        clearAndSendKeys(lastNameInput, lastName);
+        clearAndSendKeys(companyInput, company);
+        clearAndSendKeys(telephoneInput, telephone);
+        clearAndSendKeys(faxInput, fax);
+        find(saveAddressButton).click();
+    }
 }
