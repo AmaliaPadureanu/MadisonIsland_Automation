@@ -3,11 +3,10 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class AddressBookPage extends BasePage {
+public class EditAddressPage extends BasePage {
 
     private By firstNameInput = By.id("firstname");
     private By middleNameInput = By.id("middlename");
@@ -20,16 +19,17 @@ public class AddressBookPage extends BasePage {
     private By cityInput = By.id("city");
     private Select stateDropdown = new Select(find(By.id("region_id")));
     private By zipCodeInput = By.id("zip");
-    private Select countryDropdown = new Select(find(By.id("country_id")));
+    private Select countryDropdown = new Select(find(By.id("country")));
     private By saveAddressButton = By.xpath("//*[@id=\"form-validate\"]/div[3]/button");
-    private By firstNameWarning = By.id("advice-required-entry-firstname");
-    private By lastNameWarning = By.id("advice-required-entry-lastname");
-    private By telephoneWarning = By.id("advice-required-entry-telephone");
-    private By getStreetAddress1Warning = By.id("advice-required-entry-street_1");
-    private By cityWarning = By.id("advice-required-entry-city");
-    private By zipCodeWarning = By.id("advice-required-entry-zip");
+    private By firstNameWarning = By.xpath("(//div[@class='input-box'])[2]");
+    private By lastNameWarning = By.xpath("(//div[@class='input-box'])[4]");
+    private By telephoneWarning = By.xpath("(//div[@class='input-box'])[6]");
+    private By address1Warning = By.xpath("(//div[@class='input-box'])[8]");
+    private By cityWarning = By.xpath("(//div[@class='input-box'])[10]");
+    private By stateWarning = By.xpath("(//div[@class='input-box'])[11]");
+    private By zipCodeWarning = By.xpath("(//div[@class='input-box'])[12]");
 
-    public AddressBookPage(WebDriver driver) {
+    public EditAddressPage(WebDriver driver) {
         super(driver);
     }
 
@@ -57,6 +57,47 @@ public class AddressBookPage extends BasePage {
         stateDropdown.selectByVisibleText(capitalizeFirstLetterOfEachWord(state));
         clearAndSendKeys(zipCodeInput, zipCode);
         countryDropdown.selectByVisibleText(capitalizeFirstLetterOfEachWord(country));
+    }
 
+    public String verifyFirstNameWarningMessage() {
+        if (find(firstNameWarning).isDisplayed()) {
+            return find(firstNameWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyLastNameWarningMessage() {
+        if (find(lastNameWarning).isDisplayed()) {
+            return find(lastNameWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyTelephoneWarningMessage() {
+        if (find(telephoneWarning).isDisplayed()) {
+            return find(telephoneWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyAddressWarningMessage() {
+        if (find(address1Warning).isDisplayed()) {
+            return find(address1Warning).getText();
+        }
+        return "";
+    }
+
+    public String verifyCityWarningMessage() {
+        if (find(cityWarning).isDisplayed()) {
+            return find(cityWarning).getText();
+        }
+        return "";
+    }
+
+    public String verifyZipCodeWarningMessage() {
+        if (find(zipCodeWarning).isDisplayed()) {
+            return find(zipCodeWarning).getText();
+        }
+        return "";
     }
 }

@@ -21,6 +21,8 @@ public class BaseTest {
     AccountDashboardPage accountDashboardPage;
     NewsletterSubscriptionsPage newsletterSubscriptionsPage;
     AccountInformationPage accountInformationPage;
+    AddressBookPage addressBookPage;
+    EditAddressPage editAddressPage;
 
     @BeforeTest
     public void beforeTest() {

@@ -19,9 +19,9 @@ public class MyAccountTests extends BaseTest {
    }
 
    @DataProvider
-   public Object[][] invalidEditContactInformationDP() {
+   public Object[][] invalidEditAccountInformationDP() {
       return new Object[][] {
-              {"", "", "", "", "This is a required field.", "This is a required field.", "This is a required field.", ""},
+              {"", "", "", "", "", "This is a required field.", "This is a required field.", "This is a required field.", ""},
               {"", "Luiza", "", "martaluiza@", "", "", "", "Please enter a part following '@'"},
               {"Marta", "Luiza", "", "", "", "This is a required field.", "This is a required field.", ""},
               {"Marta", "Luiza", "", "martaluiza", "", "", "", "Please include an '@' in the email address."},
@@ -47,6 +47,16 @@ public class MyAccountTests extends BaseTest {
               {"Automation1", "Automation", "Automation", "", "", ""},
               {"Automation", "Automation123", "Automation321", "", "", "Please make sure your passwords match."},
               {"Automation", "", "Automation123", "", "This is a required field.", "Please make sure your passwords match."}
+      };
+   }
+
+   @DataProvider
+   public Object[][] invalidEditContactInformationDP() {
+      return new Object[][] {
+              {"", "", "", "", "", "", "This is a required field.", "This is a required field.", "This is a required field."},
+              {"Alex", "E", "Popescu", "", "", "", "", "", "This is a required field."},
+              {"", "", "Popescu", "IBM", "67384900398", "8233467890", "This is a required field.", "", ""},
+              {"Alex", "", "", "IBM", "67384900398", "8233467890", "", "This is a required field.", ""}
       };
    }
 
@@ -82,7 +92,7 @@ public class MyAccountTests extends BaseTest {
       Assert.assertTrue(accountDashboardPage.getContactInformation().contains(email));
    }
 
-   @Test (dataProvider = "invalidEditContactInformationDP")
+   @Test (dataProvider = "invalidEditAccountInformationDP")
    public void invalidEditAccountInformationTest(String firstName, String middleName, String lastName, String email,
                                                  String firstNameWarning, String lastNameWarning, String emailWarning, String emailWarningPopup) {
       navigationPage = PageFactory.initElements(driver, NavigationPage.class);
@@ -114,6 +124,20 @@ public class MyAccountTests extends BaseTest {
       Assert.assertEquals(accountInformationPage.verifyCurrentPasswordWarning(), currentPasswordWarning);
       Assert.assertEquals(accountInformationPage.verifyNewPasswordWarning(), newPasswordWarning);
       Assert.assertEquals(accountInformationPage.verifyConfirmNewPasswordWarning(), confirmNewPasswordWarning);
+   }
+
+   @Test (dataProvider = "invalidEditContactInformationDP")
+   public void invalidEditContactInformationTest(String firstName, String middleName, String lastName, String company, String telephone, String fax,
+                                          String firstNameWarning, String lastNameWarning, String telephoneWarning) {
+      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+      accountDashboardPage = navigationPage.navigateToAccountDashboard();
+      addressBookPage = accountDashboardPage.goToAddressBook();
+      editAddressPage = addressBookPage.goToEditAddressBook();
+      editAddressPage.editContactInformation(firstName, middleName, lastName, company, telephone, fax);
+      Assert.assertEquals(editAddressPage.verifyFirstNameWarningMessage(), firstNameWarning);
+      Assert.assertEquals(editAddressPage.verifyLastNameWarningMessage(), lastNameWarning);
+      Assert.assertEquals(editAddressPage.verifyTelephoneWarningMessage(), telephoneWarning);
+      //Assert.assertEquals(addressBookPage.getAddressWasSavedMessage(), "The address has been saved.");
    }
 
 }

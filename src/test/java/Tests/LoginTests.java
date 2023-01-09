@@ -3,88 +3,65 @@ package Tests;
 import Pages.ForgotYourPasswordPage;
 import Pages.LoginPage;
 import Pages.NavigationPage;
+import Tests.ObjectModels.LoginModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class LoginTests extends BaseTest{
 
     @DataProvider
     public Object[][] validLoginDP() {
         return new Object[][] {
-                {"test@e.com", "Automation", "", ""}
+                {"test@e.com", "Automation"}
         };
     }
 
-    @DataProvider
-    public Object[][] incompleteDataLoginDP() {
-        return new Object[][] {
-                {"test@e.com", "", "", "This is a required field."},
-                {"", "Automation", "This is a required field.", ""},
-                {"", "", "This is a required field.", "This is a required field."}
-        };
+    @DataProvider(name = "jsonInvalidLoginDP")
+    public Iterator<Object[]> jsonDPCollection() throws IOException {
+        Collection<Object[]> dp = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("src\\test\\resources\\Data\\invalidLoginData.json");
+        LoginModel[] loginModels = objectMapper.readValue(file, LoginModel[].class);
+
+        for (LoginModel loginModel : loginModels) {
+            dp.add(new Object[] {loginModel});
+        }
+        return dp.iterator();
     }
 
-    @DataProvider
-    public Object[][] wrongEmailOrPassLoginDP() {
-        return new Object[][] {
-                {"test@e.com", "wrongPass", "Invalid login or password."},
-                {"testwr@e.com", "Automation", "Invalid login or password."}
-        };
+    private void loginActions(LoginModel loginModel) {
+        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        LoginPage loginPage1 = navigationPage.navigateToLogin();
+        loginPage1.loginWith(loginModel.getAccount().getEmail(), loginModel.getAccount().getPassword());
+        String expectedEmailError = loginModel.getEmailError();
+        String expectedPasswordError = loginModel.getPasswordError();
+        String expectedInvalidUserOrPasswordError = loginModel.getInvalidUserOrPasswordError();
+        String expectedInvalidUserOrPasswordErrorPopup = loginModel.getInvalidUserOrPasswordErrorPopup();
+        Assert.assertTrue(loginPage1.checkError(expectedEmailError, "userError"));
+        Assert.assertTrue(loginPage1.checkError(expectedPasswordError, "passwordError"));
+        Assert.assertTrue(loginPage1.checkError(expectedInvalidUserOrPasswordError, "invalidUserOrPasswordError"));
+        Assert.assertTrue(loginPage1.checkError(expectedInvalidUserOrPasswordErrorPopup, "invalidUserOrPasswordErrorPopup"));
     }
 
-    @DataProvider
-    public Object[][] invalidCredentialsLoginDP() {
-        return new Object[][] {
-                {"test@e.com", "pass", "", "", "Please enter 6 or more characters. Leading or trailing spaces will be ignored."},
-                {"sjshrjieokfrjgkroj", "Automation", "Please include an '@' in the email address.", "",""},
-                {"sjshrjieokfrjgkroj@", "Automation", "Please enter a part following '@'", "", ""},
-                {"asdfghjjjr@233", "Automation", "", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-                {"asdfghjjjr@abc", "Automation", "", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-                {"asdfghjjjr@abc.", "Automation", "'.' is used at a wrong position", "", ""},
-                {"asdfghjjjr@abc$", "Automation", "A part following '@' should not contain the symbol", "", ""},
-                {".asdfghjjjr@abc.com", "Automation", "", "Please enter a valid email address. For example johndoe@domain.com.", ""},
-                {"@asdfghjjjr@abc.com", "Automation", "Please enter a part followed by '@'.", "", ""}
-
-        };
+    @Test(dataProvider = "jsonInvalidLoginDP", priority = 1)
+    public void loginWithJsonDataTest(LoginModel loginModel) {
+        loginActions(loginModel);
     }
 
     @Test (dataProvider = "validLoginDP")
-    public void validLoginTest(String email, String password, String emailIsRequiredWarning, String passIsRequiredWarning) {
+    public void validLoginTest(String email, String password) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
         myAccountPage = loginPage.loginWith(email, password);
-        Assert.assertEquals(loginPage.verifyEmailMessage(), emailIsRequiredWarning);
-        //Assert.assertEquals(loginPage.verifyPassMessage(), passIsRequiredWarning);
         Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
-    }
-
-    @Test (dataProvider = "incompleteDataLoginDP", priority = 2)
-    public void incompleteDataLoginTest(String email, String password, String emailIsRequiredWarning, String passIsRequiredWarning) {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
-        loginPage = navigationPage.navigateToLogin();
-        loginPage.loginWith(email, password);
-        Assert.assertEquals(loginPage.verifyEmailMessage(), emailIsRequiredWarning);
-        Assert.assertEquals(loginPage.verifyPassMessage(), passIsRequiredWarning);
-    }
-
-    @Test (dataProvider = "wrongEmailOrPassLoginDP", priority = 1)
-    public void wrongEmailOrPassLoginTest(String email, String password, String wrongEmailOrPassError) {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
-        loginPage = navigationPage.navigateToLogin();
-        loginPage.loginWith(email, password);
-        Assert.assertEquals(loginPage.verifyInvalidCredentialsError(), wrongEmailOrPassError);
-    }
-
-    @Test (dataProvider = "invalidCredentialsLoginDP", priority = 2)
-    public void invalidCredentialsTest(String email, String password, String invalidEmailErrorFromPopup, String invalidEmailError, String invalidPassError) {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
-        loginPage = navigationPage.navigateToLogin();
-        loginPage.loginWith(email, password);
-        Assert.assertTrue(loginPage.verifyEmailMessageFromPopup().contains(invalidEmailErrorFromPopup));
-        Assert.assertEquals(loginPage.verifyEmailMessage(), invalidEmailError);
-        Assert.assertEquals(loginPage.verifyPassMessage(), invalidPassError);
     }
 
     @Test

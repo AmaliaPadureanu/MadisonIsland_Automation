@@ -1,0 +1,132 @@
+[
+  {
+    "account" : {
+      "email" : "test@e.com",
+      "password" : ""
+    },
+    "emailError" : "",
+    "passwordError" : "This is a required field.",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : ""
+  },
+  {
+    "account" : {
+      "email" : "",
+      "password" : "Automation"
+    },
+    "emailError" : "This is a required field.",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : ""
+  },
+  {
+    "account" : {
+      "email" : "",
+      "password" : ""
+    },
+    "emailError" : "This is a required field.",
+    "passwordError" : "This is a required field.",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : ""
+  },
+  {
+    "account" : {
+      "email" : "test@e.com",
+      "password" : "wrongPass"
+    },
+    "emailError" : "",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "Invalid login or password.",
+    "invalidUserOrPasswordErrorPopup" : ""
+  },
+  {
+    "account" : {
+      "email" : "test@123",
+      "password" : "Automation"
+    },
+    "emailError" : "Please enter a valid email address. For example johndoe@domain.com.",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : ""
+  },
+  {
+    "account" : {
+      "email" : "test@abc",
+      "password" : "Automation"
+    },
+    "emailError" : "Please enter a valid email address. For example johndoe@domain.com.",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : ""
+  },
+  {
+    "account" : {
+      "email" : ".test@e.com",
+      "password" : "Automation"
+    },
+    "emailError" : "Please enter a valid email address. For example johndoe@domain.com.",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : ""
+  },
+  {
+    "account" : {
+      "email" : "test@e.com",
+      "password" : "Auto"
+    },
+    "emailError" : "",
+    "passwordError" : "Please enter 6 or more characters. Leading or trailing spaces will be ignored.",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : ""
+  },
+  {
+    "account" : {
+      "email" : "testecom",
+      "password" : "Automation"
+    },
+    "emailError" : "",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : "Please include an '@' in the email address."
+  },
+  {
+    "account" : {
+      "email" : "testecom@",
+      "password" : "Automation"
+    },
+    "emailError" : "",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : "Please enter a part following '@'"
+  },
+  {
+    "account" : {
+      "email" : "test@abc.",
+      "password" : "Automation"
+    },
+    "emailError" : "",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : "'.' is used at a wrong position"
+  },
+  {
+    "account" : {
+      "email" : "test@abc$",
+      "password" : "Automation"
+    },
+    "emailError" : "",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : "A part following '@' should not contain the symbol"
+  },
+  {
+    "account" : {
+      "email" : "@test@e.com",
+      "password" : "Automation"
+    },
+    "emailError" : "",
+    "passwordError" : "",
+    "invalidUserOrPasswordError" : "",
+    "invalidUserOrPasswordErrorPopup" : "Please enter a part followed by '@'."
+  }
+]
