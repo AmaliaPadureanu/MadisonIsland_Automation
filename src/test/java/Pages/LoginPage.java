@@ -51,7 +51,7 @@ public class LoginPage extends BasePage {
 
     public String verifyEmailMessageFromPopup() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        return js.executeScript("return arguments[0].validationMessage",emailInput).toString();
+        return js.executeScript("return arguments[0].validationMessage", emailInput).toString();
     }
 
     public void forgotYourPassword() {

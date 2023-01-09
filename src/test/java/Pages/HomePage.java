@@ -9,15 +9,20 @@ import org.openqa.selenium.support.How;
 public class HomePage extends BasePage {
 
     @FindBy (how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div/div[2]/div[1]/span[1]")
-    @CacheLookup
     WebElement slideshowPreviousButton;
 
     @FindBy (how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div/div[2]/div[1]")
-    @CacheLookup
     WebElement slideshowNextButton;
+
+    @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div/div[2]/ul[1]/li")
+    WebElement afterRegisterMessage;
 
     public HomePage(WebDriver driver) {
         super(driver);
+    }
+
+    public String getAfterRegisterMessage() {
+        return afterRegisterMessage.getText();
     }
 
 }

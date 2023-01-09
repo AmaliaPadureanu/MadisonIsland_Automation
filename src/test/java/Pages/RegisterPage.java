@@ -1,84 +1,109 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class RegisterPage extends BasePage {
 
-    private By firstNameInput = By.id("firstname");
-    private By middleNameInput = By.id("middlename");
-    private By lastNameInput = By.id("lastname");
-    private By emailAddress = By.id("email_address");
-    private By password = By.id("password");
-    private By confirmPassword = By.id("confirmation");
-    private By subscribeToNewsletterCheckbox = By.id("is_subscribed");
-    private By registerButton = By.cssSelector("button[title='Register']");
-    private By firstNameWarning = By.xpath("(//div[@class='input-box'])[2]");
-    private By lastNameWarning = By.xpath("(//div[@class='input-box'])[4]");
-    private By emailWarning = By.xpath("(//div[@class='input-box'])[5]");
-    private By passwordWarning = By.xpath("(//div[@class='input-box'])[6]");
-    private By confirmPasswordWarning = By.xpath("(//div[@class='input-box'])[7]");
+    WebDriverWait wait;
+
+    @FindBy(how = How.ID, using = "firstname")
+    WebElement firstNameInput;
+   @FindBy(how = How.ID, using = "middlename")
+   WebElement middleNameInput;
+    @FindBy(how = How.ID, using = "lastname")
+    WebElement lastNameInput;
+    @FindBy(how = How.ID, using = "email_address")
+    WebElement emailInput;
+    @FindBy(how = How.ID, using = "password")
+    WebElement passwordInput;
+    @FindBy(how = How.ID, using = "confirmation")
+    WebElement confirmPasswordInput;
+    @FindBy(how = How.ID, using = "is_subscribed")
+    WebElement subscribeToNewsletterCheckbox;
+    @FindBy(how = How.CSS, using = "button[title='Register']")
+    WebElement registerButton;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[2]")
+    WebElement firstNameError;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[4]")
+    WebElement lastNameError;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[5]")
+    WebElement emailError;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[6]")
+    WebElement passwordError;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[7]")
+    WebElement confirmPasswordError;
 
     public RegisterPage(WebDriver driver) {
         super(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageFactory.initElements(driver, this);
     }
 
-    public AccountDashboardPage registerUser(String firstName, String middleName, String lastName, String email, String pass,
+    public HomePage registerUser(String firstName, String middleName, String lastName, String email, String pass,
                                      String confirmPass, Boolean subscribeToNewsletter) {
-        find(firstNameInput).sendKeys(firstName);
-        find(middleNameInput).sendKeys(middleName);
-        find(lastNameInput).sendKeys(lastName);
-        find(emailAddress).sendKeys(email);
-        find(password).sendKeys(pass);
-        find(confirmPassword).sendKeys(confirmPass);
+        firstNameInput.sendKeys(firstName);
+        middleNameInput.sendKeys(middleName);
+        lastNameInput.sendKeys(lastName);
+        emailInput.sendKeys(email);
+        passwordInput.sendKeys(pass);
+        confirmPasswordInput.sendKeys(confirmPass);
         if (subscribeToNewsletter) {
-            find(subscribeToNewsletterCheckbox).click();
+            subscribeToNewsletterCheckbox.click();
         }
-        find(registerButton).click();
-        return new AccountDashboardPage(driver);
-    }
-
-    public String verifyFirstNameWarningMessage() {
-        if (find(firstNameWarning).isDisplayed()) {
-            return find(firstNameWarning).getText();
-        }
-        return "";
-    }
-
-    public String verifyLastNameWarningMessage() {
-        if (find(lastNameWarning).isDisplayed()) {
-            return find(lastNameWarning).getText();
-        }
-        return "";
-    }
-
-    public String verifyEmailWarningMessage() {
-        if (find(emailWarning).isDisplayed()) {
-            return find(emailWarning).getText();
-        }
-        return "";
-    }
-
-    public String verifyPasswordWarningMessage() {
-        if (find(passwordWarning).isDisplayed()) {
-            return find(passwordWarning).getText();
-        }
-        return "";
-    }
-
-    public String verifyConfirmPasswordWarningMessage() {
-        if (find(confirmPasswordWarning).isDisplayed()) {
-            return find(confirmPasswordWarning).getText();
-        }
-        return "";
+        registerButton.click();
+        return new HomePage(driver);
     }
 
     public String verifyEmailMessageFromPopup() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement field = find(emailAddress);
-        return js.executeScript("return arguments[0].validationMessage",field).toString();
+        return js.executeScript("return arguments[0].validationMessage", emailInput).toString();
+    }
+
+    public boolean checkError(String expectedError, String errorType) {
+        if(errorType.equalsIgnoreCase("firstNameError")) {
+            if (expectedError.length() > 0) {
+                wait.until(ExpectedConditions.visibilityOf(firstNameError));
+                return expectedError.equalsIgnoreCase(firstNameError.getText());
+            } else return true;
+        } else if (errorType.equalsIgnoreCase("lastNameError")) {
+            if (expectedError.length() > 0) {
+                wait.until(ExpectedConditions.visibilityOf(lastNameError));
+                return expectedError.equalsIgnoreCase(lastNameError.getText());
+            } else return true;
+        } else if (errorType.equalsIgnoreCase("emailError")) {
+            if (expectedError.length() > 0) {
+                wait.until(ExpectedConditions.visibilityOf(emailError));
+                return expectedError.equalsIgnoreCase(emailError.getText());
+            }
+            else return true;
+        } else if (errorType.equalsIgnoreCase("passwordError")) {
+            if (expectedError.length() > 0) {
+                wait.until(ExpectedConditions.visibilityOf(passwordError));
+                return expectedError.equalsIgnoreCase(passwordError.getText());
+            }
+            else return true;
+        } else if (errorType.equalsIgnoreCase("confirmPasswordError")) {
+            if (expectedError.length() > 0) {
+                wait.until(ExpectedConditions.visibilityOf(confirmPasswordError));
+                return expectedError.equalsIgnoreCase(confirmPasswordError.getText());
+            }
+            else return true;
+        } else if (errorType.equalsIgnoreCase("emailErrorPopup")) {
+            if (expectedError.length() > 0) {
+                return verifyEmailMessageFromPopup().contains(expectedError);
+            }
+            else return true;
+        }
+        return false;
     }
 
 }

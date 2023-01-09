@@ -1,80 +1,76 @@
 package Tests;
 
+import Pages.LoginPage;
 import Pages.NavigationPage;
-import Utils.BrowserTypes;
-import Utils.BrowserUtils;
+import Tests.ObjectModels.RegisterModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class RegisterTests extends BaseTest {
 
-    @BeforeMethod
-    public void beforeTest() {
-        driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
-        driver.manage().window().maximize();
-        driver.get("http://demo-store.seleniumacademy.com");
+    @DataProvider(name = "jsonValidRegisterDP")
+    public Iterator<Object[]> jsonDPCollectionValid() throws IOException {
+        Collection<Object[]> dp = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("src\\test\\resources\\Data\\validRegisterData.json");
+        RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
+
+        for (RegisterModel registerModel : registerModels) {
+            dp.add(new Object[] {registerModel});
+        }
+        return dp.iterator();
     }
 
-    @AfterMethod
-    public void afterMethod() {
-        driver.quit();
+    @DataProvider(name = "jsonInvalidRegisterDP")
+    public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
+        Collection<Object[]> dp = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("src\\test\\resources\\Data\\invalidRegisterData.json");
+        RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
+
+        for (RegisterModel registerModel : registerModels) {
+            dp.add(new Object[] {registerModel});
+        }
+        return dp.iterator();
     }
 
-    @DataProvider
-    public Object[][] validRegisterDP() {
-        return new Object[][] {
-                {"John", "Edward", "Doe", "jjedoe@qq.com", "thisisapassword123", "thisisapassword123", true},
-                {"Sarah", "Jessica", "Doe", "ssjdoe@ww.com", "thisisapassword123", "thisisapassword123", false},
-                {"Alex", "Andrew", "Jones", "aaajones@ww.com", "thisisapassword123", "thisisapassword123", true},
-                {"Sam", "", "Smith", "ssmithhs@ww.com", "thisisapassword123", "thisisapassword123", false},
-            };
-    }
-
-    @DataProvider
-    public Object[][] invalidRegisterDP() {
-        return new Object[][] {
-                {"", "Edward", "Doe", "jddoee@p.com", "thisisapassword123", "thisisapassword123", true, "This is a required field.", "", "", "", "", ""},
-                {"John", "Edward", "", "jjddoee@p.com", "thisisapassword123", "thisisapassword123", false, "", "This is a required field.", "", "", "", ""},
-                {"John", "Edward", "Doe", "", "thisisapassword123", "thisisapassword123", true, "", "", "This is a required field.", "", "", ""},
-                {"John", "Edward", "Doe", "jjjdddooe@j.com", "", "thisisapassword123", false, "", "", "", "", "This is a required field.", "Please make sure your passwords match."},
-                {"John", "Edward", "Doe", "jjjjddddoee@qk.com", "thisisapassword123", "", true, "", "", "", "", "", "This is a required field."},
-                {"John", "Edward", "Doe", "jjjjjdddddoooe@hq.com", "thisisapassword123", "thisisanotherpassword", false, "", "", "", "", "", "Please make sure your passwords match."},
-                {"", "", "", "", "", "", false, "This is a required field.", "This is a required field.", "This is a required field.", "", "This is a required field.", "This is a required field."},
-                {"John", "Edward", "Doe", "@jddoee@p.com", "thisisapassword123", "thisisapassword123", true, "", "", "", "Please enter a part followed by '@'.", "", ""},
-                {"John", "Edward", "Doe", "johndoedoe", "thisisapassword123", "thisisapassword123", true, "", "", "", "Please include an '@' in the email address.", "", ""},
-                {"John", "Edward", "Doe", "johndoedoe@", "thisisapassword123", "thisisapassword123", true, "", "", "", "Please enter a part following '@'", "", ""},
-                {"John", "Edward", "Doe", "johndoedoe@abc.", "thisisapassword123", "thisisapassword123", true, "", "", "", "'.' is used at a wrong position", "", ""},
-                {"John", "Edward", "Doe", "johndoedoe@abc$", "thisisapassword123", "thisisapassword123", true, "", "", "", "A part following '@' should not contain the symbol", "", ""},
-        };
-    }
-
-    @Test (dataProvider = "validRegisterDP")
-    public void validRegisterTest(String firstName, String middleName, String lastName, String email, String pass,
-                                  String confirmPass, Boolean subscribeToNewsletter) {
+    public void registerActions(RegisterModel registerModel) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         registerPage = navigationPage.navigateToRegister();
-        accountDashboardPage = registerPage.registerUser(firstName, middleName, lastName, email, pass, confirmPass, subscribeToNewsletter);
-        Assert.assertEquals(accountDashboardPage.getAfterRegisterMessage(), "Thank you for registering with Madison Island.");
+        homePage = registerPage.registerUser(registerModel.getFirstName(), registerModel.getMiddleName(), registerModel.getLastName(),
+                registerModel.getEmail(), registerModel.getPassword(), registerModel.getConfirmPassword(), registerModel.getSignUpForNewsletter());
+        String expectedFirstNameError = registerModel.getFirstNameError();
+        String expectedLastNameError = registerModel.getLastNameError();
+        String expectedEmailError = registerModel.getEmailError();
+        String expectedPasswordError = registerModel.getPasswordError();
+        String expectedConfirmPasswordError = registerModel.getConfirmPasswordError();
+        String expectedEmailErrorPopup = registerModel.getEmailErrorPopup();
+        Assert.assertTrue(registerPage.checkError(expectedFirstNameError, "firstNameError"));
+        Assert.assertTrue(registerPage.checkError(expectedLastNameError, "lastNameError"));
+        Assert.assertTrue(registerPage.checkError(expectedEmailError, "emailError"));
+        Assert.assertTrue(registerPage.checkError(expectedPasswordError, "passwordError"));
+        Assert.assertTrue(registerPage.checkError(expectedConfirmPasswordError, "confirmPasswordError"));
+        Assert.assertTrue(registerPage.checkError(expectedEmailErrorPopup, "emailErrorPopup"));
     }
 
-    @Test (dataProvider = "invalidRegisterDP")
-    public void invalidRegisterTest(String firstName, String middleName, String lastName, String email, String pass,
-                                  String confirmPass, Boolean subscribeToNewsletter, String firstNameWarning,
-                                  String lastNameWarning, String emailWarning, String emailFromPopupWarning, String passWarning,
-                                  String confirmPassWarning) {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
-        registerPage = navigationPage.navigateToRegister();
-        registerPage.registerUser(firstName, middleName, lastName, email, pass, confirmPass, subscribeToNewsletter);
-        Assert.assertEquals(registerPage.verifyFirstNameWarningMessage(), firstNameWarning);
-        Assert.assertEquals(registerPage.verifyLastNameWarningMessage(), lastNameWarning);
-        Assert.assertEquals(registerPage.verifyEmailWarningMessage(), emailWarning);
-        Assert.assertTrue(registerPage.verifyEmailMessageFromPopup().contains(emailFromPopupWarning));
-        Assert.assertEquals(registerPage.verifyPasswordWarningMessage(), passWarning);
-        Assert.assertEquals(registerPage.verifyConfirmPasswordWarningMessage(), confirmPassWarning);
+    @Test (dataProvider = "jsonValidRegisterDP")
+    public void validRegisterTest(RegisterModel registerModel) {
+        registerActions(registerModel);
+        loginPage = new LoginPage(driver);
+        loginPage.logout();
+    }
+
+    @Test (dataProvider = "jsonInvalidRegisterDP", priority = 1)
+    public void invalidRegisterTest(RegisterModel registerModel) {
+        registerActions(registerModel);
     }
 
 }

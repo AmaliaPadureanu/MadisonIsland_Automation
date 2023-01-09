@@ -1,5 +1,9 @@
 package Tests.ObjectModels;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class LoginModel {
 
     private AccountModel account;
@@ -23,46 +27,6 @@ public class LoginModel {
         this.passwordError = passwordError;
         this.invalidUserOrPasswordError = invalidUserOrPasswordError;
         this.invalidUserOrPasswordErrorPopup = invalidUserOrPasswordErrorPopup;
-    }
-
-    public void setAccount(AccountModel account) {
-        this.account = account;
-    }
-
-    public AccountModel getAccount() {
-        return account;
-    }
-
-    public void setEmailError(String emailError) {
-        this.emailError = emailError;
-    }
-
-    public String getEmailError() {
-        return emailError;
-    }
-
-    public void setPasswordError(String passwordError) {
-        this.passwordError = passwordError;
-    }
-
-    public String getPasswordError() {
-        return passwordError;
-    }
-
-    public void setInvalidUserOrPasswordError(String invalidUserOrPasswordError) {
-        this.invalidUserOrPasswordError = invalidUserOrPasswordError;
-    }
-
-    public String getInvalidUserOrPasswordError() {
-        return invalidUserOrPasswordError;
-    }
-
-    public void setInvalidUserOrPasswordErrorPopup(String invalidUserOrPasswordErrorPopup) {
-        this.invalidUserOrPasswordErrorPopup = invalidUserOrPasswordErrorPopup;
-    }
-
-    public String getInvalidUserOrPasswordErrorPopup() {
-        return invalidUserOrPasswordErrorPopup;
     }
 
 }
