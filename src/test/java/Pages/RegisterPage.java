@@ -48,7 +48,7 @@ public class RegisterPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public HomePage registerUser(String firstName, String middleName, String lastName, String email, String pass,
+    public void registerUser(String firstName, String middleName, String lastName, String email, String pass,
                                      String confirmPass, Boolean subscribeToNewsletter) {
         firstNameInput.sendKeys(firstName);
         middleNameInput.sendKeys(middleName);
@@ -60,7 +60,6 @@ public class RegisterPage extends BasePage {
             subscribeToNewsletterCheckbox.click();
         }
         registerButton.click();
-        return new HomePage(driver);
     }
 
     public String verifyEmailMessageFromPopup() {

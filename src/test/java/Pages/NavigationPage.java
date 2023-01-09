@@ -2,26 +2,21 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 public class NavigationPage extends BasePage {
 
     @FindBy(how = How.CSS, using = "#header > div > div.skip-links > div > a")
-    @CacheLookup
     WebElement accountLink;
 
     @FindBy(how = How.CSS, using = "#header-account > div > ul > li.last > a")
-    @CacheLookup
     WebElement loginLink;
 
     @FindBy(how = How.CSS, using = "#header-account > div > ul > li:nth-child(5) > a")
-    @CacheLookup
     WebElement registerLink;
 
     @FindBy(how = How.XPATH, using = "//*[@id=\"header-account\"]/div/ul/li[1]/a")
-    @CacheLookup
     WebElement myAccountLink;
 
     public NavigationPage(WebDriver driver) {

@@ -45,7 +45,7 @@ public class RegisterTests extends BaseTest {
     public void registerActions(RegisterModel registerModel) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         registerPage = navigationPage.navigateToRegister();
-        homePage = registerPage.registerUser(registerModel.getFirstName(), registerModel.getMiddleName(), registerModel.getLastName(),
+        registerPage.registerUser(registerModel.getFirstName(), registerModel.getMiddleName(), registerModel.getLastName(),
                 registerModel.getEmail(), registerModel.getPassword(), registerModel.getConfirmPassword(), registerModel.getSignUpForNewsletter());
         String expectedFirstNameError = registerModel.getFirstNameError();
         String expectedLastNameError = registerModel.getLastNameError();

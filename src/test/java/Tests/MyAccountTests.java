@@ -19,9 +19,19 @@ public class MyAccountTests extends BaseTest {
    }
 
    @DataProvider
+   public Object[][] invalidEditContactInformationDP() {
+      return new Object[][] {
+              {"", "", "", "", "", "", "This is a required field.", "This is a required field.", "This is a required field."},
+              {"Alex", "E", "Popescu", "", "", "", "", "", "This is a required field."},
+              {"", "", "Popescu", "IBM", "67384900398", "8233467890", "This is a required field.", "", ""},
+              {"Alex", "", "", "IBM", "67384900398", "8233467890", "", "This is a required field.", ""}
+      };
+   }
+
+   @DataProvider
    public Object[][] invalidEditAccountInformationDP() {
       return new Object[][] {
-              {"", "", "", "", "", "This is a required field.", "This is a required field.", "This is a required field.", ""},
+              {"", "", "", "", "This is a required field.", "This is a required field.", "This is a required field.", ""},
               {"", "Luiza", "", "martaluiza@", "", "", "", "Please enter a part following '@'"},
               {"Marta", "Luiza", "", "", "", "This is a required field.", "This is a required field.", ""},
               {"Marta", "Luiza", "", "martaluiza", "", "", "", "Please include an '@' in the email address."},
@@ -50,18 +60,8 @@ public class MyAccountTests extends BaseTest {
       };
    }
 
-   @DataProvider
-   public Object[][] invalidEditContactInformationDP() {
-      return new Object[][] {
-              {"", "", "", "", "", "", "This is a required field.", "This is a required field.", "This is a required field."},
-              {"Alex", "E", "Popescu", "", "", "", "", "", "This is a required field."},
-              {"", "", "Popescu", "IBM", "67384900398", "8233467890", "This is a required field.", "", ""},
-              {"Alex", "", "", "IBM", "67384900398", "8233467890", "", "This is a required field.", ""}
-      };
-   }
-
    @BeforeClass
-    public void beforeMethod() {
+    public void beforeClass() {
        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
        loginPage = navigationPage.navigateToLogin();
        loginPage.loginWith("test@e.com", "Automation");
@@ -69,7 +69,6 @@ public class MyAccountTests extends BaseTest {
 
    @Test
     public void editNewsletterSubscriptionsTest() {
-       navigationPage = PageFactory.initElements(driver, NavigationPage.class);
        accountDashboardPage = navigationPage.navigateToAccountDashboard();
        Boolean isUserSubscribed = accountDashboardPage.isUserSubscribed();
        accountDashboardPage.goToNewsletterSubscriptions();
@@ -81,7 +80,6 @@ public class MyAccountTests extends BaseTest {
 
    @Test (dataProvider = "validEditContactInformationDP")
    public void validEditAccountInformationTest(String firstName, String middleName, String lastName, String email) {
-      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToAccountInformation();
       accountInformationPage.editContactInformation(firstName, middleName, lastName, email);
@@ -95,7 +93,6 @@ public class MyAccountTests extends BaseTest {
    @Test (dataProvider = "invalidEditAccountInformationDP")
    public void invalidEditAccountInformationTest(String firstName, String middleName, String lastName, String email,
                                                  String firstNameWarning, String lastNameWarning, String emailWarning, String emailWarningPopup) {
-      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToAccountInformation();
       accountInformationPage.editContactInformation(firstName, middleName, lastName, email);
@@ -107,7 +104,6 @@ public class MyAccountTests extends BaseTest {
 
    @Test (dataProvider = "changePasswordDP")
    public void changePasswordTest(String currentPassword, String newPassword, String confirmPassword) {
-      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToChangePasswordSection();
       accountInformationPage.changePassword(currentPassword, newPassword, confirmPassword);
@@ -117,7 +113,6 @@ public class MyAccountTests extends BaseTest {
    @Test (dataProvider = "invalidChangePasswordDP")
    public void invalidChangePasswordTest(String currentPassword, String newPassword, String confirmNewPassword,
                                          String currentPasswordWarning, String newPasswordWarning, String confirmNewPasswordWarning) {
-      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToChangePasswordSection();
       accountInformationPage.changePassword(currentPassword,newPassword,confirmNewPassword);
@@ -129,7 +124,6 @@ public class MyAccountTests extends BaseTest {
    @Test (dataProvider = "invalidEditContactInformationDP")
    public void invalidEditContactInformationTest(String firstName, String middleName, String lastName, String company, String telephone, String fax,
                                           String firstNameWarning, String lastNameWarning, String telephoneWarning) {
-      navigationPage = PageFactory.initElements(driver, NavigationPage.class);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       addressBookPage = accountDashboardPage.goToAddressBook();
       editAddressPage = addressBookPage.goToEditAddressBook();
