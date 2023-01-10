@@ -16,31 +16,31 @@ public class RegisterPage extends BasePage {
     WebDriverWait wait;
 
     @FindBy(how = How.ID, using = "firstname")
-    WebElement firstNameInput;
+    private WebElement firstNameInput;
     @FindBy(how = How.ID, using = "middlename")
-    WebElement middleNameInput;
+    private WebElement middleNameInput;
     @FindBy(how = How.ID, using = "lastname")
-    WebElement lastNameInput;
+    private WebElement lastNameInput;
     @FindBy(how = How.ID, using = "email_address")
-    WebElement emailInput;
+    private WebElement emailInput;
     @FindBy(how = How.ID, using = "password")
-    WebElement passwordInput;
+    private WebElement passwordInput;
     @FindBy(how = How.ID, using = "confirmation")
-    WebElement confirmPasswordInput;
+    private WebElement confirmPasswordInput;
     @FindBy(how = How.ID, using = "is_subscribed")
-    WebElement subscribeToNewsletterCheckbox;
+    private WebElement subscribeToNewsletterCheckbox;
     @FindBy(how = How.CSS, using = "button[title='Register']")
-    WebElement registerButton;
+    private WebElement registerButton;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[2]")
-    WebElement firstNameError;
+    private WebElement firstNameError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[4]")
-    WebElement lastNameError;
+    private WebElement lastNameError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[5]")
-    WebElement emailError;
+    private WebElement emailError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[6]")
-    WebElement passwordError;
+    private WebElement passwordError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[7]")
-    WebElement confirmPasswordError;
+    private WebElement confirmPasswordError;
 
     public RegisterPage(WebDriver driver) {
         super(driver);
