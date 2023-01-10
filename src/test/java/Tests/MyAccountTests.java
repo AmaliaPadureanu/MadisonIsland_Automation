@@ -2,11 +2,18 @@ package Tests;
 
 import Pages.NavigationPage;
 import Pages.NewsletterSubscriptionsPage;
+import Tests.ObjectModels.EditAddressModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class MyAccountTests extends BaseTest {
 
@@ -33,16 +40,6 @@ public class MyAccountTests extends BaseTest {
    }
 
    @DataProvider
-   public Object[][] invalidEditContactInformationDP() {
-      return new Object[][] {
-              {"", "", "", "", "", "", "This is a required field.", "This is a required field.", "This is a required field."},
-              {"Alex", "E", "Popescu", "", "", "", "", "", "This is a required field."},
-              {"", "", "Popescu", "IBM", "67384900398", "8233467890", "This is a required field.", "", ""},
-              {"Alex", "", "", "IBM", "67384900398", "8233467890", "", "This is a required field.", ""}
-      };
-   }
-
-   @DataProvider
    public Object[][] changePasswordDP() {
       return new Object[][] {
               {"Automation", "Automation1", "Automation1"},
@@ -59,6 +56,44 @@ public class MyAccountTests extends BaseTest {
               {"Automation", "", "Automation123", "", "This is a required field.", "Please make sure your passwords match."}
       };
    }
+
+   @DataProvider(name = "jsonEditAddressDP")
+   public Iterator<Object[]> jsonDPCollection() throws IOException {
+      Collection<Object[]> dp = new ArrayList<>();
+      ObjectMapper objectMapper = new ObjectMapper();
+      File file = new File("src\\test\\resources\\Data\\invalidAddressData.json");
+      EditAddressModel[] editAddressModels = objectMapper.readValue(file, EditAddressModel[].class);
+
+      for (EditAddressModel editAddressModel : editAddressModels) {
+         dp.add(new Object[] {editAddressModel});
+      }
+      return dp.iterator();
+   }
+
+   public void editAddressActions(EditAddressModel editAddressModel) {
+      accountDashboardPage = navigationPage.navigateToAccountDashboard();
+      addressBookPage = accountDashboardPage.goToAddressBook();
+      editAddressPage = addressBookPage.goToEditAddressBook();
+      editAddressPage.editAddress(editAddressModel.getContactInformation().getFirstName(), editAddressModel.getContactInformation().getMiddleName(),
+              editAddressModel.getContactInformation().getLastName(), editAddressModel.getContactInformation().getCompany(), editAddressModel.getContactInformation().getTelephone(),
+              editAddressModel.getContactInformation().getFax(), editAddressModel.getAddress().getStreetAddress1(), editAddressModel.getAddress().getStreetAddress2(),
+              editAddressModel.getAddress().getCity(), editAddressModel.getAddress().getState(), editAddressModel.getAddress().getZipCode(), editAddressModel.getAddress().getCountry());
+      String expectedFirstNameError = editAddressModel.getFirstNameError();
+      String expectedLastNameError = editAddressModel.getLastNameError();
+      String expectedTelephoneError = editAddressModel.getTelephoneError();
+      String expectedStreetAddress1Error = editAddressModel.getStreetAddress1Error();
+      String expectedCityError = editAddressModel.getCityError();
+      String expectedZipCodeError = editAddressModel.getZipCodeError();
+      String expectedCountryError = editAddressModel.getCountryError();
+      Assert.assertTrue(editAddressPage.checkError(expectedFirstNameError, "firstNameError"));
+      Assert.assertTrue(editAddressPage.checkError(expectedLastNameError, "lastNameError"));
+      Assert.assertTrue(editAddressPage.checkError(expectedTelephoneError, "telephoneError"));
+      Assert.assertTrue(editAddressPage.checkError(expectedStreetAddress1Error, "streetAddress1Error"));
+      Assert.assertTrue(editAddressPage.checkError(expectedCityError, "cityError"));
+      Assert.assertTrue(editAddressPage.checkError(expectedZipCodeError, "zipCodeError"));
+      Assert.assertTrue(editAddressPage.checkError(expectedCountryError, "countryError"));
+   }
+
 
    @BeforeClass
     public void beforeClass() {
@@ -121,17 +156,11 @@ public class MyAccountTests extends BaseTest {
       Assert.assertTrue(accountInformationPage.verifyEmailMessageFromPopup().contains(emailWarningPopup));
    }
 
-   @Test (dataProvider = "invalidEditContactInformationDP")
-   public void invalidEditContactInformationTest(String firstName, String middleName, String lastName, String company, String telephone, String fax,
-                                                 String firstNameWarning, String lastNameWarning, String telephoneWarning) {
-      accountDashboardPage = navigationPage.navigateToAccountDashboard();
-      addressBookPage = accountDashboardPage.goToAddressBook();
-      editAddressPage = addressBookPage.goToEditAddressBook();
-      editAddressPage.editContactInformation(firstName, middleName, lastName, company, telephone, fax);
-//      Assert.assertEquals(editAddressPage.verifyFirstNameWarningMessage(), firstNameWarning);
-//      Assert.assertEquals(editAddressPage.verifyLastNameWarningMessage(), lastNameWarning);
-//      Assert.assertEquals(editAddressPage.verifyTelephoneWarningMessage(), telephoneWarning);
-      //Assert.assertEquals(addressBookPage.getAddressWasSavedMessage(), "The address has been saved.");
+   @Test (dataProvider = "jsonEditAddressDP")
+   public void invalidEditAddressTest(EditAddressModel editAddressModel) {
+      editAddressActions(editAddressModel);
    }
+
+   //Assert.assertEquals(addressBookPage.getAddressWasSavedMessage(), "The address has been saved.");
 
 }

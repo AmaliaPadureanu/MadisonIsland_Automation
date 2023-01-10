@@ -5,9 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 
 public class EditAddressPage extends BasePage {
@@ -31,12 +31,12 @@ public class EditAddressPage extends BasePage {
     private WebElement address2Input;
     @FindBy(how = How.ID, using = "city")
     private WebElement cityInput;
-    @FindBy(how = How.ID, using = "region_id")
-    private Select stateDropdown;
+    @FindBy(how = How.ID, using = "region")
+    private WebElement stateInput;
     @FindBy(how = How.ID, using = "zip")
     private WebElement zipCodeInput;
     @FindBy(how = How.ID, using = "country")
-    private Select countryDropdown;
+    private WebElement countryDropdown;
     @FindBy(how = How.XPATH, using = "//*[@id=\"form-validate\"]/div[3]/button")
     private WebElement saveAddressButton;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[2]")
@@ -46,13 +46,15 @@ public class EditAddressPage extends BasePage {
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[6]")
     private WebElement telephoneError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[8]")
-    private WebElement address1Error;
+    private WebElement streetAddress1Error;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[10]")
     private WebElement cityError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[11]")
     private WebElement stateError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[12]")
     private WebElement zipCodeError;
+    @FindBy(how = How.ID, using = "advice-validate-select-country")
+    private WebElement countryError;
 
     public EditAddressPage(WebDriver driver) {
         super(driver);
@@ -60,64 +62,61 @@ public class EditAddressPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public void editContactInformation(String firstName, String middleName, String lastName, String company, String telephone, String fax) {
+    public void editAddress(String firstName, String middleName, String lastName, String company, String telephone,
+                            String fax, String address1, String address2, String city, String state, String zipCode, String country) {
         clearAndSendKeys(firstNameInput, firstName);
         clearAndSendKeys(middleNameInput, middleName);
         clearAndSendKeys(lastNameInput, lastName);
         clearAndSendKeys(companyInput, company);
         clearAndSendKeys(telephoneInput, telephone);
         clearAndSendKeys(faxInput, fax);
-        saveAddressButton.click();
-    }
-
-    public void editAddress(String address1, String address2, String city, String state, String zipCode, String country) {
         clearAndSendKeys(address1Input, address1);
         clearAndSendKeys(address2Input, address2);
         clearAndSendKeys(cityInput, city);
-        stateDropdown.selectByVisibleText(state);
+        clearAndSendKeys(stateInput, state);
         clearAndSendKeys(zipCodeInput, zipCode);
-        countryDropdown.selectByVisibleText(country);
+        Select countrySelect = new Select(countryDropdown);
+        countrySelect.selectByVisibleText(country);
+        saveAddressButton.click();
     }
 
     public boolean checkError(String expectedError, String errorType) {
         if(errorType.equalsIgnoreCase("firstNameError")) {
             if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(firstNameError));
                 return expectedError.equalsIgnoreCase(firstNameError.getText());
             } else return true;
         } else if (errorType.equalsIgnoreCase("lastNameError")) {
             if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(lastNameError));
                 return expectedError.equalsIgnoreCase(lastNameError.getText());
             } else return true;
         } else if (errorType.equalsIgnoreCase("telephoneError")) {
             if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(telephoneError));
                 return expectedError.equalsIgnoreCase(telephoneError.getText());
             }
             else return true;
-        } else if (errorType.equalsIgnoreCase("address1Error")) {
+        } else if (errorType.equalsIgnoreCase("streetAddress1Error")) {
             if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(address1Error));
-                return expectedError.equalsIgnoreCase(address1Error.getText());
+                return expectedError.equalsIgnoreCase(streetAddress1Error.getText());
             }
             else return true;
         } else if (errorType.equalsIgnoreCase("cityError")) {
             if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(cityError));
                 return expectedError.equalsIgnoreCase(cityError.getText());
             }
             else return true;
         } else if (errorType.equalsIgnoreCase("stateError")) {
             if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(stateError));
                 return expectedError.equalsIgnoreCase(stateError.getText());
             }
             else return true;
         } else if (errorType.equalsIgnoreCase("zipCodeError")) {
             if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(zipCodeError));
                 return expectedError.equalsIgnoreCase(zipCodeError.getText());
+            }
+            else return true;
+        } else if (errorType.equalsIgnoreCase("countryError")) {
+            if (expectedError.length() > 0) {
+                return expectedError.equalsIgnoreCase(countryError.getText());
             }
             else return true;
         }

@@ -1,5 +1,9 @@
 package Tests.ObjectModels;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class EditAddressModel {
 
     private ContactInformationModel contactInformation;
