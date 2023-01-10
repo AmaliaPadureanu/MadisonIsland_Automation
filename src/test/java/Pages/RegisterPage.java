@@ -17,8 +17,8 @@ public class RegisterPage extends BasePage {
 
     @FindBy(how = How.ID, using = "firstname")
     WebElement firstNameInput;
-   @FindBy(how = How.ID, using = "middlename")
-   WebElement middleNameInput;
+    @FindBy(how = How.ID, using = "middlename")
+    WebElement middleNameInput;
     @FindBy(how = How.ID, using = "lastname")
     WebElement lastNameInput;
     @FindBy(how = How.ID, using = "email_address")

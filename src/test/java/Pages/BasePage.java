@@ -18,9 +18,9 @@ public class BasePage {
         return driver.findElement(locator);
     }
 
-    public void clearAndSendKeys(By locator, String text) {
-        find(locator).clear();
-        find(locator).sendKeys(text);
+    public void clearAndSendKeys(WebElement element, String text) {
+        element.clear();
+        element.sendKeys(text);
     }
 
     public String getPageTitle() {

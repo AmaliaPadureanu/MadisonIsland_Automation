@@ -1,33 +1,55 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.Select;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class EditAddressPage extends BasePage {
 
-    private By firstNameInput = By.id("firstname");
-    private By middleNameInput = By.id("middlename");
-    private By lastNameInput = By.id("lastname");
-    private By companyInput = By.id("company");
-    private By telephoneInput = By.id("telephone");
-    private By faxInput = By.id("fax");
-    private By address1Input = By.id("street_1");
-    private By address2Input = By.id("street_2");
-    private By cityInput = By.id("city");
-    private Select stateDropdown = new Select(find(By.id("region_id")));
-    private By zipCodeInput = By.id("zip");
-    private Select countryDropdown = new Select(find(By.id("country")));
-    private By saveAddressButton = By.xpath("//*[@id=\"form-validate\"]/div[3]/button");
-    private By firstNameWarning = By.xpath("(//div[@class='input-box'])[2]");
-    private By lastNameWarning = By.xpath("(//div[@class='input-box'])[4]");
-    private By telephoneWarning = By.xpath("(//div[@class='input-box'])[6]");
-    private By address1Warning = By.xpath("(//div[@class='input-box'])[8]");
-    private By cityWarning = By.xpath("(//div[@class='input-box'])[10]");
-    private By stateWarning = By.xpath("(//div[@class='input-box'])[11]");
-    private By zipCodeWarning = By.xpath("(//div[@class='input-box'])[12]");
+    @FindBy(how = How.ID, using = "firstname")
+    private WebElement firstNameInput;
+    @FindBy(how = How.ID, using = "middlename")
+    private WebElement middleNameInput;
+    @FindBy(how = How.ID, using = "lastname")
+    private WebElement lastNameInput;
+    @FindBy(how = How.ID, using = "company")
+    private WebElement companyInput;
+    @FindBy(how = How.ID, using = "telephone")
+    private WebElement telephoneInput;
+    @FindBy(how = How.ID, using = "fax")
+    private WebElement faxInput;
+    @FindBy(how = How.ID, using = "street_1")
+    private WebElement address1Input;
+    @FindBy(how = How.ID, using = "street_2")
+    private WebElement address2Input;
+    @FindBy(how = How.ID, using = "city")
+    private WebElement cityInput;
+    @FindBy(how = How.ID, using = "region_id")
+    private Select stateDropdown;
+    @FindBy(how = How.ID, using = "zip")
+    private WebElement zipCodeInput;
+    @FindBy(how = How.ID, using = "country")
+    private Select countryDropdown;
+    @FindBy(how = How.XPATH, using = "//*[@id=\"form-validate\"]/div[3]/button")
+    private WebElement saveAddressButton;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[2]")
+    private WebElement firstNameWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[4]")
+    private WebElement lastNameWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[6]")
+    private WebElement telephoneWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[8]")
+    private WebElement address1Warning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[10]")
+    private WebElement cityWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[11]")
+    private WebElement stateWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[12]")
+    private WebElement zipCodeWarning;
 
     public EditAddressPage(WebDriver driver) {
         super(driver);
@@ -40,7 +62,7 @@ public class EditAddressPage extends BasePage {
         clearAndSendKeys(companyInput, company);
         clearAndSendKeys(telephoneInput, telephone);
         clearAndSendKeys(faxInput, fax);
-        find(saveAddressButton).click();
+        saveAddressButton.click();
     }
 
     private String capitalizeFirstLetterOfEachWord(final String words) {
@@ -60,44 +82,25 @@ public class EditAddressPage extends BasePage {
     }
 
     public String verifyFirstNameWarningMessage() {
-        if (find(firstNameWarning).isDisplayed()) {
-            return find(firstNameWarning).getText();
+        if (firstNameWarning.isDisplayed()) {
+            return firstNameWarning.getText();
         }
         return "";
     }
 
     public String verifyLastNameWarningMessage() {
-        if (find(lastNameWarning).isDisplayed()) {
-            return find(lastNameWarning).getText();
+        if (lastNameWarning.isDisplayed()) {
+            return lastNameWarning.getText();
         }
         return "";
     }
 
     public String verifyTelephoneWarningMessage() {
-        if (find(telephoneWarning).isDisplayed()) {
-            return find(telephoneWarning).getText();
+        if (telephoneWarning.isDisplayed()) {
+            return telephoneWarning.getText();
         }
         return "";
     }
 
-    public String verifyAddressWarningMessage() {
-        if (find(address1Warning).isDisplayed()) {
-            return find(address1Warning).getText();
-        }
-        return "";
-    }
 
-    public String verifyCityWarningMessage() {
-        if (find(cityWarning).isDisplayed()) {
-            return find(cityWarning).getText();
-        }
-        return "";
-    }
-
-    public String verifyZipCodeWarningMessage() {
-        if (find(zipCodeWarning).isDisplayed()) {
-            return find(zipCodeWarning).getText();
-        }
-        return "";
-    }
 }
