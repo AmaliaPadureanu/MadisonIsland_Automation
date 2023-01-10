@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -116,6 +117,7 @@ public class EditAddressPage extends BasePage {
             else return true;
         } else if (errorType.equalsIgnoreCase("countryError")) {
             if (expectedError.length() > 0) {
+                wait.until(ExpectedConditions.visibilityOf(countryError));
                 return expectedError.equalsIgnoreCase(countryError.getText());
             }
             else return true;

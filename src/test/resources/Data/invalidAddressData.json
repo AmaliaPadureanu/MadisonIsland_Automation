@@ -9,9 +9,9 @@
       "fax" : "038495736"
     },
     "address" : {
-      "streetAddress1" : "Str. Zambilelor, No. 6",
-      "streetAddress2" : "Str. Zambilelor, No. 6",
-      "city" : "Bucharest",
+      "streetAddress1" : "Str. John Lewis, No. 6",
+      "streetAddress2" : "Str. John Lewis, No. 6",
+      "city" : "Porto",
       "state" : "",
       "zipCode" : "3467",
       "country" : "Portugal"
@@ -23,5 +23,180 @@
     "cityError" : "",
     "zipCodeError" : "",
     "countryError" : ""
+  },
+  {
+    "contactInformation" : {
+      "firstName" : "John",
+      "middleName" : "Edward",
+      "lastName" : "",
+      "company" : "IBM",
+      "telephone" : "0474950385",
+      "fax" : "038495736"
+    },
+    "address" : {
+      "streetAddress1" : "Str. John Lewis, No. 6",
+      "streetAddress2" : "Str. John Lewis, No. 6",
+      "city" : "Porto",
+      "state" : "",
+      "zipCode" : "3467",
+      "country" : "Portugal"
+    },
+    "firstNameError" : "",
+    "lastNameError" : "This is a required field.",
+    "telephoneError" : "",
+    "streetAddress1Error" : "",
+    "cityError" : "",
+    "zipCodeError" : "",
+    "countryError" : ""
+  },
+  {
+    "contactInformation" : {
+      "firstName" : "John",
+      "middleName" : "",
+      "lastName" : "Doe",
+      "company" : "IBM",
+      "telephone" : "",
+      "fax" : "038495736"
+    },
+    "address" : {
+      "streetAddress1" : "Str. John Lewis, No. 6",
+      "streetAddress2" : "Str. John Lewis, No. 6",
+      "city" : "Porto",
+      "state" : "",
+      "zipCode" : "3467",
+      "country" : "Portugal"
+    },
+    "firstNameError" : "",
+    "lastNameError" : "",
+    "telephoneError" : "This is a required field.",
+    "streetAddress1Error" : "",
+    "cityError" : "",
+    "zipCodeError" : "",
+    "countryError" : ""
+  },
+  {
+    "contactInformation" : {
+      "firstName" : "John",
+      "middleName" : "",
+      "lastName" : "Doe",
+      "company" : "IBM",
+      "telephone" : "0474950385",
+      "fax" : "038495736"
+    },
+    "address" : {
+      "streetAddress1" : "",
+      "streetAddress2" : "Str. John Lewis, No. 6",
+      "city" : "Porto",
+      "state" : "",
+      "zipCode" : "3467",
+      "country" : "Portugal"
+    },
+    "firstNameError" : "",
+    "lastNameError" : "",
+    "telephoneError" : "",
+    "streetAddress1Error" : "This is a required field.",
+    "cityError" : "",
+    "zipCodeError" : "",
+    "countryError" : ""
+  },
+  {
+    "contactInformation" : {
+      "firstName" : "John",
+      "middleName" : "Edward",
+      "lastName" : "Doe",
+      "company" : "",
+      "telephone" : "0474950385",
+      "fax" : "038495736"
+    },
+    "address" : {
+      "streetAddress1" : "Str. John Lewis, No. 6",
+      "streetAddress2" : "",
+      "city" : "",
+      "state" : "",
+      "zipCode" : "3467",
+      "country" : "Portugal"
+    },
+    "firstNameError" : "",
+    "lastNameError" : "",
+    "telephoneError" : "",
+    "streetAddress1Error" : "",
+    "cityError" : "This is a required field.",
+    "zipCodeError" : "",
+    "countryError" : ""
+  },
+  {
+    "contactInformation" : {
+      "firstName" : "John",
+      "middleName" : "Edward",
+      "lastName" : "Doe",
+      "company" : "",
+      "telephone" : "0474950385",
+      "fax" : "038495736"
+    },
+    "address" : {
+      "streetAddress1" : "Str. John Lewis, No. 6",
+      "streetAddress2" : "",
+      "city" : "Porto",
+      "state" : "",
+      "zipCode" : "",
+      "country" : "Portugal"
+    },
+    "firstNameError" : "",
+    "lastNameError" : "",
+    "telephoneError" : "",
+    "streetAddress1Error" : "",
+    "cityError" : "",
+    "zipCodeError" : "This is a required field.",
+    "countryError" : ""
+  },
+  {
+    "contactInformation" : {
+      "firstName" : "John",
+      "middleName" : "Edward",
+      "lastName" : "Doe",
+      "company" : "",
+      "telephone" : "0474950385",
+      "fax" : "038495736"
+    },
+    "address" : {
+      "streetAddress1" : "Str. John Lewis, No. 6",
+      "streetAddress2" : "",
+      "city" : "Porto",
+      "state" : "",
+      "zipCode" : "4567",
+      "country" : ""
+    },
+    "firstNameError" : "",
+    "lastNameError" : "",
+    "telephoneError" : "",
+    "streetAddress1Error" : "",
+    "cityError" : "",
+    "zipCodeError" : "",
+    "countryError" : "Please select an option."
+  },
+  {
+    "contactInformation" : {
+      "firstName" : "",
+      "middleName" : "Edward",
+      "lastName" : "",
+      "company" : "",
+      "telephone" : "",
+      "fax" : "038495736"
+    },
+    "address" : {
+      "streetAddress1" : "",
+      "streetAddress2" : "",
+      "city" : "",
+      "state" : "",
+      "zipCode" : "",
+      "country" : ""
+    },
+    "firstNameError" : "This is a required field.",
+    "lastNameError" : "This is a required field.",
+    "telephoneError" : "",
+    "streetAddress1Error" : "This is a required field.",
+    "cityError" : "This is a required field.",
+    "zipCodeError" : "This is a required field.",
+    "countryError" : "Please select an option."
   }
 ]
