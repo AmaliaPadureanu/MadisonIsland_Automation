@@ -1,5 +1,6 @@
 package Tests;
 
+import Pages.AddressBookPage;
 import Pages.NavigationPage;
 import Pages.NewsletterSubscriptionsPage;
 import Tests.ObjectModels.EditAddressModel;
@@ -57,11 +58,24 @@ public class MyAccountTests extends BaseTest {
       };
    }
 
-   @DataProvider(name = "jsonEditAddressDP")
-   public Iterator<Object[]> jsonDPCollection() throws IOException {
+   @DataProvider(name = "jsonInvalidEditAddressDP")
+   public Iterator<Object[]> jsonInvalidDPCollection() throws IOException {
       Collection<Object[]> dp = new ArrayList<>();
       ObjectMapper objectMapper = new ObjectMapper();
       File file = new File("src\\test\\resources\\Data\\invalidAddressData.json");
+      EditAddressModel[] editAddressModels = objectMapper.readValue(file, EditAddressModel[].class);
+
+      for (EditAddressModel editAddressModel : editAddressModels) {
+         dp.add(new Object[] {editAddressModel});
+      }
+      return dp.iterator();
+   }
+
+   @DataProvider(name = "jsonValidEditAddressDP")
+   public Iterator<Object[]> jsonValidDPCollection() throws IOException {
+      Collection<Object[]> dp = new ArrayList<>();
+      ObjectMapper objectMapper = new ObjectMapper();
+      File file = new File("src\\test\\resources\\Data\\validAddressData.json");
       EditAddressModel[] editAddressModels = objectMapper.readValue(file, EditAddressModel[].class);
 
       for (EditAddressModel editAddressModel : editAddressModels) {
@@ -156,11 +170,17 @@ public class MyAccountTests extends BaseTest {
       Assert.assertTrue(accountInformationPage.verifyEmailMessageFromPopup().contains(emailWarningPopup));
    }
 
-   @Test (dataProvider = "jsonEditAddressDP")
+   @Test (dataProvider = "jsonInvalidEditAddressDP")
    public void invalidEditAddressTest(EditAddressModel editAddressModel) {
       editAddressActions(editAddressModel);
    }
 
-   //Assert.assertEquals(addressBookPage.getAddressWasSavedMessage(), "The address has been saved.");
+   @Test(dataProvider = "jsonValidEditAddressDP")
+   public void validEditAddressTest(EditAddressModel editAddressModel) {
+      editAddressActions(editAddressModel);
+      addressBookPage = new AddressBookPage(driver);
+      Assert.assertEquals(addressBookPage.getAddressWasSavedMessage(), "The address has been saved.");
+   }
+
 
 }
