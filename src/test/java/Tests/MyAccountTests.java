@@ -11,21 +11,11 @@ import org.testng.annotations.Test;
 public class MyAccountTests extends BaseTest {
 
    @DataProvider
-   public Object[][] validEditContactInformationDP() {
+   public Object[][] validEditAccountInformationDP() {
            return new Object[][] {
                    {"John", "R", "Doe", "jdoe@lo.com"},
                    {"Marta", "Luiza", "Popescu", "test@e.com"}
            };
-   }
-
-   @DataProvider
-   public Object[][] invalidEditContactInformationDP() {
-      return new Object[][] {
-              {"", "", "", "", "", "", "This is a required field.", "This is a required field.", "This is a required field."},
-              {"Alex", "E", "Popescu", "", "", "", "", "", "This is a required field."},
-              {"", "", "Popescu", "IBM", "67384900398", "8233467890", "This is a required field.", "", ""},
-              {"Alex", "", "", "IBM", "67384900398", "8233467890", "", "This is a required field.", ""}
-      };
    }
 
    @DataProvider
@@ -39,6 +29,16 @@ public class MyAccountTests extends BaseTest {
               {"Marta", "Luiza", "", "martaluiza@abc.com.", "", "", "", "'.' is used at a wrong position"},
               {"Marta", "Luiza", "", "martaluiza@abc.com$.", "", "", "", "A part following '@' should not contain the symbol"},
               {"", "", "Popescu", ".martaluiza@abc.com", "This is a required field.", "", "Please enter a valid email address. For example johndoe@domain.com.", ""},
+      };
+   }
+
+   @DataProvider
+   public Object[][] invalidEditContactInformationDP() {
+      return new Object[][] {
+              {"", "", "", "", "", "", "This is a required field.", "This is a required field.", "This is a required field."},
+              {"Alex", "E", "Popescu", "", "", "", "", "", "This is a required field."},
+              {"", "", "Popescu", "IBM", "67384900398", "8233467890", "This is a required field.", "", ""},
+              {"Alex", "", "", "IBM", "67384900398", "8233467890", "", "This is a required field.", ""}
       };
    }
 
@@ -78,7 +78,26 @@ public class MyAccountTests extends BaseTest {
                accountDashboardPage.verifyAfterSubscriptionWasEditedMessage(isUserSubscribed));
    }
 
-   @Test (dataProvider = "validEditContactInformationDP")
+   @Test (dataProvider = "changePasswordDP")
+   public void changePasswordTest(String currentPassword, String newPassword, String confirmPassword) {
+      accountDashboardPage = navigationPage.navigateToAccountDashboard();
+      accountInformationPage = accountDashboardPage.goToChangePasswordSection();
+      accountInformationPage.changePassword(currentPassword, newPassword, confirmPassword);
+      Assert.assertEquals(accountDashboardPage.getAccountInformationWasEditedMessage(), "The account information has been saved.");
+   }
+
+   @Test (dataProvider = "invalidChangePasswordDP")
+   public void invalidChangePasswordTest(String currentPassword, String newPassword, String confirmNewPassword,
+                                         String currentPasswordWarning, String newPasswordWarning, String confirmNewPasswordWarning) {
+      accountDashboardPage = navigationPage.navigateToAccountDashboard();
+      accountInformationPage = accountDashboardPage.goToChangePasswordSection();
+      accountInformationPage.changePassword(currentPassword,newPassword,confirmNewPassword);
+      Assert.assertEquals(accountInformationPage.verifyCurrentPasswordWarning(), currentPasswordWarning);
+      Assert.assertEquals(accountInformationPage.verifyNewPasswordWarning(), newPasswordWarning);
+      Assert.assertEquals(accountInformationPage.verifyConfirmNewPasswordWarning(), confirmNewPasswordWarning);
+   }
+
+   @Test (dataProvider = "validEditAccountInformationDP")
    public void validEditAccountInformationTest(String firstName, String middleName, String lastName, String email) {
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToAccountInformation();
@@ -102,28 +121,9 @@ public class MyAccountTests extends BaseTest {
       Assert.assertTrue(accountInformationPage.verifyEmailMessageFromPopup().contains(emailWarningPopup));
    }
 
-   @Test (dataProvider = "changePasswordDP")
-   public void changePasswordTest(String currentPassword, String newPassword, String confirmPassword) {
-      accountDashboardPage = navigationPage.navigateToAccountDashboard();
-      accountInformationPage = accountDashboardPage.goToChangePasswordSection();
-      accountInformationPage.changePassword(currentPassword, newPassword, confirmPassword);
-      Assert.assertEquals(accountDashboardPage.getAccountInformationWasEditedMessage(), "The account information has been saved.");
-   }
-
-   @Test (dataProvider = "invalidChangePasswordDP")
-   public void invalidChangePasswordTest(String currentPassword, String newPassword, String confirmNewPassword,
-                                         String currentPasswordWarning, String newPasswordWarning, String confirmNewPasswordWarning) {
-      accountDashboardPage = navigationPage.navigateToAccountDashboard();
-      accountInformationPage = accountDashboardPage.goToChangePasswordSection();
-      accountInformationPage.changePassword(currentPassword,newPassword,confirmNewPassword);
-      Assert.assertEquals(accountInformationPage.verifyCurrentPasswordWarning(), currentPasswordWarning);
-      Assert.assertEquals(accountInformationPage.verifyNewPasswordWarning(), newPasswordWarning);
-      Assert.assertEquals(accountInformationPage.verifyConfirmNewPasswordWarning(), confirmNewPasswordWarning);
-   }
-
    @Test (dataProvider = "invalidEditContactInformationDP")
    public void invalidEditContactInformationTest(String firstName, String middleName, String lastName, String company, String telephone, String fax,
-                                          String firstNameWarning, String lastNameWarning, String telephoneWarning) {
+                                                 String firstNameWarning, String lastNameWarning, String telephoneWarning) {
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       addressBookPage = accountDashboardPage.goToAddressBook();
       editAddressPage = addressBookPage.goToEditAddressBook();
