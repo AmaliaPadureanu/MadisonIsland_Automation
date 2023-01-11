@@ -20,8 +20,4 @@ public class HomePage extends BasePage {
         super(driver);
     }
 
-    public String getAfterRegisterMessage() {
-        return afterRegisterMessage.getText();
-    }
-
 }

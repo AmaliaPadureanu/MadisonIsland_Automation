@@ -90,10 +90,4 @@ public class AccountInformationPage extends BasePage {
         find(saveButton).click();
     }
 
-    public String getInvalidCurrentPasswordMessage() {
-        if (find(invalidCurrentPasswordMessage).isDisplayed()) {
-            return find(invalidCurrentPasswordMessage).getText();
-        }
-        return "";
-    }
 }
