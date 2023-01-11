@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.Random;
+
 @Getter
 public class BasePage {
 
@@ -30,5 +32,11 @@ public class BasePage {
 
     public String getPageTitle() {
         return this.driver.getTitle();
+    }
+
+    public int getRandomNumber(int lowerBound, int upperBound) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(upperBound - lowerBound) + lowerBound;
+        return randomNumber;
     }
 }

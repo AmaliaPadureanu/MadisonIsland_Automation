@@ -91,10 +91,4 @@ public class NavigationPage extends BasePage {
         }
         return new SearchResultsPage(driver);
     }
-
-    private int getRandomNumber(int lowerBound, int upperBound) {
-        Random random = new Random();
-        int randomNumber = random.nextInt(upperBound - lowerBound) + lowerBound;
-        return randomNumber;
-    }
 }

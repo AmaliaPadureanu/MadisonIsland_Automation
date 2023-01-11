@@ -11,5 +11,6 @@ public class CartTests extends BaseTest {
     public void addToCart() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         searchResultsPage = navigationPage.navigateToRandomCategoryOfProducts(CategoriesOfProducts.WOMEN);
+        searchResultsPage.clickOnRandomProduct();
     }
 }

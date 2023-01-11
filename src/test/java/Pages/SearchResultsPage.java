@@ -27,6 +27,9 @@ public class SearchResultsPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div[3]/div[1]/div[1]/div/select")
     private WebElement sortBySelect;
 
+    @FindBy(how = How.XPATH, using = "//li[@class='item last']/a")
+    private List<WebElement> productsReturnedBySearch;
+
     public SearchResultsPage(WebDriver driver) {
         super(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -57,5 +60,9 @@ public class SearchResultsPage extends BasePage {
             return searchResultsPrices;
         }
         return null;
+    }
+
+    public void clickOnRandomProduct() {
+        productsReturnedBySearch.get(getRandomNumber(0, productsReturnedBySearch.size())).click();
     }
 }
