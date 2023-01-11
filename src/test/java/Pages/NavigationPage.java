@@ -1,23 +1,51 @@
 package Pages;
 
+import Utils.CategoriesOfProducts;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import java.util.List;
+import java.util.Random;
 
 public class NavigationPage extends BasePage {
 
     @FindBy(how = How.CSS, using = "#header > div > div.skip-links > div > a")
-    WebElement accountLink;
+    private WebElement accountLink;
 
     @FindBy(how = How.CSS, using = "#header-account > div > ul > li.last > a")
-    WebElement loginLink;
+    private WebElement loginLink;
 
     @FindBy(how = How.CSS, using = "#header-account > div > ul > li:nth-child(5) > a")
-    WebElement registerLink;
+    private WebElement registerLink;
 
     @FindBy(how = How.XPATH, using = "//*[@id=\"header-account\"]/div/ul/li[1]/a")
-    WebElement myAccountLink;
+    private WebElement myAccountLink;
+
+    @FindBy(how = How.XPATH, using = "//*[@id=\"nav\"]/ol/li[1]/a")
+    private WebElement womenCategory;
+
+    @FindBy(how = How.XPATH, using = "//header[@id='header']//li[1]//ul/li")
+    private List<WebElement> womenSubcategories;
+
+    @FindBy(how = How.XPATH, using = "//*[@id=\"nav\"]/ol/li[2]/a")
+    private WebElement menCategory;
+
+    @FindBy(how = How.XPATH, using = "//header[@id='header']//li[2]//ul/li")
+    private List<WebElement> menSubcategories;
+
+    @FindBy(how = How.XPATH, using = "//*[@id=\"nav\"]/ol/li[3]/a")
+    private WebElement accessoriesCategory;
+
+    @FindBy(how = How.XPATH, using = "//header[@id='header']//li[3]//ul/li")
+    private List<WebElement> accessoriesSubcategories;
+
+    @FindBy(how = How.XPATH, using = "//*[@id=\"nav\"]/ol/li[4]/a")
+    private WebElement homeAndDecorCategory;
+
+    @FindBy(how = How.XPATH, using = "//header[@id='header']//li[4]//ul/li")
+    private List<WebElement> homeAndDecorSubcategories;
 
     public NavigationPage(WebDriver driver) {
         super(driver);
@@ -39,5 +67,33 @@ public class NavigationPage extends BasePage {
         accountLink.click();
         myAccountLink.click();
         return new AccountDashboardPage(driver);
+    }
+
+    public void navigateToRandomCategoryOfProducts(CategoriesOfProducts section) {
+        Actions action = new Actions(driver);
+        switch (section) {
+            case WOMEN -> {
+                action.moveToElement(womenCategory).perform();
+                womenSubcategories.get(getRandomNumber(1, 5)).click();
+            }
+            case MEN -> {
+                action.moveToElement(menCategory).perform();
+                menSubcategories.get(getRandomNumber(1, 6)).click();
+            }
+            case ACCESSORIES -> {
+                action.moveToElement(accessoriesCategory).perform();
+                accessoriesSubcategories.get(getRandomNumber(1, 5)).click();
+            }
+            case HOME -> {
+                action.moveToElement(homeAndDecorCategory).perform();
+                homeAndDecorSubcategories.get(getRandomNumber(1, 5)).click();
+            }
+        }
+    }
+
+    private int getRandomNumber(int lowerBound, int upperBound) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(upperBound - lowerBound) + lowerBound;
+        return randomNumber;
     }
 }
