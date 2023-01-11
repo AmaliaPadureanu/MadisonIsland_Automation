@@ -1,15 +1,10 @@
 package Tests;
 
 import Pages.SearchPage;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.checkerframework.checker.index.qual.PolyUpperBound;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,8 +35,9 @@ public class SearchTests extends BaseTest {
         return new Object[][] {
                 {"dress", "Name"},
                 {"pants", "Name"},
-                {"blouse", "Name"},
-//                {"#@SAFfFS435", "Your search returns no results."}
+                {"blouse", "Price"},
+                {"pant", "Name"},
+                {"blazer", "Price"}
         };
     }
 
@@ -64,13 +60,13 @@ public class SearchTests extends BaseTest {
     public void searchAndSortTest(String product, String criteria) {
         searchPage = PageFactory.initElements(driver, SearchPage.class);
         searchResultsPage = searchPage.search(product);
-        List<String> sortedAlphabetically = sortInAlphabeticalOrder(searchResultsPage.getSearchResultsTitles());
+        List<String> sortedList = sort(searchResultsPage.getItemInfo(criteria));
         searchResultsPage.sortBy(criteria);
         Assert.assertTrue(searchResultsPage.getPageTitle().contains(product));
-        Assert.assertEquals(searchResultsPage.getSearchResultsTitles(), sortedAlphabetically);
+        Assert.assertEquals(searchResultsPage.getItemInfo(criteria), sortedList);
     }
 
-    private List<String> sortInAlphabeticalOrder (List<String> list) {
+    private List<String> sort (List<String> list) {
        return list.stream().sorted().collect(Collectors.toList());
     }
 }

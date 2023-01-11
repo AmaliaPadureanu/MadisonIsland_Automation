@@ -21,6 +21,9 @@ public class SearchResultsPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//h2[@class='product-name']")
     private List<WebElement> searchItemsNames;
 
+    @FindBy(how = How.XPATH, using = "//div[@class='price-box']")
+    private List<WebElement> searchItemsPrices;
+
     @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div[3]/div[1]/div[1]/div/select")
     private WebElement sortBySelect;
 
@@ -39,11 +42,20 @@ public class SearchResultsPage extends BasePage {
         sortBy.selectByVisibleText(option);
     }
 
-    public LinkedList<String> getSearchResultsTitles() {
-        LinkedList<String> searchResultsTitles = new LinkedList<>();
-        for (WebElement item : searchItemsNames) {
-            searchResultsTitles.add(item.getText());
+    public LinkedList<String> getItemInfo(String option) {
+        if (option == "Name") {
+            LinkedList<String> searchResultsTitles = new LinkedList<>();
+            for (WebElement item : searchItemsNames) {
+                searchResultsTitles.add(item.getText());
+            }
+            return searchResultsTitles;
+        } else if (option == "Price") {
+            LinkedList<String> searchResultsPrices = new LinkedList<>();
+            for (WebElement item : searchItemsPrices) {
+                searchResultsPrices.add(item.getText().substring(1, 4));
+            }
+            return searchResultsPrices;
         }
-        return searchResultsTitles;
+        return null;
     }
 }
