@@ -69,26 +69,27 @@ public class NavigationPage extends BasePage {
         return new AccountDashboardPage(driver);
     }
 
-    public void navigateToRandomCategoryOfProducts(CategoriesOfProducts section) {
+    public SearchResultsPage navigateToRandomCategoryOfProducts(CategoriesOfProducts section) {
         Actions action = new Actions(driver);
         switch (section) {
             case WOMEN -> {
                 action.moveToElement(womenCategory).perform();
-                womenSubcategories.get(getRandomNumber(1, 5)).click();
+                womenSubcategories.get(getRandomNumber(1, womenSubcategories.size())).click();
             }
             case MEN -> {
                 action.moveToElement(menCategory).perform();
-                menSubcategories.get(getRandomNumber(1, 6)).click();
+                menSubcategories.get(getRandomNumber(1, menSubcategories.size())).click();
             }
             case ACCESSORIES -> {
                 action.moveToElement(accessoriesCategory).perform();
-                accessoriesSubcategories.get(getRandomNumber(1, 5)).click();
+                accessoriesSubcategories.get(getRandomNumber(1, accessoriesSubcategories.size())).click();
             }
             case HOME -> {
                 action.moveToElement(homeAndDecorCategory).perform();
-                homeAndDecorSubcategories.get(getRandomNumber(1, 5)).click();
+                homeAndDecorSubcategories.get(getRandomNumber(1, homeAndDecorSubcategories.size())).click();
             }
         }
+        return new SearchResultsPage(driver);
     }
 
     private int getRandomNumber(int lowerBound, int upperBound) {
