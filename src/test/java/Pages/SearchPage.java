@@ -25,4 +25,11 @@ public class SearchPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
+    public SearchResultsPage search(String product) {
+        searchBar.clear();
+        searchBar.sendKeys(product);
+        searchButton.click();
+        return new SearchResultsPage(driver);
+    }
+
 }

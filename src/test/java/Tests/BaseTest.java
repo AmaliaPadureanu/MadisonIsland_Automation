@@ -23,6 +23,8 @@ public class BaseTest {
     AccountInformationPage accountInformationPage;
     AddressBookPage addressBookPage;
     EditAddressPage editAddressPage;
+    SearchPage searchPage;
+    SearchResultsPage searchResultsPage;
 
     @BeforeTest
     public void beforeTest() {
