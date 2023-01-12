@@ -6,17 +6,29 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.awt.desktop.ScreenSleepEvent;
 import java.time.Duration;
+import java.util.List;
 
 public class ProductDetailsPage extends BasePage {
 
     WebDriverWait wait;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"product_addtocart_form\"]/div[4]/div/div/div[2]/button")
+    @FindBy(how = How.XPATH, using = "//button[@onclick='productAddToCartForm.submit(this)']//span//span[contains(text(),'Add to Cart')]")
     private WebElement addToCartButton;
 
     @FindBy(how = How.CSS, using = "#product_addtocart_form > div.product-shop > div.product-name")
     private WebElement productName;
+
+    @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_color']//li")
+    private List<WebElement> colorOptions;
+
+    @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_size']//li")
+    private List<WebElement> sizeOptions;
+
+    @FindBy(how = How.XPATH, using = "//body[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/form[1]/div[3]/div[3]/p[1]")
+    private WebElement availability;
 
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
@@ -30,6 +42,25 @@ public class ProductDetailsPage extends BasePage {
     }
 
     public String getProductName() {
-        return productName.getText();
+        return productName.getText().toLowerCase();
+    }
+
+    public void chooseRandomColor() {
+        colorOptions.get(getRandomNumber(0, colorOptions.size())).click();
+    }
+
+    public void chooseRandomSize() {
+        sizeOptions.get(getRandomNumber(0, sizeOptions.size())).click();
+        System.out.println(availability.getText());
+        if (availability.getText().equalsIgnoreCase("out of stock")) {
+            tryAnotherSize();
+        }
+    }
+
+    private void tryAnotherSize() {
+        while (availability.getText().equalsIgnoreCase("out of stock")) {
+            sizeOptions.get(getRandomNumber(0, sizeOptions.size())).click();
+            System.out.println("tried again");
+        }
     }
 }
