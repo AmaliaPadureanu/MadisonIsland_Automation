@@ -10,7 +10,8 @@ public class CartTests extends BaseTest {
     @Test
     public void addToCart() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
-        searchResultsPage = navigationPage.navigateToRandomCategoryOfProducts(CategoriesOfProducts.WOMEN);
-        searchResultsPage.clickOnRandomProduct();
+        searchResultsPage = navigationPage.navigateToRandomCategoryOfProducts(CategoriesOfProducts.HOME);
+        productDetailsPage = searchResultsPage.clickOnRandomProduct();
+        productDetailsPage.addToCart();
     }
 }

@@ -25,6 +25,7 @@ public class BaseTest {
     EditAddressPage editAddressPage;
     SearchPage searchPage;
     SearchResultsPage searchResultsPage;
+    ProductDetailsPage productDetailsPage;
 
     @BeforeTest
     public void beforeTest() {

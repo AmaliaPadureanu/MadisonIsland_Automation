@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import java.util.List;
-import java.util.Random;
 
 public class NavigationPage extends BasePage {
 
