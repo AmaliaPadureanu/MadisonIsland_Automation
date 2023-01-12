@@ -24,8 +24,9 @@ public class ProductDetailsPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public void addToCart() {
+    public CartPage addToCart() {
         addToCartButton.click();
+        return new CartPage(driver);
     }
 
     public String getProductName() {
