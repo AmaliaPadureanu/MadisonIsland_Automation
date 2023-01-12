@@ -66,4 +66,6 @@ public class SearchResultsPage extends BasePage {
         productsReturnedBySearch.get(getRandomNumber(0, productsReturnedBySearch.size())).click();
         return new ProductDetailsPage(driver);
     }
+
+
 }

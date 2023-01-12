@@ -68,7 +68,7 @@ public class NavigationPage extends BasePage {
         return new AccountDashboardPage(driver);
     }
 
-    public SearchResultsPage navigateToRandomCategoryOfProducts(CategoriesOfProducts section) {
+    public SearchResultsPage navigateToRandomSubcategory(CategoriesOfProducts section) {
         Actions action = new Actions(driver);
         switch (section) {
             case WOMEN -> {
@@ -86,6 +86,49 @@ public class NavigationPage extends BasePage {
             case HOME -> {
                 action.moveToElement(homeAndDecorCategory).perform();
                 homeAndDecorSubcategories.get(getRandomNumber(1, homeAndDecorSubcategories.size())).click();
+            }
+        }
+        return new SearchResultsPage(driver);
+    }
+
+    public SearchResultsPage navigateToSubcategory(CategoriesOfProducts category, String subcategory) {
+        Actions action = new Actions(driver);
+        switch (category) {
+            case WOMEN -> {
+                action.moveToElement(womenCategory).perform();
+                for (WebElement element : womenSubcategories) {
+                    if (element.getText().equals(subcategory)) {
+                        element.click();
+                        break;
+                    }
+                }
+            }
+            case MEN -> {
+                action.moveToElement(menCategory).perform();
+                for (WebElement element : menSubcategories) {
+                    if (element.getText().equals(subcategory)) {
+                        element.click();
+                        break;
+                    }
+                }
+            }
+            case ACCESSORIES -> {
+                action.moveToElement(accessoriesCategory).perform();
+                for (WebElement element : accessoriesSubcategories) {
+                    if (element.getText().equals(subcategory)) {
+                        element.click();
+                        break;
+                    }
+                }
+            }
+            case HOME -> {
+                action.moveToElement(homeAndDecorCategory).perform();
+                for (WebElement element : homeAndDecorSubcategories) {
+                    if (element.getText().equals(subcategory)) {
+                        element.click();
+                        break;
+                    }
+                }
             }
         }
         return new SearchResultsPage(driver);

@@ -7,7 +7,6 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.awt.desktop.ScreenSleepEvent;
 import java.time.Duration;
 import java.util.List;
 
@@ -29,6 +28,12 @@ public class ProductDetailsPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//body[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/form[1]/div[3]/div[3]/p[1]")
     private WebElement availability;
+
+    @FindBy(how = How.ID, using = "qty")
+    private WebElement quantityInput;
+
+    @FindBy(how = How.XPATH, using = "//span[@class='regular-price'][1]")
+    private WebElement productPrice;
 
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
@@ -62,5 +67,9 @@ public class ProductDetailsPage extends BasePage {
             sizeOptions.get(getRandomNumber(0, sizeOptions.size())).click();
             System.out.println("tried again");
         }
+    }
+
+    public void changeQuantity(String quantity) {
+        clearAndSendKeys(quantityInput, quantity);
     }
 }
