@@ -6,9 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 import java.util.List;
 
 public class NavigationPage extends BasePage {
+
+    WebDriverWait wait;
 
     @FindBy(how = How.CSS, using = "#header > div > div.skip-links > div > a")
     private WebElement accountLink;
@@ -48,6 +54,8 @@ public class NavigationPage extends BasePage {
 
     public NavigationPage(WebDriver driver) {
         super(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageFactory.initElements(driver, this);
     }
 
     public LoginPage navigateToLogin() {
