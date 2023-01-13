@@ -41,6 +41,9 @@ public class ProductDetailsPage extends BasePage {
     @FindBy(how = How.ID, using = "product-attribute-specs-table")
     private WebElement productSpecsTable;
 
+    @FindBy(how = How.XPATH, using = "//a[normalize-space()='Add to Wishlist']")
+    private WebElement addToWishlistButton;
+
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -103,4 +106,10 @@ public class ProductDetailsPage extends BasePage {
         }
         return availableSizes;
     }
+
+    public WishlistPage addToWishlist(){
+        addToWishlistButton.click();
+        return new WishlistPage(driver);
+    }
+
 }
