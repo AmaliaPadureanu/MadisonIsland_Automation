@@ -6,8 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProductDetailsPage extends BasePage {
@@ -34,6 +34,12 @@ public class ProductDetailsPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//span[@class='regular-price'][1]")
     private WebElement productPrice;
+
+    @FindBy(how = How.XPATH, using = "(//span[contains(text(),'Additional Information')])[1]")
+    private WebElement additionalInformationTab;
+
+    @FindBy(how = How.ID, using = "product-attribute-specs-table")
+    private WebElement productSpecsTable;
 
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
@@ -71,5 +77,14 @@ public class ProductDetailsPage extends BasePage {
 
     public void changeQuantity(String quantity) {
         clearAndSendKeys(quantityInput, quantity);
+    }
+
+    public String getProductSpecs() {
+        additionalInformationTab.click();
+        return productSpecsTable.getText();
+    }
+
+    public Integer getProductPrice() {
+        return Integer.valueOf(productPrice.getText().split("\\.")[0].substring(1));
     }
 }

@@ -24,11 +24,17 @@ public class SearchResultsPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//div[@class='price-box']")
     private List<WebElement> searchItemsPrices;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div[3]/div[1]/div[1]/div/select")
+    @FindBy(how = How.XPATH, using = "(//select[@title='Sort By'])[1]")
     private WebElement sortBySelect;
 
     @FindBy(how = How.XPATH, using = "//li[@class='item last']/a")
     private List<WebElement> productsReturnedBySearch;
+
+    @FindBy(how = How.XPATH, using = "//dd[1]//ol[1]//li")
+    private List<WebElement> priceFilterOptions;
+
+    @FindBy(how = How.XPATH, using = "//dd[3]//ol[1]//li")
+    private List<WebElement> occasionFilterOptions;
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
@@ -55,7 +61,11 @@ public class SearchResultsPage extends BasePage {
         } else if (option == "Price") {
             LinkedList<String> searchResultsPrices = new LinkedList<>();
             for (WebElement item : searchItemsPrices) {
-                searchResultsPrices.add(item.getText().substring(1, 4));
+                if (item.getText().length() < 7) {
+                    searchResultsPrices.add(item.getText().substring(1, 3));
+                } else {
+                    searchResultsPrices.add(item.getText().substring(1, 4));
+                }
             }
             return searchResultsPrices;
         }
@@ -68,4 +78,21 @@ public class SearchResultsPage extends BasePage {
     }
 
 
+    public void filterByPrice(String lowerBound, String upperBound) {
+        for (WebElement option : priceFilterOptions) {
+            if(option.getText().contains(lowerBound) && option.getText().contains(upperBound)) {
+                option.click();
+                break;
+            }
+        }
+    }
+
+    public void filterByOccasion(String occasion) {
+        for (WebElement option : occasionFilterOptions) {
+            if(option.getText().contains(occasion)) {
+                option.click();
+                break;
+            }
+        }
+    }
 }
