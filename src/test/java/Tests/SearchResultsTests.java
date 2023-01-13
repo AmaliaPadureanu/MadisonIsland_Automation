@@ -23,7 +23,6 @@ public class SearchResultsTests extends BaseTest {
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.MEN, "Pants & Denim");
         searchResultsPage.filterByColor("Indigo");
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
-        System.out.println(productDetailsPage.getAvailableColors());
         Assert.assertTrue(productDetailsPage.getAvailableColors().contains("Indigo"));
     }
 
@@ -34,6 +33,15 @@ public class SearchResultsTests extends BaseTest {
         searchResultsPage.filterByOccasion("Career");
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
         Assert.assertTrue(productDetailsPage.getProductSpecs().contains("Career"));
+    }
+
+    @Test
+    public void filterBySizeTest() {
+        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.MEN, "Pants & Denim");
+        searchResultsPage.filterBySize("33");
+        productDetailsPage = searchResultsPage.clickOnRandomProduct();
+        Assert.assertTrue(productDetailsPage.getAvailableSizes().contains("33"));
     }
 
 

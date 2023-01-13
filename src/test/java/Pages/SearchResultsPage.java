@@ -39,6 +39,9 @@ public class SearchResultsPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//dd[3]//ol[1]//li")
     private List<WebElement> occasionFilterOptions;
 
+    @FindBy(how = How.XPATH, using = "//dd[6]//ol[1]//li")
+    private List<WebElement> sizeFilterOptions;
+
     public SearchResultsPage(WebDriver driver) {
         super(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -103,6 +106,15 @@ public class SearchResultsPage extends BasePage {
     public void filterByOccasion(String occasion) {
         for (WebElement option : occasionFilterOptions) {
             if(option.getText().contains(occasion)) {
+                option.click();
+                break;
+            }
+        }
+    }
+
+    public void filterBySize(String size) {
+        for (WebElement option : sizeFilterOptions) {
+            if(option.getText().contains(size)) {
                 option.click();
                 break;
             }

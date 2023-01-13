@@ -23,7 +23,7 @@ public class ProductDetailsPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_color']//li//a")
     private List<WebElement> colorOptions;
 
-    @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_size']//li")
+    @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_size']//li//a")
     private List<WebElement> sizeOptions;
 
     @FindBy(how = How.XPATH, using = "//body[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/form[1]/div[3]/div[3]/p[1]")
@@ -94,5 +94,13 @@ public class ProductDetailsPage extends BasePage {
             availableColors.add(option.getAttribute("title"));
         }
         return availableColors;
+    }
+
+    public List<String> getAvailableSizes() {
+        List<String> availableSizes = new ArrayList<>();
+        for (WebElement option : sizeOptions) {
+            availableSizes.add(option.getAttribute("title"));
+        }
+        return availableSizes;
     }
 }
