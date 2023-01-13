@@ -17,6 +17,16 @@ public class SearchResultsTests extends BaseTest {
         Assert.assertTrue(verifyPriceFilter(productDetailsPage.getProductPrice(), "300", "399"));
     }
 
+    @Test()
+    public void filterByColorTest() {
+        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.MEN, "Pants & Denim");
+        searchResultsPage.filterByColor("Indigo");
+        productDetailsPage = searchResultsPage.clickOnRandomProduct();
+        System.out.println(productDetailsPage.getAvailableColors());
+        Assert.assertTrue(productDetailsPage.getAvailableColors().contains("Indigo"));
+    }
+
     @Test
     public void filterByOccasionTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);

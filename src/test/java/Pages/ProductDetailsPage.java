@@ -7,7 +7,7 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetailsPage extends BasePage {
@@ -20,7 +20,7 @@ public class ProductDetailsPage extends BasePage {
     @FindBy(how = How.CSS, using = "#product_addtocart_form > div.product-shop > div.product-name")
     private WebElement productName;
 
-    @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_color']//li")
+    @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_color']//li//a")
     private List<WebElement> colorOptions;
 
     @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_size']//li")
@@ -86,5 +86,13 @@ public class ProductDetailsPage extends BasePage {
 
     public Integer getProductPrice() {
         return Integer.valueOf(productPrice.getText().split("\\.")[0].substring(1));
+    }
+
+    public List<String> getAvailableColors() {
+        List<String> availableColors = new ArrayList<>();
+        for (WebElement option : colorOptions) {
+            availableColors.add(option.getAttribute("title"));
+        }
+        return availableColors;
     }
 }

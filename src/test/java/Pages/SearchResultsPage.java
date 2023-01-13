@@ -33,6 +33,9 @@ public class SearchResultsPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//dd[1]//ol[1]//li")
     private List<WebElement> priceFilterOptions;
 
+    @FindBy(how = How.XPATH, using = "//dd[2]//ol[1]//li//img")
+    private List<WebElement> colorFilterOptions;
+
     @FindBy(how = How.XPATH, using = "//dd[3]//ol[1]//li")
     private List<WebElement> occasionFilterOptions;
 
@@ -86,6 +89,16 @@ public class SearchResultsPage extends BasePage {
             }
         }
     }
+
+    public void filterByColor(String color) {
+        for (WebElement option : colorFilterOptions) {
+            if (option.getAttribute("title").equals(color)) {
+                option.click();
+                break;
+            }
+        }
+    }
+
 
     public void filterByOccasion(String occasion) {
         for (WebElement option : occasionFilterOptions) {
