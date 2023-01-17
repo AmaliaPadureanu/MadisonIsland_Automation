@@ -3,6 +3,8 @@
 
 # .idea folder
 .idea
+.extent-reports
+.Screenshots
 
 # Log file
 *.log

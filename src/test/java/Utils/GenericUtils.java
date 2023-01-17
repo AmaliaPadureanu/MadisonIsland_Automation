@@ -1,5 +1,9 @@
 package Utils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Properties;
 import java.util.Random;
 
 public class GenericUtils {
@@ -13,6 +17,30 @@ public class GenericUtils {
             sb.append(x);
         }
         return sb.toString();
+    }
+
+    public static String getBaseURL(String configFile) {
+        String baseURL = "";
+        try {
+            Properties appProperties = new Properties();
+            appProperties.load(Files.newInputStream(Paths.get(configFile)));
+            baseURL = appProperties.getProperty("protocol") + "://" + appProperties.getProperty("hostname") + appProperties.getProperty("domain") + ":" + appProperties.getProperty("port");
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        return baseURL;
+    }
+
+    public static String getBrowser(String configFile) {
+        String browser = "";
+        try {
+            Properties appProperties = new Properties();
+            appProperties.load(Files.newInputStream(Paths.get(configFile)));
+            browser = appProperties.getProperty("browser");
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        return browser;
     }
 
 }
