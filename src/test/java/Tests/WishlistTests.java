@@ -17,7 +17,6 @@ public class WishlistTests extends BaseTest {
 
     @Test
     public void addProductToWishlistTest() {
-        navigationPage = new NavigationPage(driver);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.HOME, "Bed & Bath");
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
         String productName = productDetailsPage.getProductName();
@@ -28,7 +27,6 @@ public class WishlistTests extends BaseTest {
 
     @Test
     public void removeProductFromWishlistTest() {
-        navigationPage = new NavigationPage(driver);
         accountDashboardPage = navigationPage.navigateToAccountDashboard();
         wishlistPage = accountDashboardPage.goToWishlist();
         int itemsInWishlistBefore = wishlistPage.getItemsInWishlist().size();

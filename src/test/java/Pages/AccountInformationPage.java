@@ -1,30 +1,51 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class AccountInformationPage extends BasePage {
 
-    private By firstNameInput = By.id("firstname");
-    private By middleNameInput = By.id("middlename");
-    private By lastNameInput = By.id("lastname");
-    private By emailInput = By.id("email");
-    private By currentPasswordInput = By.id("current_password");
-    private By newPasswordInput = By.id("password");
-    private By confirmNewPasswordInput = By.id("confirmation");
-    private By saveButton = By.xpath("//*[@id=\"form-validate\"]/div[3]/button");
-    private By firstNameWarning = By.xpath("(//div[@class='input-box'])[2]");
-    private By lastNameWarning = By.xpath("(//div[@class='input-box'])[4]");
-    private By emailWarning = By.xpath("(//div[@class='input-box'])[5]");
-    private By currentPasswordWarning = By.xpath("(//div[@class='input-box'])[6]");
-    private By newPasswordWarning = By.xpath("(//div[@class='input-box'])[7]");
-    private By confirmNewPasswordWarning = By.xpath("(//div[@class='input-box'])[8]");
-    private By invalidCurrentPasswordMessage = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/ul");
+    WebDriverWait wait;
+
+    @FindBy(how = How.ID, using = "firstname")
+    private WebElement firstNameInput;
+    @FindBy(how = How.ID, using = "middlename")
+    private WebElement middleNameInput;
+    @FindBy(how = How.ID, using = "lastname")
+    private WebElement lastNameInput;
+    @FindBy(how = How.ID,using = "email")
+    private WebElement emailInput;
+    @FindBy(how = How.ID, using = "current_password")
+    private WebElement currentPasswordInput;
+    @FindBy(how = How.ID, using = "password")
+    private WebElement newPasswordInput;
+    @FindBy(how = How.ID, using = "confirmation")
+    private WebElement confirmNewPasswordInput;
+    @FindBy(how = How.XPATH, using = "//*[@id=\"form-validate\"]/div[3]/button")
+    private WebElement saveButton;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[2]")
+    private WebElement firstNameWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[4]")
+    private WebElement lastNameWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[5]")
+    private WebElement emailWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[6]")
+    private WebElement currentPasswordWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[7]")
+    private WebElement newPasswordWarning;
+    @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[8]")
+    private WebElement confirmNewPasswordWarning;
 
     public AccountInformationPage(WebDriver driver) {
         super(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageFactory.initElements(driver, this);
     }
 
     public void editContactInformation(String firstName, String middleName, String lastName, String email) {
@@ -32,62 +53,61 @@ public class AccountInformationPage extends BasePage {
         clearAndSendKeys(middleNameInput, middleName);
         clearAndSendKeys(lastNameInput, lastName);
         clearAndSendKeys(emailInput, email);
-        find(saveButton).click();
+        saveButton.click();
     }
 
     public String verifyFirstNameWarning() {
-        if (find(firstNameWarning).isDisplayed()) {
-            return find(firstNameWarning).getText();
+        if (firstNameWarning.isDisplayed()) {
+            return firstNameWarning.getText();
         }
         return "";
     }
 
     public String verifyLastNameWarning() {
-        if (find(lastNameWarning).isDisplayed()) {
-            return find(lastNameWarning).getText();
+        if (lastNameWarning.isDisplayed()) {
+            return lastNameWarning.getText();
         }
         return "";
     }
 
     public String verifyEmailWarning() {
-        if (find(emailWarning).isDisplayed()) {
-            return find(emailWarning).getText();
+        if (emailWarning.isDisplayed()) {
+            return emailWarning.getText();
         }
         return "";
     }
 
     public String verifyCurrentPasswordWarning() {
-        if (find(currentPasswordWarning).isDisplayed()) {
-            return find(currentPasswordWarning).getText();
+        if (currentPasswordWarning.isDisplayed()) {
+            return currentPasswordWarning.getText();
         }
         return "";
     }
 
     public String verifyNewPasswordWarning() {
-        if (find(newPasswordWarning).isDisplayed()) {
-            return find(newPasswordWarning).getText();
+        if (newPasswordWarning.isDisplayed()) {
+            return newPasswordWarning.getText();
         }
         return "";
     }
 
     public String verifyConfirmNewPasswordWarning() {
-        if (find(confirmNewPasswordWarning).isDisplayed()) {
-            return find(confirmNewPasswordWarning).getText();
+        if (confirmNewPasswordWarning.isDisplayed()) {
+            return confirmNewPasswordWarning.getText();
         }
         return "";
     }
 
     public String verifyEmailMessageFromPopup() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement field = find(emailInput);
-        return js.executeScript("return arguments[0].validationMessage",field).toString();
+        return js.executeScript("return arguments[0].validationMessage",emailInput).toString();
     }
 
     public void changePassword(String currentPassword, String newPassword, String confirmPassword) {
         clearAndSendKeys(currentPasswordInput, currentPassword);
         clearAndSendKeys(newPasswordInput, newPassword);
         clearAndSendKeys(confirmNewPasswordInput, confirmPassword);
-        find(saveButton).click();
+        saveButton.click();
     }
 
 }

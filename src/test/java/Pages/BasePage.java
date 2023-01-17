@@ -24,11 +24,6 @@ public class BasePage {
         element.sendKeys(text);
     }
 
-    public void clearAndSendKeys(By locator, String text) {
-        find(locator).clear();
-        find(locator).sendKeys(text);
-    }
-
     public String getPageTitle() {
         return this.driver.getTitle();
     }
