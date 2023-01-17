@@ -24,7 +24,7 @@ public class GenericUtils {
         try {
             Properties appProperties = new Properties();
             appProperties.load(Files.newInputStream(Paths.get(configFile)));
-            baseURL = appProperties.getProperty("protocol") + "://" + appProperties.getProperty("hostname") + appProperties.getProperty("domain") + ":" + appProperties.getProperty("port");
+            baseURL = appProperties.getProperty("protocol") + "://" + appProperties.getProperty("hostname") + ":" + appProperties.getProperty("port");
         } catch (IOException ex) {
             System.out.println(ex);
         }

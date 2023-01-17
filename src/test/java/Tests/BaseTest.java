@@ -10,9 +10,12 @@ import org.testng.annotations.BeforeTest;
 public class BaseTest {
 
     public WebDriver driver;
-    String browser = BrowserUtils.getBrowserFromEnvironmentVariables("autoBrowser");
+
+    public static String configFile = "src\\test\\resources\\config.properties";
+    //String browser = BrowserUtils.getBrowserFromEnvironmentVariables("autoBrowser");
+    String browser = GenericUtils.getBrowser(configFile);
     //String baseURL = "http://demo-store.seleniumacademy.com";
-    String baseURL = GenericUtils.getBaseURL("src\\test\\resources\\config.properties");
+    String baseURL = GenericUtils.getBaseURL(configFile);
 
     LoginPage loginPage;
     MyAccountPage myAccountPage;
@@ -34,8 +37,7 @@ public class BaseTest {
     @BeforeTest
     public void beforeTest() {
         //driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
-        //driver = BrowserUtils.getBrowser(browser);
-        driver = BrowserUtils.getBrowser(GenericUtils.getBrowser("src\\test\\resources\\config.properties"));
+        driver = BrowserUtils.getBrowser(browser);
         driver.manage().window().maximize();
         driver.get(baseURL);
     }
