@@ -1,7 +1,6 @@
 package Tests;
 
 import Pages.*;
-import Utils.BrowserTypes;
 import Utils.BrowserUtils;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
@@ -10,6 +9,7 @@ import org.testng.annotations.BeforeTest;
 public class BaseTest {
 
     public WebDriver driver;
+    String browser = BrowserUtils.getBrowserFromEnvironmentVariables("autoBrowser");
 
     LoginPage loginPage;
     MyAccountPage myAccountPage;
@@ -30,7 +30,8 @@ public class BaseTest {
 
     @BeforeTest
     public void beforeTest() {
-        driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
+        //driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
+        driver = BrowserUtils.getBrowser(browser);
         driver.manage().window().maximize();
         driver.get("http://demo-store.seleniumacademy.com");
     }
