@@ -1,0 +1,17 @@
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke">
+    <listeners>
+        <listener class-name="Utils.ExtentTestListener"></listener>
+    </listeners>
+    <test name="Smoke Tests">
+        <groups>
+            <run>
+                <include name="Smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="Tests.LoginTests"></class>
+        </classes>
+    </test>
+</suite>

@@ -41,6 +41,8 @@ public class RegisterPage extends BasePage {
     private WebElement passwordError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[7]")
     private WebElement confirmPasswordError;
+    @FindBy(how = How.XPATH, using = "//body/div/div/div/div/div/div/ul/li[1]")
+    private WebElement userAlreadyExistsError;
 
     public RegisterPage(WebDriver driver) {
         super(driver);
@@ -103,6 +105,10 @@ public class RegisterPage extends BasePage {
             else return true;
         }
         return false;
+    }
+
+    public String getUserAlreadyExistsError() {
+        return userAlreadyExistsError.getText();
     }
 
 }

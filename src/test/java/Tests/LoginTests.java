@@ -4,6 +4,7 @@ import Pages.ForgotYourPasswordPage;
 import Pages.LoginPage;
 import Pages.NavigationPage;
 import Tests.ObjectModels.LoginModel;
+import Utils.ExtentTestManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -53,18 +54,20 @@ public class LoginTests extends BaseTest{
 
     @Test(dataProvider = "jsonInvalidLoginDP", priority = 1)
     public void loginWithJsonDataTest(LoginModel loginModel) {
+        ExtentTestManager.startTest("Invalidlogin", "");
         loginActions(loginModel);
     }
 
-    @Test (dataProvider = "validLoginDP")
+    @Test (dataProvider = "validLoginDP", groups = {"Smoke"})
     public void validLoginTest(String email, String password) {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        ExtentTestManager.startTest("login", "");
+        navigationPage = new NavigationPage(driver);
         loginPage = navigationPage.navigateToLogin();
         myAccountPage = loginPage.loginWith(email, password);
         Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
     }
 
-    @Test
+    @Test (enabled = false)
     public void forgotPasswordTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();

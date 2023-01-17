@@ -2,9 +2,6 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 
 public class AccountDashboardPage extends BasePage {
 
@@ -17,6 +14,7 @@ public class AccountDashboardPage extends BasePage {
     private By changePasswordLink = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]/div/div[2]/p/a");
     private By manageAddressesLink = By.xpath("//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[4]/div[1]/a");
     private By wishlistLink = By.xpath("//body//div//div//div//div//div//div//div//ul//li//a[normalize-space()='My Wishlist']");
+    private By successfulRegistrationMessage = By.xpath("//body/div/div/div/div/div/div/div[1]/ul[1]");
 
     public AccountDashboardPage(WebDriver driver) {
         super(driver);
@@ -71,5 +69,9 @@ public class AccountDashboardPage extends BasePage {
     public AddressBookPage goToAddressBook() {
         find(manageAddressesLink).click();
         return new AddressBookPage(driver);
+    }
+
+    public String getSuccessfulRegistrationMessage() {
+        return find(successfulRegistrationMessage).getText();
     }
 }

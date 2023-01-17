@@ -1,0 +1,12 @@
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="myFirstTestSuite">
+    <listeners>
+        <listener class-name="Utils.ExtentTestListener"></listener>
+    </listeners>
+    <test name="myFirstTestSuite">
+        <classes>
+            <class name="Tests.LoginTests"></class>
+        </classes>
+    </test>
+</suite>

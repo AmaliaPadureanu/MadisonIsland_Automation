@@ -1,8 +1,10 @@
 package Tests;
 
+import Pages.AccountDashboardPage;
 import Pages.LoginPage;
 import Pages.NavigationPage;
 import Tests.ObjectModels.RegisterModel;
+import Utils.GenericUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -64,6 +66,7 @@ public class RegisterTests extends BaseTest {
     @Test (dataProvider = "jsonValidRegisterDP")
     public void validRegisterTest(RegisterModel registerModel) {
         registerActions(registerModel);
+        accountDashboardPage = new AccountDashboardPage(driver);
         loginPage = new LoginPage(driver);
         loginPage.logout();
     }
@@ -71,6 +74,25 @@ public class RegisterTests extends BaseTest {
     @Test (dataProvider = "jsonInvalidRegisterDP", priority = 1)
     public void invalidRegisterTest(RegisterModel registerModel) {
         registerActions(registerModel);
+    }
+
+    @Test
+    public void registerWithCredentialThatAreAlreadyUsed() {
+        navigationPage = new NavigationPage(driver);
+        registerPage = navigationPage.navigateToRegister();
+        String firstName = GenericUtils.createRandomString(10);
+        String lastName = GenericUtils.createRandomString(10);
+        String email = GenericUtils.createRandomString(6) + "@gmail.com";
+        String password = GenericUtils.createRandomString(10);
+        registerPage.registerUser(firstName, "", lastName, email, password, password, true);
+        accountDashboardPage = new AccountDashboardPage(driver);
+        Assert.assertEquals(accountDashboardPage.getSuccessfulRegistrationMessage(), "Thank you for registering with Madison Island.");
+        loginPage = new LoginPage(driver);
+        loginPage.logout();
+        navigationPage.navigateToRegister();
+        registerPage.registerUser(firstName,"", lastName, email, password, password, true);
+        Assert.assertEquals(registerPage.getUserAlreadyExistsError(), "There is already an account with this email address. " +
+                "If you are sure that it is your email address, click here to get your password and access your account.");
     }
 
 }
