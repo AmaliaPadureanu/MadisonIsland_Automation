@@ -2,6 +2,7 @@ package Tests;
 
 import Pages.*;
 import Utils.BrowserUtils;
+import Utils.ConstantUtils;
 import Utils.GenericUtils;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
@@ -11,11 +12,10 @@ public class BaseTest {
 
     public WebDriver driver;
 
-    public static String configFile = "src\\test\\resources\\config.properties";
     //String browser = BrowserUtils.getBrowserFromEnvironmentVariables("autoBrowser");
-    String browser = GenericUtils.getBrowserFromConfig(configFile);
+    String browser = GenericUtils.getBrowserFromConfig(ConstantUtils.CONFIG_FILE);
     //String baseURL = "http://demo-store.seleniumacademy.com";
-    String baseURL = GenericUtils.getBaseURL(configFile);
+    String baseURL = GenericUtils.getBaseURL(ConstantUtils.CONFIG_FILE);
 
     LoginPage loginPage;
     MyAccountPage myAccountPage;
@@ -34,7 +34,7 @@ public class BaseTest {
     ProductDetailsPage productDetailsPage;
     CartPage cartPage;
 
-    @BeforeTest
+    @BeforeTest (alwaysRun = true)
     public void beforeTest() {
         //driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
         driver = BrowserUtils.getBrowser(browser);
@@ -42,7 +42,7 @@ public class BaseTest {
         driver.get(baseURL);
     }
 
-    @AfterTest
+    @AfterTest (alwaysRun = true)
     public void afterTest() {
         driver.quit();
     }

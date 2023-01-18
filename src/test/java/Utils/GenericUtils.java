@@ -1,6 +1,5 @@
 package Utils;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -25,8 +24,8 @@ public class GenericUtils {
             Properties appProperties = new Properties();
             appProperties.load(Files.newInputStream(Paths.get(configFile)));
             baseURL = appProperties.getProperty("protocol") + "://" + appProperties.getProperty("hostname") + ":" + appProperties.getProperty("port");
-        } catch (IOException ex) {
-            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
         return baseURL;
     }
@@ -37,8 +36,8 @@ public class GenericUtils {
             Properties appProperties = new Properties();
             appProperties.load(Files.newInputStream(Paths.get(configFile)));
             value = appProperties.getProperty(property);
-        } catch (IOException ex) {
-            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
         return value;
     }

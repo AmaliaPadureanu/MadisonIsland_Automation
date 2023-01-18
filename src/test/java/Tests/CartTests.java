@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 public class CartTests extends BaseTest {
 
-    @Test
+    @Test (groups = {"smoke"})
     public void addRandomClothingItemToCartTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         searchResultsPage = navigationPage.navigateToRandomSubcategory(CategoriesOfProducts.MEN);

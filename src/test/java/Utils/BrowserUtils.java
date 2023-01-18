@@ -27,10 +27,11 @@ public class BrowserUtils {
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions options = new FirefoxOptions();
                 options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+                WebDriver driver = new FirefoxDriver(options);
                 if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
-                    options.addArguments("--start-maximized");
+                    driver.manage().window().maximize();
                 }
-                return new FirefoxDriver(options);
+                return driver;
             }
             case ("edge") : {
                 WebDriverManager.edgedriver().setup();

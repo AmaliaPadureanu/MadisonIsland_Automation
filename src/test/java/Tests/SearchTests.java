@@ -41,7 +41,7 @@ public class SearchTests extends BaseTest {
         };
     }
 
-    @Test (dataProvider = "basicValidSearchDP")
+    @Test (groups = {"smoke"}, dataProvider = "basicValidSearchDP")
     public void basicValidSearchTest(String product) {
         searchPage = PageFactory.initElements(driver, SearchPage.class);
         searchResultsPage = searchPage.search(product);
