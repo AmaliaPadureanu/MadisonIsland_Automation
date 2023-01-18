@@ -3,25 +3,43 @@ package Utils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import java.util.Map;
 
 public class BrowserUtils {
-
+    
     public static WebDriver getBrowser(String browser) {
         switch (browser.toLowerCase()) {
             case ("chrome") : {
                 WebDriverManager.chromedriver().setup();
-                return new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+                if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
+                    options.addArguments("--start-maximized");
+                }
+                return new ChromeDriver(options);
             }
             case ("firefox") : {
                 WebDriverManager.firefoxdriver().setup();
-                return new FirefoxDriver();
+                FirefoxOptions options = new FirefoxOptions();
+                options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+                if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
+                    options.addArguments("--start-maximized");
+                }
+                return new FirefoxDriver(options);
             }
             case ("edge") : {
                 WebDriverManager.edgedriver().setup();
-                return new EdgeDriver();
+                EdgeOptions options = new EdgeOptions();
+                options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+                if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
+                    options.addArguments("--start-maximized");
+                }
+                return new EdgeDriver(options);
             }
             default: {
                 System.out.println("Browser is not supported officially");

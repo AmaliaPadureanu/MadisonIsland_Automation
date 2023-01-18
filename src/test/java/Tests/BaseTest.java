@@ -13,7 +13,7 @@ public class BaseTest {
 
     public static String configFile = "src\\test\\resources\\config.properties";
     //String browser = BrowserUtils.getBrowserFromEnvironmentVariables("autoBrowser");
-    String browser = GenericUtils.getBrowser(configFile);
+    String browser = GenericUtils.getBrowserFromConfig(configFile);
     //String baseURL = "http://demo-store.seleniumacademy.com";
     String baseURL = GenericUtils.getBaseURL(configFile);
 
@@ -38,7 +38,7 @@ public class BaseTest {
     public void beforeTest() {
         //driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
         driver = BrowserUtils.getBrowser(browser);
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
         driver.get(baseURL);
     }
 

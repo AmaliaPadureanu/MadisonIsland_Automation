@@ -31,16 +31,27 @@ public class GenericUtils {
         return baseURL;
     }
 
-    public static String getBrowser(String configFile) {
-        String browser = "";
+    private static String getValueFromConfigFile(String configFile, String property, String defaultValue) {
+        String value = defaultValue;
         try {
             Properties appProperties = new Properties();
             appProperties.load(Files.newInputStream(Paths.get(configFile)));
-            browser = appProperties.getProperty("browser");
+            value = appProperties.getProperty(property);
         } catch (IOException ex) {
             System.out.println(ex);
         }
-        return browser;
+        return value;
     }
 
+    public static String getBrowserFromConfig(String configFile) {
+        return getValueFromConfigFile(configFile, "browser", "CHROME");
+    }
+
+    public static boolean getHeadlessModeOption(String configFile) {
+        return Boolean.parseBoolean(getValueFromConfigFile(configFile, "headlessMode", "false"));
+    }
+
+    public static boolean startMaximized(String configFile) {
+        return Boolean.parseBoolean(getValueFromConfigFile(configFile, "startMaximized", "false"));
+    }
 }
