@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,12 +19,8 @@ public class CartPage extends BasePage {
     private WebElement cartSuccessMessage;
     @FindBy(how = How.XPATH, using = "//td[@data-rwd-label='Price']//span//span")
     private WebElement productPrice;
-    @FindBy(how = How.XPATH, using = "(//td[@data-rwd-label='Subtotal'])")
-    private WebElement subtotal;
     @FindBy(how = How.CSS, using = "#shopping-cart-table > tbody > tr")
     private List<WebElement> productsInCart;
-    @FindBy(how = How.CSS, using = "#shopping-cart-table > tbody > tr.first.odd > td.a-center.product-cart-remove.last > a")
-    private WebElement removeProductButton;
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -37,11 +34,36 @@ public class CartPage extends BasePage {
         return cartSuccessMessage.getText().toLowerCase();
     }
 
-    public void removeProductFromCart() {
-        removeProductButton.click();
+    public void removeProductFromCart(WebElement product) {
+        WebElement removeBtn = product.findElement(By.cssSelector("td.a-center.product-cart-remove.last > a"));
+        removeBtn.click();
     }
 
     public int getNoOfProductsInCart() {
         return productsInCart.size();
+    }
+
+    public List<WebElement> getProductsInCart() {
+        return productsInCart;
+    }
+
+    public int getProductSubtotal(WebElement product) {
+        String subtotal = product.findElement(By.cssSelector("td.product-cart-total")).getText();
+        String substring = subtotal.substring(1);
+        String finalValue = substring.substring(0, substring.indexOf("."));
+
+        if (finalValue.indexOf(",") != -1)  {
+            String finalValueWithoutComma = finalValue.split(",")[0] + finalValue.split(",")[1];
+            return Integer.valueOf(finalValueWithoutComma);
+        }
+
+        return Integer.valueOf(finalValue);
+    }
+
+    public void editProductQuantity(WebElement product, String newQuantity) {
+        WebElement editBox = product.findElement(By.cssSelector("td.product-cart-actions > input"));
+        clearAndSendKeys(editBox, newQuantity);
+        WebElement updateQuantityButton = product.findElement(By.cssSelector("td.product-cart-actions > button"));
+        updateQuantityButton.click();
     }
 }
