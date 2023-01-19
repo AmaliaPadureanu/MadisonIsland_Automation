@@ -51,6 +51,12 @@ public class NavigationPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//header[@id='header']//li[4]//ul/li")
     private List<WebElement> homeAndDecorSubcategories;
 
+    @FindBy(how = How.CSS, using = "#header > div > div.skip-links > div > div > a")
+    private WebElement cartButton;
+
+    @FindBy(how = How.CSS, using = "#header-cart > div.minicart-wrapper > div.minicart-actions > a")
+    private WebElement viewShoppingCartButton;
+
     public NavigationPage(WebDriver driver) {
         super(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -139,5 +145,12 @@ public class NavigationPage extends BasePage {
             }
         }
         return new SearchResultsPage(driver);
+    }
+
+    public CartPage navigateToCart() {
+        accountLink.click();
+        cartButton.click();
+        viewShoppingCartButton.click();
+        return new CartPage(driver);
     }
 }

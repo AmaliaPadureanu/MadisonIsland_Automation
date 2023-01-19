@@ -16,15 +16,14 @@ public class CartPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//body/div/div/div/div/div/div/ul/li[1]")
     private WebElement cartSuccessMessage;
-
     @FindBy(how = How.XPATH, using = "//td[@data-rwd-label='Price']//span//span")
     private WebElement productPrice;
-
     @FindBy(how = How.XPATH, using = "(//td[@data-rwd-label='Subtotal'])")
     private WebElement subtotal;
-
-    @FindBy(how = How.XPATH, using = "//table[@id='shopping-cart-table']//tbody//tr")
+    @FindBy(how = How.CSS, using = "#shopping-cart-table > tbody > tr")
     private List<WebElement> productsInCart;
+    @FindBy(how = How.CSS, using = "#shopping-cart-table > tbody > tr.first.odd > td.a-center.product-cart-remove.last > a")
+    private WebElement removeProductButton;
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -36,5 +35,13 @@ public class CartPage extends BasePage {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.urlToBe("http://demo-store.seleniumacademy.com/checkout/cart/"));
         return cartSuccessMessage.getText().toLowerCase();
+    }
+
+    public void removeProductFromCart() {
+        removeProductButton.click();
+    }
+
+    public int getNoOfProductsInCart() {
+        return productsInCart.size();
     }
 }

@@ -19,4 +19,13 @@ public class CartTests extends BaseTest {
         cartPage = productDetailsPage.addToCart();
         Assert.assertEquals(cartPage.getCartSuccessMessage(), productName + " was added to your shopping cart.");
     }
+
+    @Test (dependsOnMethods = {"addRandomClothingItemToCartTest"})
+    public void removeProductFromCartTest() {
+        navigationPage = new NavigationPage(driver);
+        cartPage = navigationPage.navigateToCart();
+        int noOfProductsInCart = cartPage.getNoOfProductsInCart();
+        cartPage.removeProductFromCart();
+        Assert.assertTrue(cartPage.getNoOfProductsInCart() == (noOfProductsInCart - 1));
+    }
 }
