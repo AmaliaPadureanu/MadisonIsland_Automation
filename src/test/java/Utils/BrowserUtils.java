@@ -14,29 +14,32 @@ public class BrowserUtils {
     
     public static WebDriver getBrowser(String browser) {
         switch (browser.toLowerCase()) {
-            case ("chrome") : {
+            case "chrome" : {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
                 options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+
                 if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
                     options.addArguments("--start-maximized");
                 }
                 return new ChromeDriver(options);
             }
-            case ("firefox") : {
+            case "firefox" : {
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions options = new FirefoxOptions();
                 options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
                 WebDriver driver = new FirefoxDriver(options);
+
                 if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
                     driver.manage().window().maximize();
                 }
                 return driver;
             }
-            case ("edge") : {
+            case "edge" : {
                 WebDriverManager.edgedriver().setup();
                 EdgeOptions options = new EdgeOptions();
                 options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+
                 if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
                     options.addArguments("--start-maximized");
                 }
@@ -49,15 +52,14 @@ public class BrowserUtils {
         }
     }
     public static Browser getBrowser(BrowserTypes browserType) {
-
         switch (browserType.toString()) {
-            case ("CHROME") : {
+            case "CHROME" : {
                 return new ChromeBrowser();
             }
-            case ("FIREFOX") : {
+            case "FIREFOX" : {
                 return new FirefoxBrowser();
             }
-            case ("EDGE") : {
+            case "EDGE" : {
                 return new EdgeBrowser();
             }
             default : {
@@ -72,8 +74,8 @@ public class BrowserUtils {
 
         if (environmentVariables.containsKey(propertyName)) {
             return System.getenv(propertyName).toLowerCase();
-        } else {
-            return "CHROME";
         }
+
+        return "CHROME";
     }
 }

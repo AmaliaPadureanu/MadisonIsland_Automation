@@ -66,6 +66,7 @@ public class ProductDetailsPage extends BasePage {
     public void chooseRandomSize() {
         sizeOptions.get(getRandomNumber(0, sizeOptions.size())).click();
         System.out.println(availability.getText());
+
         if (availability.getText().equalsIgnoreCase("out of stock")) {
             tryAnotherSize();
         }

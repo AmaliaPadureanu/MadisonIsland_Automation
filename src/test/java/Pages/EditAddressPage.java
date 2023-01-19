@@ -81,46 +81,40 @@ public class EditAddressPage extends BasePage {
     }
 
     public boolean checkError(String expectedError, String errorType) {
-        if(errorType.equalsIgnoreCase("firstNameError")) {
-            if (expectedError.length() > 0) {
-                return expectedError.equalsIgnoreCase(firstNameError.getText());
-            } else return true;
-        } else if (errorType.equalsIgnoreCase("lastNameError")) {
-            if (expectedError.length() > 0) {
-                return expectedError.equalsIgnoreCase(lastNameError.getText());
-            } else return true;
-        } else if (errorType.equalsIgnoreCase("telephoneError")) {
-            if (expectedError.length() > 0) {
-                return expectedError.equalsIgnoreCase(telephoneError.getText());
+        switch (errorType)  {
+            case "firstNameError" : {
+                return isErrorMessageEqualToExpected(expectedError, firstNameError);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("streetAddress1Error")) {
-            if (expectedError.length() > 0) {
-                return expectedError.equalsIgnoreCase(streetAddress1Error.getText());
+            case "lastNameError" : {
+                return isErrorMessageEqualToExpected(expectedError, lastNameError);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("cityError")) {
-            if (expectedError.length() > 0) {
-                return expectedError.equalsIgnoreCase(cityError.getText());
+            case "telephoneError" : {
+                return isErrorMessageEqualToExpected(expectedError, telephoneError);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("stateError")) {
-            if (expectedError.length() > 0) {
-                return expectedError.equalsIgnoreCase(stateError.getText());
+            case "streetAddress1Error" : {
+                return isErrorMessageEqualToExpected(expectedError, streetAddress1Error);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("zipCodeError")) {
-            if (expectedError.length() > 0) {
-                return expectedError.equalsIgnoreCase(zipCodeError.getText());
+            case "cityError" : {
+                return isErrorMessageEqualToExpected(expectedError, cityError);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("countryError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(countryError));
-                return expectedError.equalsIgnoreCase(countryError.getText());
+            case "stateError" : {
+                return isErrorMessageEqualToExpected(expectedError, stateError);
             }
-            else return true;
+            case "zipCodeError" : {
+                return isErrorMessageEqualToExpected(expectedError, zipCodeError);
+            }
+            case "countryError" : {
+                return isErrorMessageEqualToExpected(expectedError, countryError);
+            }
+            default: return false;
         }
-        return false;
+    }
+
+    private boolean isErrorMessageEqualToExpected(String expectedError, WebElement element) {
+        if (expectedError.length() > 0) {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return expectedError.equalsIgnoreCase(element.getText());
+        }
+        return true;
     }
 }

@@ -18,19 +18,6 @@ import java.util.Iterator;
 
 public class RegisterTests extends BaseTest {
 
-    @DataProvider(name = "jsonValidRegisterDP")
-    public Iterator<Object[]> jsonDPCollectionValid() throws IOException {
-        Collection<Object[]> dp = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("src\\test\\resources\\Data\\validRegisterData.json");
-        RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
-
-        for (RegisterModel registerModel : registerModels) {
-            dp.add(new Object[] {registerModel});
-        }
-        return dp.iterator();
-    }
-
     @DataProvider(name = "jsonInvalidRegisterDP")
     public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
         Collection<Object[]> dp = new ArrayList<>();
@@ -63,36 +50,31 @@ public class RegisterTests extends BaseTest {
         Assert.assertTrue(registerPage.checkError(expectedEmailErrorPopup, "emailErrorPopup"));
     }
 
-    @Test (dataProvider = "jsonValidRegisterDP")
-    public void validRegisterTest(RegisterModel registerModel) {
-        registerActions(registerModel);
-        accountDashboardPage = new AccountDashboardPage(driver);
-        loginPage = new LoginPage(driver);
-        loginPage.logout();
-    }
-
-    @Test (dataProvider = "jsonInvalidRegisterDP", priority = 1)
-    public void invalidRegisterTest(RegisterModel registerModel) {
-        registerActions(registerModel);
-    }
-
     @Test
-    public void registerWithCredentialThatAreAlreadyUsed() {
+    public void validRegisterTest() {
         navigationPage = new NavigationPage(driver);
         registerPage = navigationPage.navigateToRegister();
+
         String firstName = GenericUtils.createRandomString(10);
         String lastName = GenericUtils.createRandomString(10);
         String email = GenericUtils.createRandomString(6) + "@gmail.com";
         String password = GenericUtils.createRandomString(10);
+
         registerPage.registerUser(firstName, "", lastName, email, password, password, true);
         accountDashboardPage = new AccountDashboardPage(driver);
         Assert.assertEquals(accountDashboardPage.getSuccessfulRegistrationMessage(), "Thank you for registering with Madison Island.");
+
         loginPage = new LoginPage(driver);
         loginPage.logout();
+
         navigationPage.navigateToRegister();
         registerPage.registerUser(firstName,"", lastName, email, password, password, true);
         Assert.assertEquals(registerPage.getUserAlreadyExistsError(), "There is already an account with this email address. " +
                 "If you are sure that it is your email address, click here to get your password and access your account.");
     }
 
+    @Test (dataProvider = "jsonInvalidRegisterDP", priority = 1)
+    public void invalidRegisterTest(RegisterModel registerModel) {
+        registerActions(registerModel);
+    }
 }
