@@ -21,6 +21,10 @@ public class CartPage extends BasePage {
     private WebElement productPrice;
     @FindBy(how = How.CSS, using = "#shopping-cart-table > tbody > tr")
     private List<WebElement> productsInCart;
+    @FindBy(how = How.CSS, using = "#shopping-cart-totals-table > tfoot > tr > td:nth-child(2)")
+    WebElement grandTotal;
+    @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div/div[2]/div[3]/div/ul/li/button")
+    WebElement proceedToCheckoutButton;
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -65,5 +69,22 @@ public class CartPage extends BasePage {
         clearAndSendKeys(editBox, newQuantity);
         WebElement updateQuantityButton = product.findElement(By.cssSelector("td.product-cart-actions > button"));
         updateQuantityButton.click();
+    }
+
+    public int getGrandTotal() {
+        String substring = grandTotal.getText().replace("$", "");
+        String finalValue = substring.substring(0, substring.indexOf("."));
+
+        if (finalValue.indexOf(",") != -1)  {
+            String finalValueWithoutComma = finalValue.split(",")[0] + finalValue.split(",")[1];
+            return Integer.valueOf(finalValueWithoutComma);
+        }
+
+        return Integer.valueOf(finalValue);
+    }
+
+    public CheckoutPage proceedToCheckout() {
+        proceedToCheckoutButton.click();
+        return new CheckoutPage(driver);
     }
 }

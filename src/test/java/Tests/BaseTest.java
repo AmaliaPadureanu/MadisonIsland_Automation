@@ -33,6 +33,7 @@ public class BaseTest {
     SearchResultsPage searchResultsPage;
     ProductDetailsPage productDetailsPage;
     CartPage cartPage;
+    CheckoutPage checkoutPage;
 
     @BeforeTest (alwaysRun = true)
     public void beforeTest() {

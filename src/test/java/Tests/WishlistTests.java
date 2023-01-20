@@ -21,7 +21,6 @@ public class WishlistTests extends BaseTest {
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
         String productName = productDetailsPage.getProductName();
         wishlistPage = productDetailsPage.addToWishlist();
-        System.out.println(wishlistPage.getWishlistSuccessMessage());
         Assert.assertTrue(wishlistPage.getWishlistSuccessMessage().contains(productName + " has been added to your wishlist"));
     }
 
