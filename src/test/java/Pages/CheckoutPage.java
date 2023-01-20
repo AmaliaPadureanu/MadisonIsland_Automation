@@ -69,6 +69,12 @@ public class CheckoutPage extends BasePage {
     private WebElement placeOrderButton;
     @FindBy(how = How.CSS, using = "h1")
     private WebElement orderSuccessMessage;
+    @FindBy(how = How.ID, using = "login-email")
+    private WebElement loginEmailInput;
+    @FindBy(how = How.ID, using = "login-password")
+    private WebElement loginPasswordInput;
+    @FindBy(how = How.CSS, using = "#checkout-step-login > div > div.col-2 > div > button")
+    private WebElement loginButton;
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
@@ -76,9 +82,15 @@ public class CheckoutPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public void continueAsGuest() {
-        checkoutAsGuestRadiobutton.click();
-        continueButton.click();
+    public void checkoutMethod(Boolean guest, Boolean login, String email, String password) {
+        if (guest) {
+            checkoutAsGuestRadiobutton.click();
+            continueButton.click();
+        } else if (login) {
+            loginEmailInput.sendKeys(email);
+            loginPasswordInput.sendKeys(password);
+            loginButton.click();
+        }
     }
 
     public void fillInBillionInformation(String firstName, String lastName, String email, String address, String city,
@@ -97,8 +109,7 @@ public class CheckoutPage extends BasePage {
         continueToShippingButton.click();
     }
 
-    public void selectShippingMethod(Boolean freeShipping, Boolean flatRate, Boolean addGift, Boolean addGiftForEntireOrder,
-                                     Boolean addGiftForIndividualItems) {
+    public void selectShippingMethod(Boolean freeShipping, Boolean flatRate) {
         if (freeShipping) {
             WaitUtils.waitForElementToBeClickable(driver, freeShippingCheckbox, 20);
             freeShippingCheckbox.click();
@@ -106,26 +117,32 @@ public class CheckoutPage extends BasePage {
             WaitUtils.waitForElementToBeClickable(driver, flatRateCheckbox, 20);
             flatRateCheckbox.click();
         }
+    }
 
-        if (addGift) {
-            addGiftOptions.click();
+    public void addGift(Boolean addGiftForEntireOrder, Boolean addGiftForIndividualItems) {
+        addGiftOptions.click();
 
-            if (addGiftForEntireOrder) {
-                addGiftForOrder.click();
-                clearAndSendKeys(addGiftEntireOrderFromInput, GenericUtils.createRandomString(10));
-                clearAndSendKeys(addGiftEntireOrderToInput, GenericUtils.createRandomString(10));
-                clearAndSendKeys(addGiftEntireOrderMessageTextarea, GenericUtils.createRandomString(20));
-                shippingMethodContinueButton.click();
-            } else if (addGiftForIndividualItems) {
-                addGiftForItems.click();
-                clearAndSendKeys(addGiftIndividualItemFromInput, GenericUtils.createRandomString(10));
-                clearAndSendKeys(addGiftIndividualItemToInput, GenericUtils.createRandomString(10));
-                clearAndSendKeys(addGiftIndividualItemMessageTextarea, GenericUtils.createRandomString(20));
-                shippingMethodContinueButton.click();
-            }
-        } else {
+        if (addGiftForEntireOrder) {
+            addGiftForOrder.click();
+            clearAndSendKeys(addGiftEntireOrderFromInput, GenericUtils.createRandomString(10));
+            clearAndSendKeys(addGiftEntireOrderToInput, GenericUtils.createRandomString(10));
+            clearAndSendKeys(addGiftEntireOrderMessageTextarea, GenericUtils.createRandomString(20));
+            shippingMethodContinueButton.click();
+        } else if (addGiftForIndividualItems) {
+            addGiftForItems.click();
+            clearAndSendKeys(addGiftIndividualItemFromInput, GenericUtils.createRandomString(10));
+            clearAndSendKeys(addGiftIndividualItemToInput, GenericUtils.createRandomString(10));
+            clearAndSendKeys(addGiftIndividualItemMessageTextarea, GenericUtils.createRandomString(20));
             shippingMethodContinueButton.click();
         }
+    }
+
+    public void continueToShippingMethod() {
+        continueToShippingButton.click();
+    }
+
+    public void continueToPaymentInformation() {
+        shippingMethodContinueButton.click();
     }
 
     public void continueToOrderReview() {

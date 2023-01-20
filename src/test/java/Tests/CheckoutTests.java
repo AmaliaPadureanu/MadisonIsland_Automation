@@ -10,13 +10,28 @@ import org.testng.annotations.Test;
 public class CheckoutTests extends BaseTest {
 
     @Test
-    public void validPlaceOrderTest() {
+    public void validPlaceOrderAsGuestTest() {
         addRandomProductToCart();
         checkoutPage = cartPage.proceedToCheckout();
-        checkoutPage.continueAsGuest();
+        checkoutPage.checkoutMethod(true, false, "", "");
         checkoutPage.fillInBillionInformation("Doe", "John", "jdoe@gmail.com", "Main St, No. 2,",
                 "New York", "New York", "23456", "Bahamas", "9847364758");
-        checkoutPage.selectShippingMethod(true, false, true, false, true);
+        checkoutPage.selectShippingMethod(true, false);
+        checkoutPage.addGift(false, true);
+        checkoutPage.continueToOrderReview();
+        checkoutPage.placeOrder();
+        WaitUtils.waitForUrlToBe(driver, "http://demo-store.seleniumacademy.com/checkout/onepage/success/", 10);
+        Assert.assertTrue(checkoutPage.getOrderSuccessMessage().equalsIgnoreCase("Your order has been received."));
+    }
+
+    @Test
+    public void validPlaceOrderAsRegisteredUserTest() {
+        addRandomProductToCart();
+        checkoutPage = cartPage.proceedToCheckout();
+        checkoutPage.checkoutMethod(false, true, "test@e.com", "Automation");
+        checkoutPage.continueToShippingMethod();
+        checkoutPage.selectShippingMethod(true, false);
+        checkoutPage.addGift(true, false);
         checkoutPage.continueToOrderReview();
         checkoutPage.placeOrder();
         WaitUtils.waitForUrlToBe(driver, "http://demo-store.seleniumacademy.com/checkout/onepage/success/", 10);
