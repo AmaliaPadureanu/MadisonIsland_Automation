@@ -85,6 +85,7 @@ public class MyAccountTests extends BaseTest {
    }
 
    public void editAddressActions(EditAddressModel editAddressModel) {
+      navigationPage = new NavigationPage(driver);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       addressBookPage = accountDashboardPage.goToAddressBook();
       editAddressPage = addressBookPage.goToEditAddressBook();
@@ -109,15 +110,16 @@ public class MyAccountTests extends BaseTest {
    }
 
 
-   @BeforeClass
+   @BeforeClass (alwaysRun = true)
     public void beforeClass() {
-       navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+       navigationPage = new NavigationPage(driver);
        loginPage = navigationPage.navigateToLogin();
        loginPage.loginWith("test@e.com", "Automation");
    }
 
-   @Test
+   @Test (groups = {"regression"})
     public void editNewsletterSubscriptionsTest() {
+       navigationPage = new NavigationPage(driver);
        accountDashboardPage = navigationPage.navigateToAccountDashboard();
        Boolean isUserSubscribed = accountDashboardPage.isUserSubscribed();
        accountDashboardPage.goToNewsletterSubscriptions();
@@ -127,17 +129,19 @@ public class MyAccountTests extends BaseTest {
                accountDashboardPage.verifyAfterSubscriptionWasEditedMessage(isUserSubscribed));
    }
 
-   @Test (dataProvider = "changePasswordDP")
+   @Test (dataProvider = "changePasswordDP", groups = {"regression"})
    public void changePasswordTest(String currentPassword, String newPassword, String confirmPassword) {
+      navigationPage = new NavigationPage(driver);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToChangePasswordSection();
       accountInformationPage.changePassword(currentPassword, newPassword, confirmPassword);
       Assert.assertEquals(accountDashboardPage.getAccountInformationWasEditedMessage(), "The account information has been saved.");
    }
 
-   @Test (dataProvider = "invalidChangePasswordDP")
+   @Test (dataProvider = "invalidChangePasswordDP", groups = {"regression"})
    public void invalidChangePasswordTest(String currentPassword, String newPassword, String confirmNewPassword,
                                          String currentPasswordWarning, String newPasswordWarning, String confirmNewPasswordWarning) {
+      navigationPage = new NavigationPage(driver);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToChangePasswordSection();
       accountInformationPage.changePassword(currentPassword,newPassword,confirmNewPassword);
@@ -146,8 +150,9 @@ public class MyAccountTests extends BaseTest {
       Assert.assertEquals(accountInformationPage.verifyConfirmNewPasswordWarning(), confirmNewPasswordWarning);
    }
 
-   @Test (dataProvider = "validEditAccountInformationDP")
+   @Test (dataProvider = "validEditAccountInformationDP", groups = {"regression"})
    public void validEditAccountInformationTest(String firstName, String middleName, String lastName, String email) {
+      navigationPage = new NavigationPage(driver);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToAccountInformation();
       accountInformationPage.editContactInformation(firstName, middleName, lastName, email);
@@ -158,9 +163,10 @@ public class MyAccountTests extends BaseTest {
       Assert.assertTrue(accountDashboardPage.getContactInformation().contains(email));
    }
 
-   @Test (dataProvider = "invalidEditAccountInformationDP")
+   @Test (dataProvider = "invalidEditAccountInformationDP", groups = {"regression"})
    public void invalidEditAccountInformationTest(String firstName, String middleName, String lastName, String email,
                                                  String firstNameWarning, String lastNameWarning, String emailWarning, String emailWarningPopup) {
+      navigationPage = new NavigationPage(driver);
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToAccountInformation();
       accountInformationPage.editContactInformation(firstName, middleName, lastName, email);
@@ -170,12 +176,12 @@ public class MyAccountTests extends BaseTest {
       Assert.assertTrue(accountInformationPage.verifyEmailMessageFromPopup().contains(emailWarningPopup));
    }
 
-   @Test (dataProvider = "jsonInvalidEditAddressDP")
+   @Test (dataProvider = "jsonInvalidEditAddressDP", groups = {"regression"})
    public void invalidEditAddressTest(EditAddressModel editAddressModel) {
       editAddressActions(editAddressModel);
    }
 
-   @Test(dataProvider = "jsonValidEditAddressDP")
+   @Test(dataProvider = "jsonValidEditAddressDP", groups = {"regression"})
    public void validEditAddressTest(EditAddressModel editAddressModel) {
       editAddressActions(editAddressModel);
       addressBookPage = new AddressBookPage(driver);

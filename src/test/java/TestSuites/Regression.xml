@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Regression Suite">
+    <groups>
+        <run>
+            <include name="regression"/>
+        </run>
+    </groups>
+    <listeners>
+        <listener class-name="Utils.ExtentTestListener"></listener>
+    </listeners>
+    <test name="Check login">
+        <classes>
+            <class name="Tests.LoginTests"/>
+        </classes>
+    </test>
+    <test name="Check register">
+        <classes>
+            <class name="Tests.RegisterTests"/>
+        </classes>
+    </test>
+    <test name="Check search product">
+        <classes>
+            <class name="Tests.SearchTests"/>
+        </classes>
+    </test>
+    <test name="Check search results">
+        <classes>
+            <class name="Tests.SearchResultsTests"/>
+        </classes>
+    </test>
+    <test name="Check MyAccount">
+        <classes>
+            <class name="Tests.MyAccountTests"/>
+        </classes>
+    </test>
+    <test name="Check wishlist">
+        <classes>
+            <class name="Tests.WishlistTests"/>
+        </classes>
+    </test>
+    <test name="Check cart">
+        <classes>
+            <class name="Tests.CartTests"/>
+        </classes>
+    </test>
+    <test name="Check checkout">
+        <classes>
+            <class name="Tests.CheckoutTests"/>
+        </classes>
+    </test>
+</suite>

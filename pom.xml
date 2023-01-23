@@ -91,7 +91,8 @@
                  <configuration>
                  <suiteXmlFiles>
                       <suiteXmlFile>myFirstTestSuite.xml</suiteXmlFile>
-                     <suiteXmlFile>Smoke.xml</suiteXmlFile>
+                      <suiteXmlFile>Smoke.xml</suiteXmlFile>
+                      <suiteXmlFile>Regression.xml</suiteXmlFile>
                  </suiteXmlFiles>
                  </configuration>
            </plugin>

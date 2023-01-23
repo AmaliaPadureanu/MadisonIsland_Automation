@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 public class SearchResultsTests extends BaseTest {
 
-    @Test()
+    @Test (groups = {"regression"})
     public void filterByPriceTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.ACCESSORIES, "Shoes");
@@ -17,7 +17,7 @@ public class SearchResultsTests extends BaseTest {
         Assert.assertTrue(verifyPriceFilter(productDetailsPage.getProductPrice(), "300", "399"));
     }
 
-    @Test()
+    @Test (groups = {"regression"})
     public void filterByColorTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.MEN, "Pants & Denim");
@@ -26,7 +26,7 @@ public class SearchResultsTests extends BaseTest {
         Assert.assertTrue(productDetailsPage.getAvailableColors().contains("Indigo"));
     }
 
-    @Test
+    @Test (groups = {"regression"})
     public void filterByOccasionTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.WOMEN, "Dresses & Skirts");
@@ -35,7 +35,7 @@ public class SearchResultsTests extends BaseTest {
         Assert.assertTrue(productDetailsPage.getProductSpecs().contains("Career"));
     }
 
-    @Test
+    @Test (groups = "regression")
     public void filterBySizeTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.MEN, "Pants & Denim");

@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 public class CartTests extends BaseTest {
 
-    @Test (groups = {"smoke"})
+    @Test (groups = {"smoke", "regression"})
     public void addRandomClothingItemToCartTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         searchResultsPage = navigationPage.navigateToRandomSubcategory(CategoriesOfProducts.MEN);
@@ -21,7 +21,7 @@ public class CartTests extends BaseTest {
         Assert.assertEquals(cartPage.getCartSuccessMessage(), productName + " was added to your shopping cart.");
     }
 
-    @Test (dependsOnMethods = {"addRandomClothingItemToCartTest"})
+    @Test (dependsOnMethods = {"addRandomClothingItemToCartTest"}, groups = {"regression"})
     public void removeProductFromCartTest() {
         navigationPage = new NavigationPage(driver);
         cartPage = navigationPage.navigateToCart();
@@ -30,7 +30,7 @@ public class CartTests extends BaseTest {
         Assert.assertTrue(cartPage.getNoOfProductsInCart() == (noOfProductsInCart - 1));
     }
 
-    @Test (dependsOnMethods = {"addRandomClothingItemToCartTest"})
+    @Test (dependsOnMethods = {"addRandomClothingItemToCartTest"}, groups = {"regression"})
     public void editProductQuantityTest() {
         navigationPage = new NavigationPage(driver);
         cartPage = navigationPage.navigateToCart();

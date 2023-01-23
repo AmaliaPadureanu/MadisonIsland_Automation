@@ -66,7 +66,7 @@ public class CheckoutTests extends BaseTest {
         Assert.assertEquals(cartPage.getCartSuccessMessage(), productName + " was added to your shopping cart.");
     }
 
-    @Test (dataProvider = "validBillingDP")
+    @Test (dataProvider = "validBillingDP", groups = {"regression"})
     public void validPlaceOrderAsGuestTest(BillingModel billingModel) {
         addRandomProductToCart();
         checkoutPage = cartPage.proceedToCheckout();
@@ -80,7 +80,7 @@ public class CheckoutTests extends BaseTest {
         Assert.assertTrue(checkoutPage.getOrderSuccessMessage().equalsIgnoreCase("Your order has been received."));
     }
 
-    @Test (groups = {"smoke"})
+    @Test (groups = {"smoke", "regression"})
     public void validPlaceOrderAsRegisteredUserTest() {
         addRandomProductToCart();
         checkoutPage = cartPage.proceedToCheckout();

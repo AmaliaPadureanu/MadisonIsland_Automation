@@ -53,12 +53,12 @@ public class LoginTests extends BaseTest{
         Assert.assertTrue(loginPage1.checkError(expectedInvalidUserOrPasswordErrorPopup, "invalidUserOrPasswordErrorPopup"));
     }
 
-    @Test(dataProvider = "jsonInvalidLoginDP", priority = 1)
+    @Test(dataProvider = "jsonInvalidLoginDP", priority = 1, groups = {"regression"})
     public void loginWithJsonDataTest(LoginModel loginModel) {
         loginActions(loginModel);
     }
 
-    @Test (groups = {"smoke"}, dataProvider = "validLoginDP")
+    @Test (groups = {"smoke", "regression"}, dataProvider = "validLoginDP")
     public void validLoginTest(String email, String password, Method method) {
         ExtentTestManager.startTest(method.getName(), "");
         navigationPage = new NavigationPage(driver);
@@ -67,7 +67,7 @@ public class LoginTests extends BaseTest{
         Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
     }
 
-    @Test
+    @Test (groups = {"regression"})
     public void forgotPasswordTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = navigationPage.navigateToLogin();
@@ -77,7 +77,7 @@ public class LoginTests extends BaseTest{
         Assert.assertTrue(loginPage.getResetPasswordMessage().contains("you will receive an email with a link to reset your password"));
     }
 
-    @Test (dependsOnMethods = {"validLoginTest"})
+    @Test (dependsOnMethods = {"validLoginTest"}, groups = {"regression"})
     public void logoutTest() {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
         loginPage = new LoginPage(driver);

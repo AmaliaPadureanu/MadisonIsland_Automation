@@ -41,14 +41,14 @@ public class SearchTests extends BaseTest {
         };
     }
 
-    @Test (groups = {"smoke"}, dataProvider = "basicValidSearchDP")
+    @Test (groups = {"smoke", "regression"}, dataProvider = "basicValidSearchDP")
     public void basicValidSearchTest(String product) {
         searchPage = PageFactory.initElements(driver, SearchPage.class);
         searchResultsPage = searchPage.search(product);
         Assert.assertTrue(searchResultsPage.getPageTitle().contains(product));
     }
 
-    @Test (dataProvider = "basicInvalidSearchDP")
+    @Test (dataProvider = "basicInvalidSearchDP", groups = {"regression"})
     public void basicInvalidSearchTest(String product, String searchResultsNote) {
         searchPage = PageFactory.initElements(driver, SearchPage.class);
         searchResultsPage = searchPage.search(product);
@@ -56,7 +56,7 @@ public class SearchTests extends BaseTest {
         Assert.assertEquals(searchResultsPage.getSearchResultsNote(), searchResultsNote);
     }
 
-    @Test (dataProvider = "searchAndSortDp")
+    @Test (dataProvider = "searchAndSortDp", groups = {"regression"})
     public void searchAndSortTest(String product, String criteria) {
         searchPage = PageFactory.initElements(driver, SearchPage.class);
         searchResultsPage = searchPage.search(product);

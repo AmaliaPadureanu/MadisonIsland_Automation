@@ -50,7 +50,7 @@ public class RegisterTests extends BaseTest {
         Assert.assertTrue(registerPage.checkError(expectedEmailErrorPopup, "emailErrorPopup"));
     }
 
-    @Test
+    @Test (groups = {"regression"})
     public void validRegisterTest() {
         navigationPage = new NavigationPage(driver);
         registerPage = navigationPage.navigateToRegister();
@@ -73,7 +73,7 @@ public class RegisterTests extends BaseTest {
                 "If you are sure that it is your email address, click here to get your password and access your account.");
     }
 
-    @Test (dataProvider = "jsonInvalidRegisterDP", priority = 1)
+    @Test (dataProvider = "jsonInvalidRegisterDP", priority = 1, groups = {"regression"})
     public void invalidRegisterTest(RegisterModel registerModel) {
         registerActions(registerModel);
     }
