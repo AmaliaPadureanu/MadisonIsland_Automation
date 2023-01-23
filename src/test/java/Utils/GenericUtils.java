@@ -53,4 +53,28 @@ public class GenericUtils {
     public static boolean startMaximized(String configFile) {
         return Boolean.parseBoolean(getValueFromConfigFile(configFile, "startMaximized", "false"));
     }
+
+    public static String getDbHostnameFromConfig(String configFile) {
+        return getValueFromConfigFile(configFile, "dbHostname", "");
+    }
+
+    public static String getDbPortFromConfig(String configFile) {
+        return getValueFromConfigFile(configFile, "dbPort", "");
+    }
+
+    public static String getDbUserFromConfig(String configFile) {
+        return getValueFromConfigFile(configFile, "dbUser", "");
+    }
+
+    public static String getDbPasswordFromConfig(String configFile) {
+        return getValueFromConfigFile(configFile, "dbPassword", "");
+    }
+
+    public static String getDbSchemaFromConfig(String configFile) {
+        return getValueFromConfigFile(configFile, "dbSchema", "");
+    }
+
+    public static String replaceElements(String element, String valueToBeReplaced, String valueReplaceWith) {
+        return element.replaceAll(valueToBeReplaced, valueReplaceWith);
+    }
 }

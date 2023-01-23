@@ -13,9 +13,11 @@ public class BaseTest {
     public WebDriver driver;
 
     //String browser = BrowserUtils.getBrowserFromEnvironmentVariables("autoBrowser");
-    String browser = GenericUtils.getBrowserFromConfig(ConstantUtils.CONFIG_FILE);
+    String config = ConstantUtils.CONFIG_FILE;
+    String browser = GenericUtils.getBrowserFromConfig(config);
     //String baseURL = "http://demo-store.seleniumacademy.com";
-    String baseURL = GenericUtils.getBaseURL(ConstantUtils.CONFIG_FILE);
+    String baseURL = GenericUtils.getBaseURL(config);
+    String dbHostname, dbPort, dbUser, dbPassword, dbSchema;
 
     LoginPage loginPage;
     MyAccountPage myAccountPage;
@@ -41,6 +43,12 @@ public class BaseTest {
         driver = BrowserUtils.getBrowser(browser);
         //driver.manage().window().maximize();
         driver.get(baseURL);
+        dbHostname = GenericUtils.getDbHostnameFromConfig(config);
+        dbPort = GenericUtils.getDbPortFromConfig(config);
+        dbUser = GenericUtils.getDbUserFromConfig(config);
+        dbPassword = GenericUtils.getDbPasswordFromConfig(config);
+        dbSchema = GenericUtils.getDbSchemaFromConfig(config);
+
     }
 
     @AfterTest (alwaysRun = true)

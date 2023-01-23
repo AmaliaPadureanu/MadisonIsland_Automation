@@ -30,7 +30,7 @@ public class CheckoutPage extends BasePage {
     @FindBy(how = How.ID, using = "billing:city")
     private WebElement cityInput;
     @FindBy(how = How.ID, using = "billing:region_id")
-    private WebElement stateDropdown;
+    private WebElement stateInput;
     @FindBy(how = How.ID, using = "billing:postcode")
     private WebElement zipcodeInput;
     @FindBy(how = How.ID, using = "billing:country_id")
@@ -93,15 +93,14 @@ public class CheckoutPage extends BasePage {
         }
     }
 
-    public void fillInBillionInformation(String firstName, String lastName, String email, String address, String city,
+    public void fillInBillingInformation(String firstName, String lastName, String email, String address, String city,
                                          String state, String zipcode, String country, String telephone) {
         firstNameInput.sendKeys(firstName);
         lastNameInput.sendKeys(lastName);
         emailInput.sendKeys(email);
         addressInput.sendKeys(address);
         cityInput.sendKeys(city);
-        Select stateSelect = new Select(stateDropdown);
-        stateSelect.selectByVisibleText(state);
+        stateInput.sendKeys(state);
         zipcodeInput.sendKeys(zipcode);
         Select countrySelect = new Select(countryDropdown);
         countrySelect.selectByVisibleText(country);
