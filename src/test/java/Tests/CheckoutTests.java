@@ -80,7 +80,7 @@ public class CheckoutTests extends BaseTest {
         Assert.assertTrue(checkoutPage.getOrderSuccessMessage().equalsIgnoreCase("Your order has been received."));
     }
 
-    @Test
+    @Test (groups = {"smoke"})
     public void validPlaceOrderAsRegisteredUserTest() {
         addRandomProductToCart();
         checkoutPage = cartPage.proceedToCheckout();

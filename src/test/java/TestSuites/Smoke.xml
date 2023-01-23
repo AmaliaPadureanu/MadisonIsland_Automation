@@ -25,4 +25,9 @@
             <class name="Tests.CartTests"/>
         </classes>
     </test>
+    <test name="Check checkout">
+        <classes>
+            <class name="Tests.CheckoutTests"/>
+        </classes>
+    </test>
 </suite>
