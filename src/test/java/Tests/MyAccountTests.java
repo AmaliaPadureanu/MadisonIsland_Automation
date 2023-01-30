@@ -93,20 +93,14 @@ public class MyAccountTests extends BaseTest {
               editAddressModel.getContactInformation().getLastName(), editAddressModel.getContactInformation().getCompany(), editAddressModel.getContactInformation().getTelephone(),
               editAddressModel.getContactInformation().getFax(), editAddressModel.getAddress().getStreetAddress1(), editAddressModel.getAddress().getStreetAddress2(),
               editAddressModel.getAddress().getCity(), editAddressModel.getAddress().getState(), editAddressModel.getAddress().getZipCode(), editAddressModel.getAddress().getCountry());
-      String expectedFirstNameError = editAddressModel.getFirstNameError();
-      String expectedLastNameError = editAddressModel.getLastNameError();
-      String expectedTelephoneError = editAddressModel.getTelephoneError();
-      String expectedStreetAddress1Error = editAddressModel.getStreetAddress1Error();
-      String expectedCityError = editAddressModel.getCityError();
-      String expectedZipCodeError = editAddressModel.getZipCodeError();
-      String expectedCountryError = editAddressModel.getCountryError();
-      Assert.assertTrue(editAddressPage.checkError(expectedFirstNameError, "firstNameError"));
-      Assert.assertTrue(editAddressPage.checkError(expectedLastNameError, "lastNameError"));
-      Assert.assertTrue(editAddressPage.checkError(expectedTelephoneError, "telephoneError"));
-      Assert.assertTrue(editAddressPage.checkError(expectedStreetAddress1Error, "streetAddress1Error"));
-      Assert.assertTrue(editAddressPage.checkError(expectedCityError, "cityError"));
-      Assert.assertTrue(editAddressPage.checkError(expectedZipCodeError, "zipCodeError"));
-      Assert.assertTrue(editAddressPage.checkError(expectedCountryError, "countryError"));
+
+      Assert.assertTrue(editAddressPage.checkError(editAddressModel.getFirstNameError(), "firstNameError"));
+      Assert.assertTrue(editAddressPage.checkError(editAddressModel.getLastNameError(), "lastNameError"));
+      Assert.assertTrue(editAddressPage.checkError(editAddressModel.getTelephoneError(), "telephoneError"));
+      Assert.assertTrue(editAddressPage.checkError(editAddressModel.getStreetAddress1Error(), "streetAddress1Error"));
+      Assert.assertTrue(editAddressPage.checkError(editAddressModel.getCityError(), "cityError"));
+      Assert.assertTrue(editAddressPage.checkError(editAddressModel.getZipCodeError(), "zipCodeError"));
+      Assert.assertTrue(editAddressPage.checkError(editAddressModel.getCountryError(), "countryError"));
    }
 
 
@@ -170,6 +164,7 @@ public class MyAccountTests extends BaseTest {
       accountDashboardPage = navigationPage.navigateToAccountDashboard();
       accountInformationPage = accountDashboardPage.goToAccountInformation();
       accountInformationPage.editContactInformation(firstName, middleName, lastName, email);
+
       Assert.assertEquals(accountInformationPage.verifyFirstNameWarning(), firstNameWarning);
       Assert.assertEquals(accountInformationPage.verifyLastNameWarning(), lastNameWarning);
       Assert.assertEquals(accountInformationPage.verifyEmailWarning(), emailWarning);
