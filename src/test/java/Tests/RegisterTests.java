@@ -36,18 +36,13 @@ public class RegisterTests extends BaseTest {
         registerPage = navigationPage.navigateToRegister();
         registerPage.registerUser(registerModel.getFirstName(), registerModel.getMiddleName(), registerModel.getLastName(),
                 registerModel.getEmail(), registerModel.getPassword(), registerModel.getConfirmPassword(), registerModel.getSignUpForNewsletter());
-        String expectedFirstNameError = registerModel.getFirstNameError();
-        String expectedLastNameError = registerModel.getLastNameError();
-        String expectedEmailError = registerModel.getEmailError();
-        String expectedPasswordError = registerModel.getPasswordError();
-        String expectedConfirmPasswordError = registerModel.getConfirmPasswordError();
-        String expectedEmailErrorPopup = registerModel.getEmailErrorPopup();
-        Assert.assertTrue(registerPage.checkError(expectedFirstNameError, "firstNameError"));
-        Assert.assertTrue(registerPage.checkError(expectedLastNameError, "lastNameError"));
-        Assert.assertTrue(registerPage.checkError(expectedEmailError, "emailError"));
-        Assert.assertTrue(registerPage.checkError(expectedPasswordError, "passwordError"));
-        Assert.assertTrue(registerPage.checkError(expectedConfirmPasswordError, "confirmPasswordError"));
-        Assert.assertTrue(registerPage.checkError(expectedEmailErrorPopup, "emailErrorPopup"));
+
+        Assert.assertTrue(registerPage.checkError(registerModel.getFirstNameError(), "firstNameError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getLastNameError(), "lastNameError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getEmailError(), "emailError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getPasswordError(), "passwordError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getConfirmPasswordError(), "confirmPasswordError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getEmailErrorPopup(), "emailErrorPopup"));
     }
 
     @Test (groups = {"regression"})
