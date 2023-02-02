@@ -21,7 +21,7 @@ public class AccountDashboardPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[4]/div[2]/div[1]/div/div[1]/a")
     private WebElement editContactInformationLink;
     @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/ul/li/ul/li/span")
-    WebElement accountInformationWasEditedMessage;
+    private WebElement accountInformationWasEditedMessage;
     @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[4]/div[2]/div[1]/div/div[2]")
     private WebElement contactInformation;
     @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[2]/div/div[4]/div[2]/div[1]/div/div[2]/p/a")

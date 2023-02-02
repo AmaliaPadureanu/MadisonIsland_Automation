@@ -8,7 +8,6 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 public class RegisterPage extends BasePage {
@@ -58,6 +57,7 @@ public class RegisterPage extends BasePage {
         emailInput.sendKeys(email);
         passwordInput.sendKeys(pass);
         confirmPasswordInput.sendKeys(confirmPass);
+
         if (subscribeToNewsletter) {
             subscribeToNewsletterCheckbox.click();
         }
@@ -70,45 +70,41 @@ public class RegisterPage extends BasePage {
     }
 
     public boolean checkError(String expectedError, String errorType) {
-        if(errorType.equalsIgnoreCase("firstNameError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(firstNameError));
-                return expectedError.equalsIgnoreCase(firstNameError.getText());
-            } else return true;
-        } else if (errorType.equalsIgnoreCase("lastNameError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(lastNameError));
-                return expectedError.equalsIgnoreCase(lastNameError.getText());
-            } else return true;
-        } else if (errorType.equalsIgnoreCase("emailError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(emailError));
-                return expectedError.equalsIgnoreCase(emailError.getText());
+        switch (errorType)  {
+            case "firstNameError" : {
+                return isErrorMessageEqualToExpected(expectedError, firstNameError);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("passwordError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(passwordError));
-                return expectedError.equalsIgnoreCase(passwordError.getText());
+            case "lastNameError" : {
+                return isErrorMessageEqualToExpected(expectedError, lastNameError);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("confirmPasswordError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(confirmPasswordError));
-                return expectedError.equalsIgnoreCase(confirmPasswordError.getText());
+            case "emailError" : {
+                return isErrorMessageEqualToExpected(expectedError, emailError);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("emailErrorPopup")) {
-            if (expectedError.length() > 0) {
-                return verifyEmailMessageFromPopup().contains(expectedError);
+            case "passwordError" : {
+                return isErrorMessageEqualToExpected(expectedError, passwordError);
             }
-            else return true;
+            case "confirmPasswordError" : {
+                return isErrorMessageEqualToExpected(expectedError, confirmPasswordError);
+            }
+            case "emailErrorPopup" : {
+                if (expectedError.length() > 0) {
+                    return verifyEmailMessageFromPopup().contains(expectedError);
+                }
+                else return true;
+            }
+            default: return false;
         }
-        return false;
+    }
+
+    private boolean isErrorMessageEqualToExpected(String expectedError, WebElement element) {
+        if (expectedError.length() > 0) {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return expectedError.equalsIgnoreCase(element.getText());
+        }
+        return true;
     }
 
     public String getUserAlreadyExistsError() {
         return userAlreadyExistsError.getText();
     }
-
 }

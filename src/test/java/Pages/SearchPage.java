@@ -14,7 +14,6 @@ public class SearchPage extends BasePage {
 
     @FindBy(how = How.ID, using = "search")
     private WebElement searchBar;
-
     @FindBy(how = How.XPATH, using = "//*[@id=\"search_mini_form\"]/div[1]/button")
     private WebElement searchButton;
 
@@ -30,5 +29,4 @@ public class SearchPage extends BasePage {
         searchButton.click();
         return new SearchResultsPage(driver);
     }
-
 }

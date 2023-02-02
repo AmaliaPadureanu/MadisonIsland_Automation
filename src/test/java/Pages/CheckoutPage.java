@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
@@ -75,6 +76,22 @@ public class CheckoutPage extends BasePage {
     private WebElement loginPasswordInput;
     @FindBy(how = How.CSS, using = "#checkout-step-login > div > div.col-2 > div > button")
     private WebElement loginButton;
+    @FindBy(how = How.ID, using = "advice-required-entry-billing:firstname")
+    private WebElement firstnameError;
+    @FindBy(how = How.ID, using = "advice-required-entry-billing:lastname")
+    private WebElement lastnameError;
+    @FindBy(how = How.ID, using = "advice-required-entry-billing:email")
+    private WebElement emailError;
+    @FindBy(how = How.ID, using = "advice-required-entry-billing:street1")
+    private WebElement addressError;
+    @FindBy(how = How.ID, using = "advice-required-entry-billing:city")
+    private WebElement cityError;
+    @FindBy(how = How.ID, using = "advice-required-entry-billing:postcode")
+    private WebElement zipcodeError;
+    @FindBy(how = How.ID, using = "advice-validate-select-billing:country_id")
+    private WebElement countryError;
+    @FindBy(how = How.ID, using = "advice-required-entry-billing:telephone")
+    private WebElement telephoneError;
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
@@ -108,17 +125,24 @@ public class CheckoutPage extends BasePage {
         continueToShippingButton.click();
     }
 
-    public void selectShippingMethod(Boolean freeShipping, Boolean flatRate) {
-        if (freeShipping) {
-            WaitUtils.waitForElementToBeClickable(driver, freeShippingCheckbox, 20);
-            freeShippingCheckbox.click();
-        } else if (flatRate) {
-            WaitUtils.waitForElementToBeClickable(driver, flatRateCheckbox, 20);
-            flatRateCheckbox.click();
+    public void selectShippingMethod(int subtotalCart, Boolean freeShipping, Boolean flatRate) {
+
+        if (subtotalCart <= 200) {
+            System.out.println("not eligible for free shipping");
+        } else {
+
+            if (freeShipping) {
+                WaitUtils.waitForElementToBeClickable(driver, freeShippingCheckbox, 20);
+                freeShippingCheckbox.click();
+            } else if (flatRate) {
+                WaitUtils.waitForElementToBeClickable(driver, flatRateCheckbox, 20);
+                flatRateCheckbox.click();
+            }
         }
     }
 
     public void addGift(Boolean addGiftForEntireOrder, Boolean addGiftForIndividualItems) {
+        WaitUtils.waitForElementToBeClickable(driver, addGiftOptions, 20);
         addGiftOptions.click();
 
         if (addGiftForEntireOrder) {
@@ -140,10 +164,6 @@ public class CheckoutPage extends BasePage {
         continueToShippingButton.click();
     }
 
-    public void continueToPaymentInformation() {
-        shippingMethodContinueButton.click();
-    }
-
     public void continueToOrderReview() {
         WaitUtils.waitForElementToBeClickable(driver, paymentInformationContinueButton, 10);
         paymentInformationContinueButton.click();
@@ -156,5 +176,43 @@ public class CheckoutPage extends BasePage {
 
     public String getOrderSuccessMessage() {
         return orderSuccessMessage.getText();
+    }
+
+    public boolean checkError(String expectedError, String errorType) {
+        switch (errorType)  {
+            case "firstnameError" : {
+                return isErrorMessageEqualToExpected(expectedError, firstnameError);
+            }
+            case "lastnameError" : {
+                return isErrorMessageEqualToExpected(expectedError, lastnameError);
+            }
+            case "emailError" : {
+                return isErrorMessageEqualToExpected(expectedError, emailError);
+            }
+            case "addressError" : {
+                return isErrorMessageEqualToExpected(expectedError, addressError);
+            }
+            case "cityError" : {
+                return isErrorMessageEqualToExpected(expectedError, cityError);
+            }
+            case "zipcodeError" : {
+                return isErrorMessageEqualToExpected(expectedError, zipcodeError);
+            }
+            case "countryError" : {
+                return isErrorMessageEqualToExpected(expectedError, countryError);
+            }
+            case "telephoneError" : {
+                return isErrorMessageEqualToExpected(expectedError, telephoneError);
+            }
+            default: return false;
+        }
+    }
+
+    private boolean isErrorMessageEqualToExpected(String expectedError, WebElement element) {
+        if (expectedError.length() > 0) {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return expectedError.equalsIgnoreCase(element.getText());
+        }
+        return true;
     }
 }

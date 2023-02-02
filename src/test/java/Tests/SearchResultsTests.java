@@ -47,10 +47,12 @@ public class SearchResultsTests extends BaseTest {
 
     private boolean verifyPriceFilter(int productPrice, String lowerBound, String upperBound) {
         if (upperBound.equals("above")) {
+
             if (productPrice >= Integer.valueOf(lowerBound)) {
                 return true;
             }
         } else {
+
             if (productPrice >= Integer.valueOf(lowerBound) && productPrice <= Integer.valueOf(upperBound)) {
                 return true;
             }

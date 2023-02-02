@@ -9,7 +9,6 @@ public class ForgotYourPasswordPage extends BasePage {
 
     @FindBy(how = How.ID, using = "email_address")
     WebElement emailInput;
-
     @FindBy(how = How.CSS, using = "button[title='Submit']")
     WebElement submitButton;
 

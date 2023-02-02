@@ -3,6 +3,7 @@ package Tests;
 import Pages.*;
 import Utils.BrowserUtils;
 import Utils.ConstantUtils;
+import Utils.ExtentTestManager;
 import Utils.GenericUtils;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
@@ -48,7 +49,7 @@ public class BaseTest {
         dbUser = GenericUtils.getDbUserFromConfig(config);
         dbPassword = GenericUtils.getDbPasswordFromConfig(config);
         dbSchema = GenericUtils.getDbSchemaFromConfig(config);
-
+        ExtentTestManager.startTest("test", "test");
     }
 
     @AfterTest (alwaysRun = true)

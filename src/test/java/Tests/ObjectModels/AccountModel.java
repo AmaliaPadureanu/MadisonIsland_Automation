@@ -1,23 +1,19 @@
 package Tests.ObjectModels;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class AccountModel {
 
     private String email;
     private String password;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPassword() {
-        return password;
+    @Override
+    public String toString() {
+        return "AccountModel{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

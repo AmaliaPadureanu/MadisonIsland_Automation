@@ -71,29 +71,34 @@ public class LoginPage extends BasePage {
         return logoutMessage.getText();
     }
 
+
     public boolean checkError(String expectedError, String errorType) {
-        if(errorType.equalsIgnoreCase("userError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(emailError));
-                return expectedError.equalsIgnoreCase(emailError.getText());
-            } else return true;
-        } else if (errorType.equalsIgnoreCase("passwordError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(passwordError));
-                return expectedError.equalsIgnoreCase(passwordError.getText());
-            } else return true;
-        } else if (errorType.equalsIgnoreCase("invalidUserOrPasswordError")) {
-            if (expectedError.length() > 0) {
-                wait.until(ExpectedConditions.visibilityOf(invalidEmailOrPasswordError));
-                return expectedError.equalsIgnoreCase(invalidEmailOrPasswordError.getText());
+        switch (errorType)  {
+            case "userError" : {
+                return isErrorMessageEqualToExpected(expectedError, emailError);
             }
-            else return true;
-        } else if (errorType.equalsIgnoreCase("invalidUserOrPasswordErrorPopup")) {
-            if (expectedError.length() > 0) {
-                return verifyEmailMessageFromPopup().contains(expectedError);
+            case "passwordError" : {
+                return isErrorMessageEqualToExpected(expectedError, passwordError);
             }
-            else return true;
+            case "invalidUserOrPasswordError" : {
+                return isErrorMessageEqualToExpected(expectedError, invalidEmailOrPasswordError);
+            }
+            case "invalidUserOrPasswordErrorPopup" : {
+
+                if (expectedError.length() > 0) {
+                    return verifyEmailMessageFromPopup().contains(expectedError);
+                }
+                else return true;
+            }
+            default: return false;
         }
-        return false;
+    }
+
+    private boolean isErrorMessageEqualToExpected(String expectedError, WebElement element) {
+        if (expectedError.length() > 0) {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return expectedError.equalsIgnoreCase(element.getText());
+        }
+        return true;
     }
 }

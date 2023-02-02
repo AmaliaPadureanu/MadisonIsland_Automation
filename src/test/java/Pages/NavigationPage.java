@@ -17,43 +17,30 @@ public class NavigationPage extends BasePage {
 
     @FindBy(how = How.CSS, using = "#header > div > div.skip-links > div > a")
     private WebElement accountLink;
-
     @FindBy(how = How.CSS, using = "#header-account > div > ul > li.last > a")
     private WebElement loginLink;
-
     @FindBy(how = How.CSS, using = "#header-account > div > ul > li:nth-child(5) > a")
     private WebElement registerLink;
-
     @FindBy(how = How.XPATH, using = "//*[@id=\"header-account\"]/div/ul/li[1]/a")
     private WebElement myAccountLink;
-
     @FindBy(how = How.XPATH, using = "//*[@id=\"nav\"]/ol/li[1]/a")
     private WebElement womenCategory;
-
     @FindBy(how = How.XPATH, using = "//header[@id='header']//li[1]//ul/li")
     private List<WebElement> womenSubcategories;
-
     @FindBy(how = How.XPATH, using = "//*[@id=\"nav\"]/ol/li[2]/a")
     private WebElement menCategory;
-
     @FindBy(how = How.XPATH, using = "//header[@id='header']//li[2]//ul/li")
     private List<WebElement> menSubcategories;
-
     @FindBy(how = How.XPATH, using = "//*[@id=\"nav\"]/ol/li[3]/a")
     private WebElement accessoriesCategory;
-
     @FindBy(how = How.XPATH, using = "//header[@id='header']//li[3]//ul/li")
     private List<WebElement> accessoriesSubcategories;
-
     @FindBy(how = How.XPATH, using = "//*[@id=\"nav\"]/ol/li[4]/a")
     private WebElement homeAndDecorCategory;
-
     @FindBy(how = How.XPATH, using = "//header[@id='header']//li[4]//ul/li")
     private List<WebElement> homeAndDecorSubcategories;
-
     @FindBy(how = How.CSS, using = "#header > div > div.skip-links > div > div > a")
     private WebElement cartButton;
-
     @FindBy(how = How.CSS, using = "#header-cart > div.minicart-wrapper > div.minicart-actions > a")
     private WebElement viewShoppingCartButton;
 

@@ -12,4 +12,16 @@ public class ContactInformationModel {
     private String company;
     private String telephone;
     private String fax;
+
+    @Override
+    public String toString() {
+        return "ContactInformationModel{" +
+                "firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", company='" + company + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", fax='" + fax + '\'' +
+                '}';
+    }
 }

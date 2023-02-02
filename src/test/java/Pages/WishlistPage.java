@@ -15,10 +15,8 @@ public class WishlistPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//body/div/div/div/div/div/div/div[1]/ul[1]/li[1]")
     private WebElement wishlistSuccessMessage;
-
     @FindBy(how = How.XPATH, using = "//tbody//tr")
     private List<WebElement> itemsInWishlist;
-
     @FindBy(how = How.XPATH, using = "(//a[normalize-space()='Remove item'])[1]")
     private WebElement removeButton;
 
@@ -40,5 +38,4 @@ public class WishlistPage extends BasePage {
         removeButton.click();
         driver.switchTo().alert().accept();
     }
-
 }

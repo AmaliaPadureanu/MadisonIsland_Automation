@@ -1,11 +1,13 @@
 package Pages;
 
+import Utils.WaitUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
@@ -30,11 +32,11 @@ public class AccountInformationPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//*[@id=\"form-validate\"]/div[3]/button")
     private WebElement saveButton;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[2]")
-    private WebElement firstNameWarning;
+    private WebElement firstNameError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[4]")
-    private WebElement lastNameWarning;
+    private WebElement lastNameError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[5]")
-    private WebElement emailWarning;
+    private WebElement emailError;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[6]")
     private WebElement currentPasswordWarning;
     @FindBy(how = How.XPATH, using = "(//div[@class='input-box'])[7]")
@@ -54,27 +56,6 @@ public class AccountInformationPage extends BasePage {
         clearAndSendKeys(lastNameInput, lastName);
         clearAndSendKeys(emailInput, email);
         saveButton.click();
-    }
-
-    public String verifyFirstNameWarning() {
-        if (firstNameWarning.isDisplayed()) {
-            return firstNameWarning.getText();
-        }
-        return "";
-    }
-
-    public String verifyLastNameWarning() {
-        if (lastNameWarning.isDisplayed()) {
-            return lastNameWarning.getText();
-        }
-        return "";
-    }
-
-    public String verifyEmailWarning() {
-        if (emailWarning.isDisplayed()) {
-            return emailWarning.getText();
-        }
-        return "";
     }
 
     public String verifyCurrentPasswordWarning() {
@@ -98,11 +79,6 @@ public class AccountInformationPage extends BasePage {
         return "";
     }
 
-    public String verifyEmailMessageFromPopup() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        return js.executeScript("return arguments[0].validationMessage",emailInput).toString();
-    }
-
     public void changePassword(String currentPassword, String newPassword, String confirmPassword) {
         clearAndSendKeys(currentPasswordInput, currentPassword);
         clearAndSendKeys(newPasswordInput, newPassword);
@@ -110,4 +86,37 @@ public class AccountInformationPage extends BasePage {
         saveButton.click();
     }
 
+    public boolean checkError(String expectedError, String errorType) {
+        switch (errorType)  {
+            case "firstNameError" : {
+                return isErrorMessageEqualToExpected(expectedError, firstNameError);
+            }
+            case "lastNameError" : {
+                return isErrorMessageEqualToExpected(expectedError, lastNameError);
+            }
+            case "emailError" : {
+                return isErrorMessageEqualToExpected(expectedError, emailError);
+            }
+            case "emailPopupError" : {
+                JavascriptExecutor js = (JavascriptExecutor) driver;
+                return doesErrorMessageContainExpectedMessage(expectedError, js.executeScript("return arguments[0].validationMessage",emailInput).toString());
+            }
+            default: return false;
+        }
+    }
+
+    private boolean isErrorMessageEqualToExpected(String expectedError, WebElement element) {
+        if (expectedError.length() > 0) {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return expectedError.equalsIgnoreCase(element.getText());
+        }
+        return true;
+    }
+
+    private boolean doesErrorMessageContainExpectedMessage(String expectedError, String element) {
+        if (expectedError.length() > 0) {
+            return element.contains(expectedError);
+        }
+        return true;
+    }
 }

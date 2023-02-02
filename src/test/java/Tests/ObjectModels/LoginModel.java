@@ -29,4 +29,14 @@ public class LoginModel {
         this.invalidUserOrPasswordErrorPopup = invalidUserOrPasswordErrorPopup;
     }
 
+    @Override
+    public String toString() {
+        return "LoginModel{" +
+                "account=" + account +
+                ", emailError='" + emailError + '\'' +
+                ", passwordError='" + passwordError + '\'' +
+                ", invalidUserOrPasswordError='" + invalidUserOrPasswordError + '\'' +
+                ", invalidUserOrPasswordErrorPopup='" + invalidUserOrPasswordErrorPopup + '\'' +
+                '}';
+    }
 }

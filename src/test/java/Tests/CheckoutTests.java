@@ -35,7 +35,50 @@ public class CheckoutTests extends BaseTest {
                         getEscapedElement(resultSet, "state"),
                         getEscapedElement(resultSet, "zipcode"),
                         getEscapedElement(resultSet, "country"),
-                        getEscapedElement(resultSet, "telephone"));
+                        getEscapedElement(resultSet, "telephone"),
+                        getEscapedElement(resultSet, "firstnameError"),
+                        getEscapedElement(resultSet, "lastnameError"),
+                        getEscapedElement(resultSet, "emailError"),
+                        getEscapedElement(resultSet, "addressError"),
+                        getEscapedElement(resultSet, "cityError"),
+                        getEscapedElement(resultSet, "zipcodeError"),
+                        getEscapedElement(resultSet, "countryError"),
+                        getEscapedElement(resultSet, "telephoneError"));
+                dp.add(new Object[] {billingModel});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dp.iterator();
+    }
+
+    @DataProvider(name = "invalidBillingDP")
+    public Iterator<Object[]> SQLDpCollectionInvalid() {
+        Collection<Object[]> dp = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
+                    + "/" + dbSchema, dbUser, dbPassword);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM checkout_negative");
+            while ((resultSet.next())) {
+                BillingModel billingModel = new BillingModel(getEscapedElement(resultSet, "firstname"),
+                        getEscapedElement(resultSet, "lastname"),
+                        getEscapedElement(resultSet, "email"),
+                        getEscapedElement(resultSet, "address"),
+                        getEscapedElement(resultSet, "city"),
+                        getEscapedElement(resultSet, "state"),
+                        getEscapedElement(resultSet, "zipcode"),
+                        getEscapedElement(resultSet, "country"),
+                        getEscapedElement(resultSet, "telephone"),
+                        getEscapedElement(resultSet, "firstnameError"),
+                        getEscapedElement(resultSet, "lastnameError"),
+                        getEscapedElement(resultSet, "emailError"),
+                        getEscapedElement(resultSet, "addressError"),
+                        getEscapedElement(resultSet, "cityError"),
+                        getEscapedElement(resultSet, "zipcodeError"),
+                        getEscapedElement(resultSet, "countryError"),
+                        getEscapedElement(resultSet, "telephoneError"));
                 dp.add(new Object[] {billingModel});
             }
         } catch (SQLException e) {
@@ -53,6 +96,15 @@ public class CheckoutTests extends BaseTest {
         checkout.fillInBillingInformation(billingModel.getFirstname(), billingModel.getLastname(), billingModel.getEmail(),
                 billingModel.getAddress(), billingModel.getCity(), billingModel.getState(),
                 billingModel.getZipcode(), billingModel.getCountry(), billingModel.getTelephone());
+
+        Assert.assertTrue(checkoutPage.checkError(billingModel.getFirstnameError(), "firstnameError"));
+        Assert.assertTrue(checkoutPage.checkError(billingModel.getLastnameError(), "lastnameError"));
+        Assert.assertTrue(checkoutPage.checkError(billingModel.getEmailError(), "emailError"));
+        Assert.assertTrue(checkoutPage.checkError(billingModel.getAddressError(), "addressError"));
+        Assert.assertTrue(checkoutPage.checkError(billingModel.getCityError(), "cityError"));
+        Assert.assertTrue(checkoutPage.checkError(billingModel.getZipcodeError(), "zipcodeError"));
+        Assert.assertTrue(checkoutPage.checkError(billingModel.getCountryError(), "countryError"));
+        Assert.assertTrue(checkoutPage.checkError(billingModel.getTelephoneError(), "telephoneError"));
     }
 
     private void addRandomProductToCart(){
@@ -69,10 +121,11 @@ public class CheckoutTests extends BaseTest {
     @Test (dataProvider = "validBillingDP", groups = {"regression"})
     public void validPlaceOrderAsGuestTest(BillingModel billingModel) {
         addRandomProductToCart();
+        int cartSubtotal = cartPage.getGrandTotal();
         checkoutPage = cartPage.proceedToCheckout();
         checkoutPage.checkoutMethod(true, false, "", "");
         billingActions(billingModel);
-        checkoutPage.selectShippingMethod(true, false);
+        checkoutPage.selectShippingMethod(cartSubtotal, true, false);
         checkoutPage.addGift(false, true);
         checkoutPage.continueToOrderReview();
         checkoutPage.placeOrder();
@@ -83,14 +136,23 @@ public class CheckoutTests extends BaseTest {
     @Test (groups = {"smoke", "regression"})
     public void validPlaceOrderAsRegisteredUserTest() {
         addRandomProductToCart();
+        int cartSubtotal = cartPage.getGrandTotal();
         checkoutPage = cartPage.proceedToCheckout();
         checkoutPage.checkoutMethod(false, true, "test@e.com", "Automation");
         checkoutPage.continueToShippingMethod();
-        checkoutPage.selectShippingMethod(true, false);
+        checkoutPage.selectShippingMethod(cartSubtotal,true, false);
         checkoutPage.addGift(true, false);
         checkoutPage.continueToOrderReview();
         checkoutPage.placeOrder();
         WaitUtils.waitForUrlToBe(driver, "http://demo-store.seleniumacademy.com/checkout/onepage/success/", 10);
         Assert.assertTrue(checkoutPage.getOrderSuccessMessage().equalsIgnoreCase("Your order has been received."));
+    }
+
+    @Test (dataProvider = "invalidBillingDP", groups = {"regression"})
+    public void invalidPlaceOrderAsGuestTest(BillingModel billingModel) {
+        addRandomProductToCart();
+        checkoutPage = cartPage.proceedToCheckout();
+        checkoutPage.checkoutMethod(true, false, "", "");
+        billingActions(billingModel);
     }
 }

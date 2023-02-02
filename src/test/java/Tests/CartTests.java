@@ -38,7 +38,6 @@ public class CartTests extends BaseTest {
         String newQuantity = "3";
         int initialSubtotal = cartPage.getProductSubtotal(product);
         cartPage.editProductQuantity(product, newQuantity);
-        System.out.println(cartPage.getGrandTotal());
         Assert.assertEquals((cartPage.getProductSubtotal(cartPage.getProductsInCart().get(0))), initialSubtotal * Integer.valueOf(newQuantity));
     }
 }

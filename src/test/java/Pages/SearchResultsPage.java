@@ -17,28 +17,20 @@ public class SearchResultsPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div[2]/div[1]/p")
     private WebElement searchResultsNote;
-
     @FindBy(how = How.XPATH, using = "//h2[@class='product-name']")
     private List<WebElement> searchItemsNames;
-
     @FindBy(how = How.XPATH, using = "//div[@class='price-box']")
     private List<WebElement> searchItemsPrices;
-
     @FindBy(how = How.XPATH, using = "(//select[@title='Sort By'])[1]")
     private WebElement sortBySelect;
-
     @FindBy(how = How.XPATH, using = "//li[@class='item last']/a")
     private List<WebElement> productsReturnedBySearch;
-
     @FindBy(how = How.XPATH, using = "//dd[1]//ol[1]//li")
     private List<WebElement> priceFilterOptions;
-
     @FindBy(how = How.XPATH, using = "//dd[2]//ol[1]//li//img")
     private List<WebElement> colorFilterOptions;
-
     @FindBy(how = How.XPATH, using = "//dd[3]//ol[1]//li")
     private List<WebElement> occasionFilterOptions;
-
     @FindBy(how = How.XPATH, using = "//dd[6]//ol[1]//li")
     private List<WebElement> sizeFilterOptions;
 
@@ -60,13 +52,16 @@ public class SearchResultsPage extends BasePage {
     public LinkedList<String> getItemInfo(String option) {
         if (option == "Name") {
             LinkedList<String> searchResultsTitles = new LinkedList<>();
+
             for (WebElement item : searchItemsNames) {
                 searchResultsTitles.add(item.getText());
             }
             return searchResultsTitles;
         } else if (option == "Price") {
             LinkedList<String> searchResultsPrices = new LinkedList<>();
+
             for (WebElement item : searchItemsPrices) {
+
                 if (item.getText().length() < 7) {
                     searchResultsPrices.add(item.getText().substring(1, 3));
                 } else {
@@ -83,9 +78,9 @@ public class SearchResultsPage extends BasePage {
         return new ProductDetailsPage(driver);
     }
 
-
     public void filterByPrice(String lowerBound, String upperBound) {
         for (WebElement option : priceFilterOptions) {
+
             if(option.getText().contains(lowerBound) && option.getText().contains(upperBound)) {
                 option.click();
                 break;
@@ -95,6 +90,7 @@ public class SearchResultsPage extends BasePage {
 
     public void filterByColor(String color) {
         for (WebElement option : colorFilterOptions) {
+
             if (option.getAttribute("title").equals(color)) {
                 option.click();
                 break;
@@ -105,6 +101,7 @@ public class SearchResultsPage extends BasePage {
 
     public void filterByOccasion(String occasion) {
         for (WebElement option : occasionFilterOptions) {
+
             if(option.getText().contains(occasion)) {
                 option.click();
                 break;
@@ -114,6 +111,7 @@ public class SearchResultsPage extends BasePage {
 
     public void filterBySize(String size) {
         for (WebElement option : sizeFilterOptions) {
+
             if(option.getText().contains(size)) {
                 option.click();
                 break;

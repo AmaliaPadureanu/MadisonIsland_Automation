@@ -41,4 +41,23 @@ public class RegisterModel {
         this.confirmPasswordError = confirmPasswordError;
         this.emailErrorPopup = emailErrorPopup;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterModel{" +
+                "firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", signUpForNewsletter=" + signUpForNewsletter +
+                ", firstNameError='" + firstNameError + '\'' +
+                ", lastNameError='" + lastNameError + '\'' +
+                ", emailError='" + emailError + '\'' +
+                ", passwordError='" + passwordError + '\'' +
+                ", confirmPasswordError='" + confirmPasswordError + '\'' +
+                ", emailErrorPopup='" + emailErrorPopup + '\'' +
+                '}';
+    }
 }

@@ -17,8 +17,6 @@ public class CartPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//body/div/div/div/div/div/div/ul/li[1]")
     private WebElement cartSuccessMessage;
-    @FindBy(how = How.XPATH, using = "//td[@data-rwd-label='Price']//span//span")
-    private WebElement productPrice;
     @FindBy(how = How.CSS, using = "#shopping-cart-table > tbody > tr")
     private List<WebElement> productsInCart;
     @FindBy(how = How.CSS, using = "#shopping-cart-totals-table > tfoot > tr > td:nth-child(2)")

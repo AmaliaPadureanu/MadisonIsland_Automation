@@ -51,4 +51,19 @@ public class EditAddressModel {
         this.zipCodeError = zipCodeError;
         this.countryError = countryError;
     }
+
+    @Override
+    public String toString() {
+        return "EditAddressModel{" +
+                "contactInformation=" + contactInformation +
+                ", address=" + address +
+                ", firstNameError='" + firstNameError + '\'' +
+                ", lastNameError='" + lastNameError + '\'' +
+                ", telephoneError='" + telephoneError + '\'' +
+                ", streetAddress1Error='" + streetAddress1Error + '\'' +
+                ", cityError='" + cityError + '\'' +
+                ", zipCodeError='" + zipCodeError + '\'' +
+                ", countryError='" + countryError + '\'' +
+                '}';
+    }
 }

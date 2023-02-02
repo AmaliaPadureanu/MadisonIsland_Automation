@@ -4,7 +4,7 @@ import Pages.ForgotYourPasswordPage;
 import Pages.LoginPage;
 import Pages.NavigationPage;
 import Tests.ObjectModels.LoginModel;
-import Utils.ExtentTestManager;
+import Utils.ConstantUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -12,19 +12,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 public class LoginTests extends BaseTest{
-
-    @DataProvider
-    public Object[][] validLoginDP() {
-        return new Object[][] {
-                {"test@e.com", "Automation"}
-        };
-    }
 
     @DataProvider(name = "jsonInvalidLoginDP")
     public Iterator<Object[]> jsonDPCollection() throws IOException {
@@ -41,29 +33,25 @@ public class LoginTests extends BaseTest{
 
     private void loginActions(LoginModel loginModel) {
         navigationPage = PageFactory.initElements(driver, NavigationPage.class);
-        LoginPage loginPage1 = navigationPage.navigateToLogin();
-        loginPage1.loginWith(loginModel.getAccount().getEmail(), loginModel.getAccount().getPassword());
-        String expectedEmailError = loginModel.getEmailError();
-        String expectedPasswordError = loginModel.getPasswordError();
-        String expectedInvalidUserOrPasswordError = loginModel.getInvalidUserOrPasswordError();
-        String expectedInvalidUserOrPasswordErrorPopup = loginModel.getInvalidUserOrPasswordErrorPopup();
-        Assert.assertTrue(loginPage1.checkError(expectedEmailError, "userError"));
-        Assert.assertTrue(loginPage1.checkError(expectedPasswordError, "passwordError"));
-        Assert.assertTrue(loginPage1.checkError(expectedInvalidUserOrPasswordError, "invalidUserOrPasswordError"));
-        Assert.assertTrue(loginPage1.checkError(expectedInvalidUserOrPasswordErrorPopup, "invalidUserOrPasswordErrorPopup"));
+        loginPage = navigationPage.navigateToLogin();
+        loginPage.loginWith(loginModel.getAccount().getEmail(), loginModel.getAccount().getPassword());
+
+        Assert.assertTrue(loginPage.checkError(loginModel.getEmailError(), "userError"));
+        Assert.assertTrue(loginPage.checkError(loginModel.getPasswordError(), "passwordError"));
+        Assert.assertTrue(loginPage.checkError(loginModel.getInvalidUserOrPasswordError(), "invalidUserOrPasswordError"));
+        Assert.assertTrue(loginPage.checkError(loginModel.getInvalidUserOrPasswordErrorPopup(), "invalidUserOrPasswordErrorPopup"));
     }
 
     @Test(dataProvider = "jsonInvalidLoginDP", priority = 1, groups = {"regression"})
-    public void loginWithJsonDataTest(LoginModel loginModel) {
+    public void invalidLoginTest(LoginModel loginModel) {
         loginActions(loginModel);
     }
 
-    @Test (groups = {"smoke", "regression"}, dataProvider = "validLoginDP")
-    public void validLoginTest(String email, String password, Method method) {
-        ExtentTestManager.startTest(method.getName(), "");
+    @Test (groups = {"smoke", "regression"})
+    public void validLoginTest() {
         navigationPage = new NavigationPage(driver);
         loginPage = navigationPage.navigateToLogin();
-        myAccountPage = loginPage.loginWith(email, password);
+        myAccountPage = loginPage.loginWith(ConstantUtils.USER, ConstantUtils.PASSWORD);
         Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
     }
 

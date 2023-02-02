@@ -9,10 +9,8 @@ public class HomePage extends BasePage {
 
     @FindBy (how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div/div[2]/div[1]/span[1]")
     WebElement slideshowPreviousButton;
-
     @FindBy (how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div/div[2]/div[1]")
     WebElement slideshowNextButton;
-
     @FindBy(how = How.XPATH, using = "//*[@id=\"top\"]/body/div/div[2]/div[2]/div/div/div[2]/ul[1]/li")
     WebElement afterRegisterMessage;
 

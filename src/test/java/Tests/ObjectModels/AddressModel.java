@@ -12,4 +12,16 @@ public class AddressModel {
     private String state;
     private String zipCode;
     private String country;
+
+    @Override
+    public String toString() {
+        return "AddressModel{" +
+                "streetAddress1='" + streetAddress1 + '\'' +
+                ", streetAddress2='" + streetAddress2 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
 }

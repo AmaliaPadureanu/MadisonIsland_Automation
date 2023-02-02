@@ -16,31 +16,22 @@ public class ProductDetailsPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//button[@onclick='productAddToCartForm.submit(this)']//span//span[contains(text(),'Add to Cart')]")
     private WebElement addToCartButton;
-
     @FindBy(how = How.CSS, using = "#product_addtocart_form > div.product-shop > div.product-name")
     private WebElement productName;
-
     @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_color']//li//a")
     private List<WebElement> colorOptions;
-
     @FindBy(how = How.XPATH, using = "//ul[@id='configurable_swatch_size']//li//a")
     private List<WebElement> sizeOptions;
-
     @FindBy(how = How.XPATH, using = "//body[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/form[1]/div[3]/div[3]/p[1]")
     private WebElement availability;
-
     @FindBy(how = How.ID, using = "qty")
     private WebElement quantityInput;
-
     @FindBy(how = How.XPATH, using = "//span[@class='regular-price'][1]")
     private WebElement productPrice;
-
     @FindBy(how = How.XPATH, using = "(//span[contains(text(),'Additional Information')])[1]")
     private WebElement additionalInformationTab;
-
     @FindBy(how = How.ID, using = "product-attribute-specs-table")
     private WebElement productSpecsTable;
-
     @FindBy(how = How.XPATH, using = "//a[normalize-space()='Add to Wishlist']")
     private WebElement addToWishlistButton;
 
@@ -65,7 +56,6 @@ public class ProductDetailsPage extends BasePage {
 
     public void chooseRandomSize() {
         sizeOptions.get(getRandomNumber(0, sizeOptions.size())).click();
-        System.out.println(availability.getText());
 
         if (availability.getText().equalsIgnoreCase("out of stock")) {
             tryAnotherSize();
@@ -75,12 +65,7 @@ public class ProductDetailsPage extends BasePage {
     private void tryAnotherSize() {
         while (availability.getText().equalsIgnoreCase("out of stock")) {
             sizeOptions.get(getRandomNumber(0, sizeOptions.size())).click();
-            System.out.println("tried again");
         }
-    }
-
-    public void changeQuantity(String quantity) {
-        clearAndSendKeys(quantityInput, quantity);
     }
 
     public String getProductSpecs() {
@@ -94,6 +79,7 @@ public class ProductDetailsPage extends BasePage {
 
     public List<String> getAvailableColors() {
         List<String> availableColors = new ArrayList<>();
+
         for (WebElement option : colorOptions) {
             availableColors.add(option.getAttribute("title"));
         }
@@ -102,6 +88,7 @@ public class ProductDetailsPage extends BasePage {
 
     public List<String> getAvailableSizes() {
         List<String> availableSizes = new ArrayList<>();
+
         for (WebElement option : sizeOptions) {
             availableSizes.add(option.getAttribute("title"));
         }
@@ -112,5 +99,4 @@ public class ProductDetailsPage extends BasePage {
         addToWishlistButton.click();
         return new WishlistPage(driver);
     }
-
 }
