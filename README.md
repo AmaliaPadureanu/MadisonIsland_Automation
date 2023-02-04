@@ -1,6 +1,6 @@
 # MadisonIsland_Automation
 
-This project serves as an example of a test automation framework that I've built in order to aquire experience and knowledge in the field of automation. 
+:computer: This project serves as an example of a test automation framework that I've built in order to aquire experience and knowledge in the field of automation. 
 
 ## Tech stack
 :gear: Java as the programming language
@@ -10,6 +10,10 @@ This project serves as an example of a test automation framework that I've built
 :gear: TestNG as the UnitTest framework to support test creation 
 
 :gear: Maven as the build and dependancy management tool
+
+:gear: Extent Report as the reporting tool
+
+:gear: JSON and MySQL as the external data sources
 
 ## Supported browsers
 
@@ -58,6 +62,16 @@ public void validLoginTest() {
 ```POM``` helps to deal with one of the most common challange when it comes to web apps automation - keeping your selectors up to date with the latest code version. Because all the selectors belonging to a particular page are stored inside the coresponding page class it is much easier to apply changes since they are made in only one place.
 
 ## Data-driven testing
+
+I've used external data sources in order to: 
+
+:point_right: separate the test logic from the test data
+
+:point_right: be able to run the same test method several times with different sets of data, thus reducing the number of test methods 
+
+:point_right: easily modify the data without making changes to the code
+
+I've used ```Jackson Databind``` library to read ```JSON``` data and ```MySQL Connector``` to make SELECT requests to a local ```MySQL``` database in order to retrieve data and parse it into Java Objects through custom Object Models. 
 
 ## Reporting
 
