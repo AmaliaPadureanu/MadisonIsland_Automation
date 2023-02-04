@@ -18,8 +18,7 @@ I've used the ```WebDriverManager``` library that carries out the management (do
 in a fully automated manner.
 
 ## Page Object Model
-While going through various workflows within a web app, the user interacts with certain pages and webelements. The Page Object Model simply models these as objects within the test code. 
-In order to support the Page Object, I've used ```Page Factory``` to initialize the web elements that are defined in the page objects. The initialization is done inside the page class constructor.
+While going through various workflows within a web app, the user interacts with certain pages and webelements. The ```Page Object Model``` simply models these as objects within the test code. 
 
 ```java
 public LoginPage(WebDriver driver) {
@@ -28,7 +27,7 @@ public LoginPage(WebDriver driver) {
     PageFactory.initElements(driver, this);
 }
 ```
-All the necessary user interactions on these elemets are implemented as methods inside the page classes, this works as an elegant way to implement test routines that are both readable and easier to maintain or update in the future.
+In order to support the Page Object, I've used ```Page Factory``` to initialize the web elements that are defined in the page objects. The initialization is done inside the page class constructor.
 
 ```java
  public MyAccountPage loginWith(String email, String password) {
@@ -38,6 +37,7 @@ All the necessary user interactions on these elemets are implemented as methods 
     return new MyAccountPage(driver);
 }
 ```
+All the necessary user interactions on these elemets are implemented as methods inside the page classes, this works as an elegant way to implement test routines that are both readable and easier to maintain or update in the future.
 
 ```java
 @Test (groups = {"smoke", "regression"})
@@ -49,7 +49,7 @@ public void validLoginTest() {
 }
  ```   
 
-POM helps to deal with one of the most common challange when it comes to web apps automation - keeping your selectors up to date with the latest code version. Because all the selectors belonging to a particular page are stored inside the coresponding page class it is much easier to apply changes since they are made in only one place.
+```POM``` helps to deal with one of the most common challange when it comes to web apps automation - keeping your selectors up to date with the latest code version. Because all the selectors belonging to a particular page are stored inside the coresponding page class it is much easier to apply changes since they are made in only one place.
 
 ## Data-driven testing
 
