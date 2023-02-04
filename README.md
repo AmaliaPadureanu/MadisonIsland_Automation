@@ -91,25 +91,33 @@ I've used ```Jackson Databind``` library to read ```JSON``` data and ```MySQL Co
 The ```ObjectMapper``` class is used to retrieve and parse the JSON data from the ```src\\test\\resources\\Data\\invalidRegisterData.json``` file into ```RegisterModel``` objects that are further added to a ```Collection of Object[]```. An Iterator then loops throgh the Collection and the method returns a ```RegisterModel``` object that is used by the test method. Every object returned represents a different data set, thus the test method runs several times with different data sets, increasing test coverage.
 
 ```java
-public RegisterModel(String firstName, String middleName, String lastName, String email, String password,
-                     String confirmPassword, Boolean signUpForNewsletter, String firstNameError, String lastNameError, 
-                     String emailError, String passwordError, String confirmPasswordError, String emailErrorPopup) {
-    this.firstName = firstName;
-    this.middleName = middleName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
-    this.confirmPassword = confirmPassword;
-    this.signUpForNewsletter = signUpForNewsletter;
-    this.firstNameError = firstNameError;
-    this.lastNameError = lastNameError;
-    this.emailError = emailError;
-    this.passwordError = passwordError;
-    this.confirmPasswordError = confirmPasswordError;
-    this.emailErrorPopup = emailErrorPopup;
-}
-```
+   @DataProvider(name = "invalidEditAccountInformationDP")
+   public Iterator<Object[]> SQLDpCollectionInvalid() {
+      Collection<Object[]> dp = new ArrayList<>();
 
+      try {
+         Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
+                 + "/" + dbSchema, dbUser, dbPassword);
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT * FROM editaccountinformation_negative");
+         while ((resultSet.next())) {
+            EditAccountInformationModel editAccountInformationModel = new EditAccountInformationModel(
+                    resultSet.getString("firstname"),
+                    resultSet.getString("middlename"),
+                    resultSet.getString("lastname"),
+                    resultSet.getString("email"),
+                    resultSet.getString("firstnameError"),
+                    resultSet.getString("lastnameError"),
+                    resultSet.getString("emailError"),
+                    resultSet.getString("emailErrorPopup"));
+            dp.add(new Object[] {editAccountInformationModel});
+         }
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+      return dp.iterator();
+   }
+```
 
 ## Reporting
 
