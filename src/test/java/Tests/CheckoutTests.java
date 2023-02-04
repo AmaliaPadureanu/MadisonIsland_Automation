@@ -6,7 +6,6 @@ import Tests.ObjectModels.BillingModel;
 import Utils.CategoriesOfProducts;
 import Utils.GenericUtils;
 import Utils.WaitUtils;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -108,7 +107,7 @@ public class CheckoutTests extends BaseTest {
     }
 
     private void addRandomProductToCart(){
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         searchResultsPage = navigationPage.navigateToRandomSubcategory(CategoriesOfProducts.WOMEN);
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
         String productName = productDetailsPage.getProductName();

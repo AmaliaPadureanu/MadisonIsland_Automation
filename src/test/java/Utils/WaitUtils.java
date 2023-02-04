@@ -22,4 +22,9 @@ public class WaitUtils {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         return wait.until(ExpectedConditions.urlToBe(URL));
     }
+
+    public static boolean waitForUrlToContain(WebDriver driver, String text, int seconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        return wait.until(ExpectedConditions.urlContains(text));
+    }
 }

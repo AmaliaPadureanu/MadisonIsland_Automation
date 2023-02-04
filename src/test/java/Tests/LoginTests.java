@@ -6,7 +6,6 @@ import Pages.NavigationPage;
 import Tests.ObjectModels.LoginModel;
 import Utils.ConstantUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -32,7 +31,7 @@ public class LoginTests extends BaseTest{
     }
 
     private void loginActions(LoginModel loginModel) {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         loginPage = navigationPage.navigateToLogin();
         loginPage.loginWith(loginModel.getAccount().getEmail(), loginModel.getAccount().getPassword());
 
@@ -57,17 +56,17 @@ public class LoginTests extends BaseTest{
 
     @Test (groups = {"regression"})
     public void forgotPasswordTest() {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         loginPage = navigationPage.navigateToLogin();
         loginPage.forgotYourPassword();
-        forgotYourPasswordPage = PageFactory.initElements(driver, ForgotYourPasswordPage.class);
+        forgotYourPasswordPage = new ForgotYourPasswordPage(driver);
         forgotYourPasswordPage.submitEmailAddress("test@e.com");
         Assert.assertTrue(loginPage.getResetPasswordMessage().contains("you will receive an email with a link to reset your password"));
     }
 
     @Test (dependsOnMethods = {"validLoginTest"}, groups = {"regression"})
     public void logoutTest() {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         loginPage = new LoginPage(driver);
         loginPage.logout();
         Assert.assertEquals(loginPage.getLogoutMessage(), "You have logged out and will be redirected to our homepage in 5 seconds.");

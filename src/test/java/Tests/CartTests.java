@@ -3,7 +3,6 @@ package Tests;
 import Pages.NavigationPage;
 import Utils.CategoriesOfProducts;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,7 +10,7 @@ public class CartTests extends BaseTest {
 
     @Test (groups = {"smoke", "regression"})
     public void addRandomClothingItemToCartTest() {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         searchResultsPage = navigationPage.navigateToRandomSubcategory(CategoriesOfProducts.MEN);
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
         String productName = productDetailsPage.getProductName();

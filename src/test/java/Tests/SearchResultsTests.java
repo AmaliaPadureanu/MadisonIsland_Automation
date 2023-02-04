@@ -2,7 +2,6 @@ package Tests;
 
 import Pages.NavigationPage;
 import Utils.CategoriesOfProducts;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -10,7 +9,7 @@ public class SearchResultsTests extends BaseTest {
 
     @Test (groups = {"regression"})
     public void filterByPriceTest() {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.ACCESSORIES, "Shoes");
         searchResultsPage.filterByPrice("300", "399");
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
@@ -19,7 +18,7 @@ public class SearchResultsTests extends BaseTest {
 
     @Test (groups = {"regression"})
     public void filterByColorTest() {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.MEN, "Pants & Denim");
         searchResultsPage.filterByColor("Indigo");
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
@@ -28,7 +27,7 @@ public class SearchResultsTests extends BaseTest {
 
     @Test (groups = {"regression"})
     public void filterByOccasionTest() {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.WOMEN, "Dresses & Skirts");
         searchResultsPage.filterByOccasion("Career");
         productDetailsPage = searchResultsPage.clickOnRandomProduct();
@@ -37,7 +36,7 @@ public class SearchResultsTests extends BaseTest {
 
     @Test (groups = "regression")
     public void filterBySizeTest() {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         searchResultsPage = navigationPage.navigateToSubcategory(CategoriesOfProducts.MEN, "Pants & Denim");
         searchResultsPage.filterBySize("33");
         productDetailsPage = searchResultsPage.clickOnRandomProduct();

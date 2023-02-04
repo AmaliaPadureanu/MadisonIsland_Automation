@@ -6,7 +6,6 @@ import Pages.NavigationPage;
 import Tests.ObjectModels.RegisterModel;
 import Utils.GenericUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -32,7 +31,7 @@ public class RegisterTests extends BaseTest {
     }
 
     public void registerActions(RegisterModel registerModel) {
-        navigationPage = PageFactory.initElements(driver, NavigationPage.class);
+        navigationPage = new NavigationPage(driver);
         registerPage = navigationPage.navigateToRegister();
         registerPage.registerUser(registerModel.getFirstName(), registerModel.getMiddleName(), registerModel.getLastName(),
                 registerModel.getEmail(), registerModel.getPassword(), registerModel.getConfirmPassword(), registerModel.getSignUpForNewsletter());

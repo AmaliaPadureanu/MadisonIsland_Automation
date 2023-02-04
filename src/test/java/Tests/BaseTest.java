@@ -42,7 +42,6 @@ public class BaseTest {
     public void beforeTest() {
         //driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
         driver = BrowserUtils.getBrowser(browser);
-        //driver.manage().window().maximize();
         driver.get(baseURL);
         dbHostname = GenericUtils.getDbHostnameFromConfig(config);
         dbPort = GenericUtils.getDbPortFromConfig(config);

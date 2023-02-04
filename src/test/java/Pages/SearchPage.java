@@ -24,8 +24,7 @@ public class SearchPage extends BasePage {
     }
 
     public SearchResultsPage search(String product) {
-        searchBar.clear();
-        searchBar.sendKeys(product);
+        clearAndSendKeys(searchBar, product);
         searchButton.click();
         return new SearchResultsPage(driver);
     }

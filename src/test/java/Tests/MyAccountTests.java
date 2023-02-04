@@ -7,7 +7,6 @@ import Tests.ObjectModels.EditAccountInformationModel;
 import Tests.ObjectModels.EditAddressModel;
 import Utils.GenericUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -138,7 +137,7 @@ public class MyAccountTests extends BaseTest {
        accountDashboardPage = navigationPage.navigateToAccountDashboard();
        Boolean isUserSubscribed = accountDashboardPage.isUserSubscribed();
        accountDashboardPage.goToNewsletterSubscriptions();
-       newsletterSubscriptionsPage = PageFactory.initElements(driver, NewsletterSubscriptionsPage.class);
+       newsletterSubscriptionsPage = new NewsletterSubscriptionsPage(driver);
        newsletterSubscriptionsPage.editSubscription();
        Assert.assertEquals(accountDashboardPage.getSubscriptionWasEditedMessage(),
                accountDashboardPage.verifyAfterSubscriptionWasEditedMessage(isUserSubscribed));
