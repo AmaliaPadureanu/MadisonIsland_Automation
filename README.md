@@ -71,7 +71,45 @@ I've used external data sources in order to:
 
 :point_right: easily modify the data without making changes to the code
 
-I've used ```Jackson Databind``` library to read ```JSON``` data and ```MySQL Connector``` to make SELECT requests to a local ```MySQL``` database in order to retrieve data and parse it into Java Objects through custom Object Models. 
+I've used ```Jackson Databind``` library to read ```JSON``` data and ```MySQL Connector``` to make SELECT requests to a local ```MySQL``` database in order to retrieve data and parse it into Java Objects through custom Object Models. This proccess takes place inside a method that has the @DataProvider annotation, so the data can be further used by a test method.
+
+```java
+ @DataProvider(name = "jsonInvalidRegisterDP")
+    public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
+        Collection<Object[]> dp = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("src\\test\\resources\\Data\\invalidRegisterData.json");
+        RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
+
+        for (RegisterModel registerModel : registerModels) {
+            dp.add(new Object[] {registerModel});
+        }
+        return dp.iterator();
+    }
+```
+
+The ```ObjectMapper``` class is used to retrieve and parse the JSON data from the ```src\\test\\resources\\Data\\invalidRegisterData.json``` file into ```RegisterModel``` objects that are further added to a ```Collection of Object[]```. An Iterator then loops throgh the Collection and the method returns a ```RegisterModel``` object that is used by the test method. Every object returned represents a different data set, thus the test method runs several times with different data sets, increasing test coverage.
+
+```java
+public RegisterModel(String firstName, String middleName, String lastName, String email, String password,
+                     String confirmPassword, Boolean signUpForNewsletter, String firstNameError, String lastNameError, 
+                     String emailError, String passwordError, String confirmPasswordError, String emailErrorPopup) {
+    this.firstName = firstName;
+    this.middleName = middleName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.confirmPassword = confirmPassword;
+    this.signUpForNewsletter = signUpForNewsletter;
+    this.firstNameError = firstNameError;
+    this.lastNameError = lastNameError;
+    this.emailError = emailError;
+    this.passwordError = passwordError;
+    this.confirmPasswordError = confirmPasswordError;
+    this.emailErrorPopup = emailErrorPopup;
+}
+```
+
 
 ## Reporting
 
