@@ -74,17 +74,17 @@ I've used external data sources in order to:
 I've used ```Jackson Databind``` library to read ```JSON``` data and ```MySQL Connector``` to make SELECT requests to a local ```MySQL``` database in order to retrieve data and parse it into Java Objects through custom Object Models. This proccess takes place inside a method that has the @DataProvider annotation, so the data can be further used by a test method.
 
 ```java
- @DataProvider(name = "jsonInvalidRegisterDP")
+    @DataProvider(name = "jsonInvalidRegisterDP")
     public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
-        Collection<Object[]> dp = new ArrayList<>();
+        Collection<Object[]> dataProvider = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("src\\test\\resources\\Data\\invalidRegisterData.json");
         RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
 
         for (RegisterModel registerModel : registerModels) {
-            dp.add(new Object[] {registerModel});
+            dataProvider.add(new Object[] {registerModel});
         }
-        return dp.iterator();
+        return dataProvider.iterator();
     }
 ```
 
@@ -92,15 +92,15 @@ The ```ObjectMapper``` class is used to retrieve and parse the JSON data from th
 
 ```java
    @DataProvider(name = "invalidEditAccountInformationDP")
-   public Iterator<Object[]> SQLDpCollectionInvalid() {
-      Collection<Object[]> dp = new ArrayList<>();
+   public Iterator<Object[]> SQLDpCollectionInvalid() throws SQLException {
+      Collection<Object[]> dataProvider = new ArrayList<>();
 
-      try {
          Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
                  + "/" + dbSchema, dbUser, dbPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery("SELECT * FROM editaccountinformation_negative");
-         while ((resultSet.next())) {
+
+         while (resultSet.next()) {
             EditAccountInformationModel editAccountInformationModel = new EditAccountInformationModel(
                     resultSet.getString("firstname"),
                     resultSet.getString("middlename"),
@@ -110,14 +110,16 @@ The ```ObjectMapper``` class is used to retrieve and parse the JSON data from th
                     resultSet.getString("lastnameError"),
                     resultSet.getString("emailError"),
                     resultSet.getString("emailErrorPopup"));
-            dp.add(new Object[] {editAccountInformationModel});
+            dataProvider.add(new Object[] {editAccountInformationModel});
          }
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-      return dp.iterator();
+
+      return dataProvider.iterator();
    }
 ```
+
+The ```.getConnection``` method establishes a connection with the database using the database hostname, port, scheme, user and password that are provided in the ```config.properties``` file. 
+
+The ```Statement``` object sends a query to the database that selects data from the ```editaccountinformation_negative``` table and stores it in a ```ResultSet``` object. The ```.getString``` method is called on each row in the ResultSet object and the values from each column are copied in an ```EditAccountInformationModel``` object which is then added to a Collection and returned by the method using an ```Iterator```.
 
 ## Reporting
 
