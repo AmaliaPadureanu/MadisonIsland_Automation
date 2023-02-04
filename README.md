@@ -55,7 +55,8 @@ POM helps to deal with one of the most common challange when it comes to web app
 
 ## Reporting
 
-The reporting is implemented with the ```ExtentReports library```. After every successful run, an html file is generated in the target/extent-reports folder. 
+The reporting is implemented with the ```ExtentReports library```. After every successful run, an html file is generated in the ```target/extent-reports``` folder and is named with a combination of extentReport + current time in milliseconds in order to avoid overriding. 
+
 The ```ExtentTestListener``` implements the ```ITestListener``` interface and has a role in attaching additional information to the test report through the following overriden methods:
 
 + ```onStart```: adds the browser information to the test report
@@ -78,7 +79,7 @@ The listeners are included in every .xml test suite inside a ```<listener>``` ta
 
 ![reporte](https://user-images.githubusercontent.com/79747055/216765354-870e818c-db84-4c4a-9ed2-1e6c60703e60.png)
 
-If a test failure occurs, a screen-shot of the UI at the moment of the failure is embedded in the report.
+On test failures screenshots will automatically be taken and embedded in the report. The screenshot files will be named with a combination of screenshot + current time in milliseconds in order to avoid overriding.
 
 ## Utils
 
