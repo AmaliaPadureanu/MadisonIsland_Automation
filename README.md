@@ -3,16 +3,21 @@
 This project serves as an example of a test automation framework that I've built in order to aquire experience and knowledge in the field of automation. 
 
 ## Tech stack
-+ Java as the programming language
-+ Selenium WebDriver as the web browser automation framework using the Java binding
-+ TestNG as the UnitTest framework to support test creation 
-+ Maven as the build and dependancy management tool
+:gear: Java as the programming language
+
+:gear: Selenium WebDriver as the web browser automation framework using the Java binding
+
+:gear: TestNG as the UnitTest framework to support test creation 
+
+:gear: Maven as the build and dependancy management tool
 
 ## Supported browsers
 
-+ Chrome
-+ Edge
-+ Firefox
+:pushpin: Chrome
+
+:pushpin: Edge
+
+:pushpin: Firefox
 
 I've used the ```WebDriverManager``` library that carries out the management (download, setup, and maintenance) of the drivers required by Selenium WebDriver (chromedriver, geckodriver, msedgedriver) 
 in a fully automated manner.
@@ -37,6 +42,7 @@ In order to support the Page Object, I've used ```Page Factory``` to initialize 
     return new MyAccountPage(driver);
 }
 ```
+
 All the necessary user interactions on these elemets are implemented as methods inside the page classes, this works as an elegant way to implement test routines that are both readable and easier to maintain or update in the future.
 
 ```java
@@ -48,7 +54,7 @@ public void validLoginTest() {
     Assert.assertTrue(myAccountPage.getPageTitle().equals("My Account"));
 }
  ```   
-
+ 
 ```POM``` helps to deal with one of the most common challange when it comes to web apps automation - keeping your selectors up to date with the latest code version. Because all the selectors belonging to a particular page are stored inside the coresponding page class it is much easier to apply changes since they are made in only one place.
 
 ## Data-driven testing
