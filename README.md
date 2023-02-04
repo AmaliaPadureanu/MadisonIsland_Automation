@@ -1,6 +1,6 @@
 # MadisonIsland_Automation
 
-:computer: This project serves as an example of a test automation framework that I've built in order to aquire experience and knowledge in the field of automation. 
+:computer: This project serves as an example of a test automation framework that I've built in order to acquire experience and knowledge in the field of automation. 
 
 ## Tech stack
 :gear: Java as the programming language
