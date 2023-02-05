@@ -121,6 +121,14 @@ The ```.getConnection``` method establishes a connection with the database using
 
 The ```Statement``` object sends a query to the database that selects data from the ```editaccountinformation_negative``` table and stores it in a ```ResultSet``` object. The ```.getString``` method is called on each row in the ResultSet object and the values from each column are copied in an ```EditAccountInformationModel``` object which is then added to a Collection and returned by the method using an ```Iterator```.
 
+## BaseTest
+
+The setup and teardown methods run automatically from the BaseTest class using the ```@BeforeTest``` and ```@AfterTest``` annotations. 
+
+:point_right: ```@BeforeTest``` creates the browser instance based on the ```browser``` parameter in ```config.properties```, opens the home page of the website, gets the connection information for the MySQL database from ```config.properties``` and initializes the ```ExtentTest``` object
+
+:point_right: ```@AfterTest``` closes the driver instance
+
 ## Reporting
 
 The reporting is implemented with the ```ExtentReports library```. After every successful run, an html file is generated in the ```target/extent-reports``` folder and is named with a combination of extentReport + current time in milliseconds in order to avoid overriding. 
@@ -149,7 +157,21 @@ The listeners are included in every .xml test suite inside a ```<listener>``` ta
 
 On test failures screenshots will automatically be taken and embedded in the report. The screenshot files will be named with a combination of screenshot + current time in milliseconds in order to avoid overriding.
 
-## Utils
-
 ## Config
 
+The framework is easily configurable thanks to the ```config.properties``` file, the way in which the tests are ran can be changed by enabling/ disabling certain properties. 
+
+```java
+protocol=http
+hostname=www.demo-store.seleniumacademy.com
+port=80
+browser=EDGE
+headlessMode=true
+startMaximized=true
+#............DB CONNECTION.............
+dbHostname=localhost
+dbPort=3306
+dbUser=root
+dbPassword=root
+dbSchema=automation
+```
