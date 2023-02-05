@@ -121,9 +121,20 @@ The ```.getConnection``` method establishes a connection with the database using
 
 The ```Statement``` object sends a query to the database that selects data from the ```editaccountinformation_negative``` table and stores it in a ```ResultSet``` object. The ```.getString``` method is called on each row in the ResultSet object and the values from each column are copied in an ```EditAccountInformationModel``` object which is then added to a Collection and returned by the method using an ```Iterator```.
 
+## BasePage
+
+This class is extended by all the page classes and implements some useful methods that can be used in the subclasses to write more concise and clean routines.
+
+```java
+ public void clearAndSendKeys(WebElement element, String text) {
+        element.clear();
+        element.sendKeys(text);
+ }
+```    
+
 ## BaseTest
 
-The setup and teardown methods run automatically from the BaseTest class using the ```@BeforeTest``` and ```@AfterTest``` annotations. 
+The setup and teardown methods run automatically from the BaseTest class using the ```@BeforeTest``` and ```@AfterTest``` annotations. This class is extended by all the test classes.
 
 :point_right: ```@BeforeTest``` creates the browser instance based on the ```browser``` parameter in ```config.properties```, opens the home page of the website, gets the connection information for the MySQL database from ```config.properties``` and initializes the ```ExtentTest``` object
 
@@ -157,7 +168,7 @@ The listeners are included in every .xml test suite inside a ```<listener>``` ta
 
 On test failures screenshots will automatically be taken and embedded in the report. The screenshot files will be named with a combination of screenshot + current time in milliseconds in order to avoid overriding.
 
-## Config
+## Configuration file
 
 The framework is easily configurable thanks to the ```config.properties``` file, the way in which the tests are ran can be changed by enabling/ disabling certain properties. 
 
