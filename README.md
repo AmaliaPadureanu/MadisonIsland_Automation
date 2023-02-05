@@ -61,6 +61,25 @@ public void validLoginTest() {
  
 ```POM``` helps to deal with one of the most common challange when it comes to web apps automation - keeping your selectors up to date with the latest code version. Because all the selectors belonging to a particular page are stored inside the coresponding page class it is much easier to apply changes since they are made in only one place.
 
+## BasePage
+
+This class is extended by all the page classes and implements some useful methods that can be used in the subclasses to write more concise and clean routines.
+
+```java
+ public void clearAndSendKeys(WebElement element, String text) {
+        element.clear();
+        element.sendKeys(text);
+ }
+```    
+
+## BaseTest
+
+The setup and teardown methods run automatically from the BaseTest class using the ```@BeforeTest``` and ```@AfterTest``` annotations. This class is extended by all the test classes.
+
+:point_right: ```@BeforeTest``` creates the browser instance based on the ```browser``` parameter in ```config.properties```, opens the home page of the website, gets the connection information for the MySQL database from ```config.properties``` and initializes the ```ExtentTest``` object
+
+:point_right: ```@AfterTest``` closes the driver instance
+
 ## Data-driven testing
 
 I've used external data sources in order to: 
@@ -120,25 +139,6 @@ The ```ObjectMapper``` class is used to retrieve and parse the JSON data from th
 The ```.getConnection``` method establishes a connection with the database using the database hostname, port, scheme, user and password that are provided in the ```config.properties``` file. 
 
 The ```Statement``` object sends a query to the database that selects data from the ```editaccountinformation_negative``` table and stores it in a ```ResultSet``` object. The ```.getString``` method is called on each row in the ResultSet object and the values from each column are copied in an ```EditAccountInformationModel``` object which is then added to a Collection and returned by the method using an ```Iterator```.
-
-## BasePage
-
-This class is extended by all the page classes and implements some useful methods that can be used in the subclasses to write more concise and clean routines.
-
-```java
- public void clearAndSendKeys(WebElement element, String text) {
-        element.clear();
-        element.sendKeys(text);
- }
-```    
-
-## BaseTest
-
-The setup and teardown methods run automatically from the BaseTest class using the ```@BeforeTest``` and ```@AfterTest``` annotations. This class is extended by all the test classes.
-
-:point_right: ```@BeforeTest``` creates the browser instance based on the ```browser``` parameter in ```config.properties```, opens the home page of the website, gets the connection information for the MySQL database from ```config.properties``` and initializes the ```ExtentTest``` object
-
-:point_right: ```@AfterTest``` closes the driver instance
 
 ## Reporting
 
