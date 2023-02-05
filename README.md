@@ -67,8 +67,8 @@ This class is extended by all the page classes and implements some useful method
 
 ```java
  public void clearAndSendKeys(WebElement element, String text) {
-        element.clear();
-        element.sendKeys(text);
+    element.clear();
+    element.sendKeys(text);
  }
 ```    
 
@@ -79,6 +79,104 @@ The setup and teardown methods run automatically from the BaseTest class using t
 :point_right: ```@BeforeTest``` creates the browser instance based on the ```browser``` parameter in ```config.properties```, opens the home page of the website, gets the connection information for the MySQL database from ```config.properties``` and initializes the ```ExtentTest``` object
 
 :point_right: ```@AfterTest``` closes the driver instance
+
+## Browser instantiation
+
+The ```BrowserUtils``` class contains the ways in which the browser can be instantitated:
+
+```java
+public static WebDriver getBrowserType(BrowserTypes browserType) {
+    switch (browserType) {
+        case CHROME -> {
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+
+            if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
+                options.addArguments("--start-maximized");
+            }
+            return new ChromeDriver(options);
+        }
+        case FIREFOX -> {
+            WebDriverManager.firefoxdriver().setup();
+            FirefoxOptions options = new FirefoxOptions();
+            options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+            WebDriver driver = new FirefoxDriver(options);
+
+            if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
+                driver.manage().window().maximize();
+            }
+            return driver;
+        }
+        case EDGE ->  {
+            WebDriverManager.edgedriver().setup();
+            EdgeOptions options = new EdgeOptions();
+            options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
+
+            if (GenericUtils.startMaximized(ConstantUtils.CONFIG_FILE)) {
+                options.addArguments("--start-maximized");
+            }
+            return new EdgeDriver(options);
+        }
+        default -> {
+            System.out.println("Browser is not supported officially");
+            return WebDriverManager.chromiumdriver().getWebDriver();
+        }
+    }
+}
+```
+:point_right: from the ```config.properties``` file and will call the appropiate ```WebDriverManager``` setup method based on the provided argument, ```Browser Options``` are also included here
+
+```java
+public static Browser getBrowser(BrowserTypes browserType) {
+    switch (browserType) {
+        case CHROME -> {
+            return new ChromeBrowser();
+        }
+        case FIREFOX ->  {
+            return new FirefoxBrowser();
+        }
+        case EDGE ->  {
+            return new EdgeBrowser();
+        }
+        default -> {
+            System.out.println("Browser is not supported");
+            return null;
+        }
+    }
+}
+```
+```java
+@Getter @Setter
+public class Browser {
+    public WebDriver driver;
+}
+```
+```java
+public class ChromeBrowser extends Browser {
+
+    public ChromeBrowser() {
+        WebDriverManager.chromedriver().setup();
+        this.driver = new ChromeDriver();
+    }
+}
+```
+:point_right: using ```getBrowser(BrowserTypes browserType)``` method that returns a ```Browser``` object, which is the superclass of ```ChromeBrowser```, ```EdgeBrowser``` and ```FirefoxBrowser```
+
+```java
+ public static String getBrowserFromEnvironmentVariables(String propertyName) {
+    Map<String, String> environmentVariables = System.getenv();
+
+    if (environmentVariables.containsKey(propertyName)) {
+        return System.getenv(propertyName).toLowerCase();
+    }
+
+    return "CHROME";
+}
+```
+![env](https://user-images.githubusercontent.com/79747055/216815221-1b9b5ff2-4928-431a-9f3d-281f93acee1c.png)
+
+:point_right: from the ```Environment variables``` if the browser property is set, otherwise it will default to Chrome
 
 ## Data-driven testing
 
@@ -93,47 +191,48 @@ I've used external data sources in order to:
 I've used ```Jackson Databind``` library to read ```JSON``` data and ```MySQL Connector``` to make SELECT requests to a local ```MySQL``` database in order to retrieve data and parse it into Java Objects through custom Object Models. This proccess takes place inside a method that has the @DataProvider annotation, so the data can be further used by a test method.
 
 ```java
-    @DataProvider(name = "jsonInvalidRegisterDP")
-    public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
-        Collection<Object[]> dataProvider = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("src\\test\\resources\\Data\\invalidRegisterData.json");
-        RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
+@DataProvider(name = "jsonInvalidRegisterDP")
+public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
+    Collection<Object[]> dataProvider = new ArrayList<>();
+    ObjectMapper objectMapper = new ObjectMapper();
+    File file = new File("src\\test\\resources\\Data\\invalidRegisterData.json");
+    RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
 
-        for (RegisterModel registerModel : registerModels) {
-            dataProvider.add(new Object[] {registerModel});
-        }
-        return dataProvider.iterator();
+    for (RegisterModel registerModel : registerModels) {
+        dataProvider.add(new Object[] {registerModel});
     }
+    
+    return dataProvider.iterator();
+}
 ```
 
 The ```ObjectMapper``` class is used to retrieve and parse the JSON data from the ```src\\test\\resources\\Data\\invalidRegisterData.json``` file into ```RegisterModel``` objects that are further added to a ```Collection of Object[]```. An Iterator then loops throgh the Collection and the method returns a ```RegisterModel``` object that is used by the test method. Every object returned represents a different data set, thus the test method runs several times with different data sets, increasing test coverage.
 
 ```java
-   @DataProvider(name = "invalidEditAccountInformationDP")
-   public Iterator<Object[]> SQLDpCollectionInvalid() throws SQLException {
-      Collection<Object[]> dataProvider = new ArrayList<>();
+@DataProvider(name = "invalidEditAccountInformationDP")
+public Iterator<Object[]> SQLDpCollectionInvalid() throws SQLException {
+  Collection<Object[]> dataProvider = new ArrayList<>();
 
-         Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
-                 + "/" + dbSchema, dbUser, dbPassword);
-         Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery("SELECT * FROM editaccountinformation_negative");
+     Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
+             + "/" + dbSchema, dbUser, dbPassword);
+     Statement statement = connection.createStatement();
+     ResultSet resultSet = statement.executeQuery("SELECT * FROM editaccountinformation_negative");
 
-         while (resultSet.next()) {
-            EditAccountInformationModel editAccountInformationModel = new EditAccountInformationModel(
-                    resultSet.getString("firstname"),
-                    resultSet.getString("middlename"),
-                    resultSet.getString("lastname"),
-                    resultSet.getString("email"),
-                    resultSet.getString("firstnameError"),
-                    resultSet.getString("lastnameError"),
-                    resultSet.getString("emailError"),
-                    resultSet.getString("emailErrorPopup"));
-            dataProvider.add(new Object[] {editAccountInformationModel});
-         }
+     while (resultSet.next()) {
+        EditAccountInformationModel editAccountInformationModel = new EditAccountInformationModel(
+                resultSet.getString("firstname"),
+                resultSet.getString("middlename"),
+                resultSet.getString("lastname"),
+                resultSet.getString("email"),
+                resultSet.getString("firstnameError"),
+                resultSet.getString("lastnameError"),
+                resultSet.getString("emailError"),
+                resultSet.getString("emailErrorPopup"));
+        dataProvider.add(new Object[] {editAccountInformationModel});
+     }
 
-      return dataProvider.iterator();
-   }
+  return dataProvider.iterator();
+}
 ```
 
 The ```.getConnection``` method establishes a connection with the database using the database hostname, port, scheme, user and password that are provided in the ```config.properties``` file. 
