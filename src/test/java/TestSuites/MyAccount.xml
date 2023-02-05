@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="My Account Suite">
+    <listeners>
+        <listener class-name="Utils.ExtentTestListener"></listener>
+    </listeners>
+
+    <test name="Check MyAccount">
+        <classes>
+            <class name="Tests.MyAccountTests"/>
+        </classes>
+    </test>
+</suite>
