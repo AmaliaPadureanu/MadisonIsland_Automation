@@ -91,6 +91,7 @@
                  <configuration>
                  <suiteXmlFiles>
                       <suiteXmlFile>Register.xml</suiteXmlFile>
+                      <suiteXmlFile>Login.xml</suiteXmlFile>
                       <suiteXmlFile>Smoke.xml</suiteXmlFile>
                       <suiteXmlFile>Regression.xml</suiteXmlFile>
                  </suiteXmlFiles>
