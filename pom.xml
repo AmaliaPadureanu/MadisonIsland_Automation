@@ -90,7 +90,7 @@
                  <version>${surefireVersion}</version>
                  <configuration>
                  <suiteXmlFiles>
-                      <suiteXmlFile>myFirstTestSuite.xml</suiteXmlFile>
+                      <suiteXmlFile>Register.xml</suiteXmlFile>
                       <suiteXmlFile>Smoke.xml</suiteXmlFile>
                       <suiteXmlFile>Regression.xml</suiteXmlFile>
                  </suiteXmlFiles>
