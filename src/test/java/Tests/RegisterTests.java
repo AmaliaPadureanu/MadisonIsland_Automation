@@ -25,23 +25,10 @@ public class RegisterTests extends BaseTest {
         RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
 
         for (RegisterModel registerModel : registerModels) {
-            dataProvider.add(new Object[] {registerModel});
+            dataProvider.add(new Object[] { registerModel });
         }
+
         return dataProvider.iterator();
-    }
-
-    public void registerActions(RegisterModel registerModel) {
-        navigationPage = new NavigationPage(driver);
-        registerPage = navigationPage.navigateToRegister();
-        registerPage.registerUser(registerModel.getFirstName(), registerModel.getMiddleName(), registerModel.getLastName(),
-                registerModel.getEmail(), registerModel.getPassword(), registerModel.getConfirmPassword(), registerModel.getSignUpForNewsletter());
-
-        Assert.assertTrue(registerPage.checkError(registerModel.getFirstNameError(), "firstNameError"));
-        Assert.assertTrue(registerPage.checkError(registerModel.getLastNameError(), "lastNameError"));
-        Assert.assertTrue(registerPage.checkError(registerModel.getEmailError(), "emailError"));
-        Assert.assertTrue(registerPage.checkError(registerModel.getPasswordError(), "passwordError"));
-        Assert.assertTrue(registerPage.checkError(registerModel.getConfirmPasswordError(), "confirmPasswordError"));
-        Assert.assertTrue(registerPage.checkError(registerModel.getEmailErrorPopup(), "emailErrorPopup"));
     }
 
     @Test (groups = {"regression"})
@@ -69,6 +56,16 @@ public class RegisterTests extends BaseTest {
 
     @Test (dataProvider = "jsonInvalidRegisterDP", priority = 1, groups = {"regression"})
     public void invalidRegisterTest(RegisterModel registerModel) {
-        registerActions(registerModel);
+        navigationPage = new NavigationPage(driver);
+        registerPage = navigationPage.navigateToRegister();
+        registerPage.registerUser(registerModel.getFirstName(), registerModel.getMiddleName(), registerModel.getLastName(),
+                registerModel.getEmail(), registerModel.getPassword(), registerModel.getConfirmPassword(), registerModel.getSignUpForNewsletter());
+
+        Assert.assertTrue(registerPage.checkError(registerModel.getFirstNameError(), "firstNameError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getLastNameError(), "lastNameError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getEmailError(), "emailError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getPasswordError(), "passwordError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getConfirmPasswordError(), "confirmPasswordError"));
+        Assert.assertTrue(registerPage.checkError(registerModel.getEmailErrorPopup(), "emailErrorPopup"));
     }
 }

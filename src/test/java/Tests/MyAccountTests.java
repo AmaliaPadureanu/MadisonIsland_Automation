@@ -49,23 +49,23 @@ public class MyAccountTests extends BaseTest {
    public Iterator<Object[]> SQLDpCollectionInvalid() throws SQLException {
       Collection<Object[]> dataProvider = new ArrayList<>();
 
-         Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
-                 + "/" + dbSchema, dbUser, dbPassword);
-         Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery("SELECT * FROM editaccountinformation_negative");
+      Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
+              + "/" + dbSchema, dbUser, dbPassword);
+      Statement statement = connection.createStatement();
+      ResultSet resultSet = statement.executeQuery("SELECT * FROM editaccountinformation_negative");
 
-         while (resultSet.next()) {
-            EditAccountInformationModel editAccountInformationModel = new EditAccountInformationModel(
-                    resultSet.getString("firstname"),
-                    resultSet.getString("middlename"),
-                    resultSet.getString("lastname"),
-                    resultSet.getString("email"),
-                    resultSet.getString("firstnameError"),
-                    resultSet.getString("lastnameError"),
-                    resultSet.getString("emailError"),
-                    resultSet.getString("emailErrorPopup"));
-            dataProvider.add(new Object[] {editAccountInformationModel});
-         }
+      while (resultSet.next()) {
+         EditAccountInformationModel editAccountInformationModel = new EditAccountInformationModel(
+                 resultSet.getString("firstname"),
+                 resultSet.getString("middlename"),
+                 resultSet.getString("lastname"),
+                 resultSet.getString("email"),
+                 resultSet.getString("firstnameError"),
+                 resultSet.getString("lastnameError"),
+                 resultSet.getString("emailError"),
+                 resultSet.getString("emailErrorPopup"));
+         dataProvider.add(new Object[] {editAccountInformationModel});
+      }
 
       return dataProvider.iterator();
    }
@@ -80,6 +80,7 @@ public class MyAccountTests extends BaseTest {
       for (EditAddressModel editAddressModel : editAddressModels) {
          dataProvider.add(new Object[] {editAddressModel});
       }
+
       return dataProvider.iterator();
    }
 
@@ -93,6 +94,7 @@ public class MyAccountTests extends BaseTest {
       for (EditAddressModel editAddressModel : editAddressModels) {
          dataProvider.add(new Object[] {editAddressModel});
       }
+
       return dataProvider.iterator();
    }
 

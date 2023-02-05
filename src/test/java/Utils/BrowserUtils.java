@@ -12,9 +12,9 @@ import java.util.Map;
 
 public class BrowserUtils {
     
-    public static WebDriver getBrowser(String browser) {
-        switch (browser.toLowerCase()) {
-            case "chrome" : {
+    public static WebDriver getBrowserType(BrowserTypes browserType) {
+        switch (browserType) {
+            case CHROME -> {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
                 options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
@@ -24,7 +24,7 @@ public class BrowserUtils {
                 }
                 return new ChromeDriver(options);
             }
-            case "firefox" : {
+            case FIREFOX -> {
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions options = new FirefoxOptions();
                 options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
@@ -35,7 +35,7 @@ public class BrowserUtils {
                 }
                 return driver;
             }
-            case "edge" : {
+            case EDGE ->  {
                 WebDriverManager.edgedriver().setup();
                 EdgeOptions options = new EdgeOptions();
                 options.setHeadless(GenericUtils.getHeadlessModeOption(ConstantUtils.CONFIG_FILE));
@@ -45,24 +45,24 @@ public class BrowserUtils {
                 }
                 return new EdgeDriver(options);
             }
-            default: {
+            default -> {
                 System.out.println("Browser is not supported officially");
-                return WebDriverManager.getInstance(browser).getWebDriver();
+                return WebDriverManager.chromiumdriver().getWebDriver();
             }
         }
     }
     public static Browser getBrowser(BrowserTypes browserType) {
-        switch (browserType.toString()) {
-            case "CHROME" : {
+        switch (browserType) {
+            case CHROME -> {
                 return new ChromeBrowser();
             }
-            case "FIREFOX" : {
+            case FIREFOX ->  {
                 return new FirefoxBrowser();
             }
-            case "EDGE" : {
+            case EDGE ->  {
                 return new EdgeBrowser();
             }
-            default : {
+            default -> {
                 System.out.println("Browser is not supported");
                 return null;
             }

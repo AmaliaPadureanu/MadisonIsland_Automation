@@ -1,10 +1,7 @@
 package Tests;
 
 import Pages.*;
-import Utils.BrowserUtils;
-import Utils.ConstantUtils;
-import Utils.ExtentTestManager;
-import Utils.GenericUtils;
+import Utils.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -15,7 +12,7 @@ public class BaseTest {
 
     //String browser = BrowserUtils.getBrowserFromEnvironmentVariables("autoBrowser");
     String config = ConstantUtils.CONFIG_FILE;
-    String browser = GenericUtils.getBrowserFromConfig(config);
+    BrowserTypes browser = GenericUtils.getBrowserFromConfig(config);
     //String baseURL = "http://demo-store.seleniumacademy.com";
     String baseURL = GenericUtils.getBaseURL(config);
     String dbHostname, dbPort, dbUser, dbPassword, dbSchema;
@@ -41,7 +38,7 @@ public class BaseTest {
     @BeforeTest (alwaysRun = true)
     public void beforeTest() {
         //driver = BrowserUtils.getBrowser(BrowserTypes.CHROME).getDriver();
-        driver = BrowserUtils.getBrowser(browser);
+        driver = BrowserUtils.getBrowserType(browser);
         driver.get(baseURL);
         dbHostname = GenericUtils.getDbHostnameFromConfig(config);
         dbPort = GenericUtils.getDbPortFromConfig(config);

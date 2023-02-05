@@ -42,8 +42,8 @@ public class GenericUtils {
         return value;
     }
 
-    public static String getBrowserFromConfig(String configFile) {
-        return getValueFromConfigFile(configFile, "browser", "CHROME");
+    public static BrowserTypes getBrowserFromConfig(String configFile) {
+        return BrowserTypes.valueOf(getValueFromConfigFile(configFile, "browser", "CHROME"));
     }
 
     public static boolean getHeadlessModeOption(String configFile) {
