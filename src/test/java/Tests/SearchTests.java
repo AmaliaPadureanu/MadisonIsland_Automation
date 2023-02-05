@@ -45,6 +45,7 @@ public class SearchTests extends BaseTest {
     public void basicValidSearchTest(String product) {
         searchPage = new SearchPage(driver);
         searchResultsPage = searchPage.search(product);
+        WaitUtils.waitForUrlToContain(driver, "/catalogsearch/result/", 5);
         Assert.assertTrue(searchResultsPage.getPageTitle().contains(product));
     }
 
@@ -52,6 +53,7 @@ public class SearchTests extends BaseTest {
     public void basicInvalidSearchTest(String product, String searchResultsNote) {
         searchPage = new SearchPage(driver);
         searchResultsPage = searchPage.search(product);
+        WaitUtils.waitForUrlToContain(driver, "/catalogsearch/result/", 5);
         Assert.assertTrue(searchResultsPage.getPageTitle().contains(product));
         Assert.assertEquals(searchResultsPage.getSearchResultsNote(), searchResultsNote);
     }

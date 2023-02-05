@@ -73,8 +73,4 @@ public class GenericUtils {
     public static String getDbSchemaFromConfig(String configFile) {
         return getValueFromConfigFile(configFile, "dbSchema", "");
     }
-
-    public static String replaceElements(String element, String valueToBeReplaced, String valueReplaceWith) {
-        return element.replaceAll(valueToBeReplaced, valueReplaceWith);
-    }
 }

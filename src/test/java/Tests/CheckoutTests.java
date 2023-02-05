@@ -4,7 +4,6 @@ import Pages.CheckoutPage;
 import Pages.NavigationPage;
 import Tests.ObjectModels.BillingModel;
 import Utils.CategoriesOfProducts;
-import Utils.GenericUtils;
 import Utils.WaitUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -17,77 +16,69 @@ import java.util.Iterator;
 public class CheckoutTests extends BaseTest {
 
     @DataProvider(name = "validBillingDP")
-    public Iterator<Object[]> SQLDpCollection() {
-        Collection<Object[]> dp = new ArrayList<>();
+    public Iterator<Object[]> SQLDpCollection() throws SQLException {
+        Collection<Object[]> dataProvider = new ArrayList<>();
 
-        try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
                     + "/" + dbSchema, dbUser, dbPassword);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM checkout_positive");
-            while ((resultSet.next())) {
-                BillingModel billingModel = new BillingModel(getEscapedElement(resultSet, "firstname"),
-                        getEscapedElement(resultSet, "lastname"),
-                        getEscapedElement(resultSet, "email"),
-                        getEscapedElement(resultSet, "address"),
-                        getEscapedElement(resultSet, "city"),
-                        getEscapedElement(resultSet, "state"),
-                        getEscapedElement(resultSet, "zipcode"),
-                        getEscapedElement(resultSet, "country"),
-                        getEscapedElement(resultSet, "telephone"),
-                        getEscapedElement(resultSet, "firstnameError"),
-                        getEscapedElement(resultSet, "lastnameError"),
-                        getEscapedElement(resultSet, "emailError"),
-                        getEscapedElement(resultSet, "addressError"),
-                        getEscapedElement(resultSet, "cityError"),
-                        getEscapedElement(resultSet, "zipcodeError"),
-                        getEscapedElement(resultSet, "countryError"),
-                        getEscapedElement(resultSet, "telephoneError"));
-                dp.add(new Object[] {billingModel});
+
+            while (resultSet.next()) {
+                BillingModel billingModel = new BillingModel(resultSet.getString("firstname"),
+                        resultSet.getString("lastname"),
+                        resultSet.getString("email"),
+                        resultSet.getString("address"),
+                        resultSet.getString("city"),
+                        resultSet.getString("state"),
+                        resultSet.getString("zipcode"),
+                        resultSet.getString("country"),
+                        resultSet.getString("telephone"),
+                        resultSet.getString("firstnameError"),
+                        resultSet.getString("lastnameError"),
+                        resultSet.getString("emailError"),
+                        resultSet.getString("addressError"),
+                        resultSet.getString("cityError"),
+                        resultSet.getString("zipcodeError"),
+                        resultSet.getString("countryError"),
+                        resultSet.getString("telephoneError"));
+                dataProvider.add(new Object[] {billingModel});
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return dp.iterator();
+
+        return dataProvider.iterator();
     }
 
     @DataProvider(name = "invalidBillingDP")
-    public Iterator<Object[]> SQLDpCollectionInvalid() {
-        Collection<Object[]> dp = new ArrayList<>();
+    public Iterator<Object[]> SQLDpCollectionInvalid() throws SQLException {
+        Collection<Object[]> dataProvider = new ArrayList<>();
 
-        try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
                     + "/" + dbSchema, dbUser, dbPassword);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM checkout_negative");
-            while ((resultSet.next())) {
-                BillingModel billingModel = new BillingModel(getEscapedElement(resultSet, "firstname"),
-                        getEscapedElement(resultSet, "lastname"),
-                        getEscapedElement(resultSet, "email"),
-                        getEscapedElement(resultSet, "address"),
-                        getEscapedElement(resultSet, "city"),
-                        getEscapedElement(resultSet, "state"),
-                        getEscapedElement(resultSet, "zipcode"),
-                        getEscapedElement(resultSet, "country"),
-                        getEscapedElement(resultSet, "telephone"),
-                        getEscapedElement(resultSet, "firstnameError"),
-                        getEscapedElement(resultSet, "lastnameError"),
-                        getEscapedElement(resultSet, "emailError"),
-                        getEscapedElement(resultSet, "addressError"),
-                        getEscapedElement(resultSet, "cityError"),
-                        getEscapedElement(resultSet, "zipcodeError"),
-                        getEscapedElement(resultSet, "countryError"),
-                        getEscapedElement(resultSet, "telephoneError"));
-                dp.add(new Object[] {billingModel});
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return dp.iterator();
-    }
 
-    private String getEscapedElement(ResultSet resultSet, String element) throws SQLException {
-        return GenericUtils.replaceElements(resultSet.getString(element), "", "");
+            while (resultSet.next()) {
+                BillingModel billingModel = new BillingModel(resultSet.getString("firstname"),
+                        resultSet.getString("lastname"),
+                        resultSet.getString("email"),
+                        resultSet.getString( "address"),
+                        resultSet.getString("city"),
+                        resultSet.getString("state"),
+                        resultSet.getString("zipcode"),
+                        resultSet.getString("country"),
+                        resultSet.getString("telephone"),
+                        resultSet.getString("firstnameError"),
+                        resultSet.getString("lastnameError"),
+                        resultSet.getString("emailError"),
+                        resultSet.getString("addressError"),
+                        resultSet.getString("cityError"),
+                        resultSet.getString("zipcodeError"),
+                        resultSet.getString("countryError"),
+                        resultSet.getString("telephoneError"));
+                dataProvider.add(new Object[] {billingModel});
+            }
+
+        return dataProvider.iterator();
     }
 
     private void billingActions(BillingModel billingModel) {

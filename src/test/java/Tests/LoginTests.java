@@ -19,15 +19,15 @@ public class LoginTests extends BaseTest{
 
     @DataProvider(name = "jsonInvalidLoginDP")
     public Iterator<Object[]> jsonDPCollection() throws IOException {
-        Collection<Object[]> dp = new ArrayList<>();
+        Collection<Object[]> dataProvider = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("src\\test\\resources\\Data\\invalidLoginData.json");
         LoginModel[] loginModels = objectMapper.readValue(file, LoginModel[].class);
 
         for (LoginModel loginModel : loginModels) {
-            dp.add(new Object[] {loginModel});
+            dataProvider.add(new Object[] {loginModel});
         }
-        return dp.iterator();
+        return dataProvider.iterator();
     }
 
     private void loginActions(LoginModel loginModel) {

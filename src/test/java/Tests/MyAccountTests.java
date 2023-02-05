@@ -5,7 +5,6 @@ import Pages.NavigationPage;
 import Pages.NewsletterSubscriptionsPage;
 import Tests.ObjectModels.EditAccountInformationModel;
 import Tests.ObjectModels.EditAddressModel;
-import Utils.GenericUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -47,60 +46,54 @@ public class MyAccountTests extends BaseTest {
    }
 
    @DataProvider(name = "invalidEditAccountInformationDP")
-   public Iterator<Object[]> SQLDpCollectionInvalid() {
-      Collection<Object[]> dp = new ArrayList<>();
+   public Iterator<Object[]> SQLDpCollectionInvalid() throws SQLException {
+      Collection<Object[]> dataProvider = new ArrayList<>();
 
-      try {
          Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHostname + ":" + dbPort
                  + "/" + dbSchema, dbUser, dbPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery("SELECT * FROM editaccountinformation_negative");
-         while ((resultSet.next())) {
-            EditAccountInformationModel editAccountInformationModel = new EditAccountInformationModel(
-                    getEscapedElement(resultSet, "firstname"),
-                    getEscapedElement(resultSet, "middlename"),
-                    getEscapedElement(resultSet, "lastname"),
-                    getEscapedElement(resultSet, "email"),
-                    getEscapedElement(resultSet, "firstnameError"),
-                    getEscapedElement(resultSet, "lastnameError"),
-                    getEscapedElement(resultSet, "emailError"),
-                    getEscapedElement(resultSet, "emailErrorPopup"));
-            dp.add(new Object[] {editAccountInformationModel});
-         }
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-      return dp.iterator();
-   }
 
-   private String getEscapedElement(ResultSet resultSet, String element) throws SQLException {
-      return GenericUtils.replaceElements(resultSet.getString(element), "", "");
+         while (resultSet.next()) {
+            EditAccountInformationModel editAccountInformationModel = new EditAccountInformationModel(
+                    resultSet.getString("firstname"),
+                    resultSet.getString("middlename"),
+                    resultSet.getString("lastname"),
+                    resultSet.getString("email"),
+                    resultSet.getString("firstnameError"),
+                    resultSet.getString("lastnameError"),
+                    resultSet.getString("emailError"),
+                    resultSet.getString("emailErrorPopup"));
+            dataProvider.add(new Object[] {editAccountInformationModel});
+         }
+
+      return dataProvider.iterator();
    }
 
    @DataProvider(name = "jsonInvalidEditAddressDP")
    public Iterator<Object[]> jsonInvalidDPCollection() throws IOException {
-      Collection<Object[]> dp = new ArrayList<>();
+      Collection<Object[]> dataProvider = new ArrayList<>();
       ObjectMapper objectMapper = new ObjectMapper();
       File file = new File("src\\test\\resources\\Data\\invalidAddressData.json");
       EditAddressModel[] editAddressModels = objectMapper.readValue(file, EditAddressModel[].class);
 
       for (EditAddressModel editAddressModel : editAddressModels) {
-         dp.add(new Object[] {editAddressModel});
+         dataProvider.add(new Object[] {editAddressModel});
       }
-      return dp.iterator();
+      return dataProvider.iterator();
    }
 
    @DataProvider(name = "jsonValidEditAddressDP")
    public Iterator<Object[]> jsonValidDPCollection() throws IOException {
-      Collection<Object[]> dp = new ArrayList<>();
+      Collection<Object[]> dataProvider = new ArrayList<>();
       ObjectMapper objectMapper = new ObjectMapper();
       File file = new File("src\\test\\resources\\Data\\validAddressData.json");
       EditAddressModel[] editAddressModels = objectMapper.readValue(file, EditAddressModel[].class);
 
       for (EditAddressModel editAddressModel : editAddressModels) {
-         dp.add(new Object[] {editAddressModel});
+         dataProvider.add(new Object[] {editAddressModel});
       }
-      return dp.iterator();
+      return dataProvider.iterator();
    }
 
    public void editAddressActions(EditAddressModel editAddressModel) {

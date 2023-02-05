@@ -19,15 +19,15 @@ public class RegisterTests extends BaseTest {
 
     @DataProvider(name = "jsonInvalidRegisterDP")
     public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
-        Collection<Object[]> dp = new ArrayList<>();
+        Collection<Object[]> dataProvider = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("src\\test\\resources\\Data\\invalidRegisterData.json");
         RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
 
         for (RegisterModel registerModel : registerModels) {
-            dp.add(new Object[] {registerModel});
+            dataProvider.add(new Object[] {registerModel});
         }
-        return dp.iterator();
+        return dataProvider.iterator();
     }
 
     public void registerActions(RegisterModel registerModel) {
