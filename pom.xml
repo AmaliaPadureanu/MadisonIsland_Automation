@@ -97,6 +97,7 @@
                       <suiteXmlFile>MyAccount.xml</suiteXmlFile>
                       <suiteXmlFile>Search.xml</suiteXmlFile>
                       <suiteXmlFile>SearchResults.xml</suiteXmlFile>
+                      <suiteXmlFile>Wishlist.xml</suiteXmlFile>
                       <suiteXmlFile>Cart.xml</suiteXmlFile>
                       <suiteXmlFile>Checkout.xml</suiteXmlFile>
                       <suiteXmlFile>Smoke.xml</suiteXmlFile>
