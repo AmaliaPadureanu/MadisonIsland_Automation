@@ -93,6 +93,7 @@
                       <suiteXmlFile>Register.xml</suiteXmlFile>
                       <suiteXmlFile>Login.xml</suiteXmlFile>
                       <suiteXmlFile>Cart.xml</suiteXmlFile>
+                      <suiteXmlFile>Checkout.xml</suiteXmlFile>
                       <suiteXmlFile>Smoke.xml</suiteXmlFile>
                       <suiteXmlFile>Regression.xml</suiteXmlFile>
                  </suiteXmlFiles>
