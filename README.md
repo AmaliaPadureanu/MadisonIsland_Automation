@@ -27,7 +27,7 @@ I've used the ```WebDriverManager``` library that carries out the management (do
 in a fully automated manner.
 
 ## Page Object Model
-While going through various workflows within a web app, the user interacts with certain pages and webelements. The ```Page Object Model``` simply models these as objects within the test code. 
+While going through various workflows within a web app, the user interacts with certain pages and web elements. The ```Page Object Model``` simply models these as objects within the test code. 
 
 ```java
 public LoginPage(WebDriver driver) {
@@ -59,7 +59,7 @@ public void validLoginTest() {
 }
  ```   
  
-```POM``` helps to deal with one of the most common challange when it comes to web apps automation - keeping your selectors up to date with the latest code version. Because all the selectors belonging to a particular page are stored inside the coresponding page class it is much easier to apply changes since they are made in only one place.
+```POM``` helps to deal with one of the most common challange when it comes to web apps automation - keeping your selectors up to date with the latest code version. Because all the selectors belonging to a particular page are stored inside the coresponding page class, it is much easier to apply changes since they are made in only one place.
 
 ## BasePage
 
@@ -74,7 +74,7 @@ This class is extended by all the page classes and implements some useful method
 
 ## BaseTest
 
-The setup and teardown methods run automatically from the BaseTest class using the ```@BeforeTest``` and ```@AfterTest``` annotations. This class is extended by all the test classes.
+The setup and teardown methods run automatically from the BaseTest class using the ```@BeforeTest``` and ```@AfterTest``` annotations. This class is extended by all test classes.
 
 :point_right: ```@BeforeTest``` creates the browser instance based on the ```browser``` parameter in ```config.properties```, opens the home page of the website, gets the connection information for the MySQL database from ```config.properties``` and initializes the ```ExtentTest``` object
 
@@ -125,7 +125,7 @@ public static WebDriver getBrowserType(BrowserTypes browserType) {
     }
 }
 ```
-:point_right: from the ```config.properties``` file and will call the appropiate ```WebDriverManager``` setup method based on the provided argument, ```Browser Options``` are also included here
+:point_right: from the ```config.properties``` file and calls the appropiate ```WebDriverManager``` setup method based on the provided argument, ```Browser Options``` are also included here
 
 ```java
 public static Browser getBrowser(BrowserTypes browserType) {
@@ -176,7 +176,7 @@ public class ChromeBrowser extends Browser {
 ```
 ![env](https://user-images.githubusercontent.com/79747055/216815221-1b9b5ff2-4928-431a-9f3d-281f93acee1c.png)
 
-:point_right: from the ```Environment variables``` if the browser property is set, otherwise it will default to Chrome
+:point_right: from the ```Environment variables``` if the browser property is set, otherwise it defaults to Chrome
 
 ## Data-driven testing
 
@@ -188,7 +188,7 @@ I've used external data sources in order to:
 
 :point_right: easily modify the data without making changes to the code
 
-I've used ```Jackson Databind``` library to read ```JSON``` data and ```MySQL Connector``` to make SELECT requests to a local ```MySQL``` database in order to retrieve data and parse it into Java Objects through custom Object Models. This proccess takes place inside a method that has the @DataProvider annotation, so the data can be further used by a test method.
+I've used ```Jackson Databind``` library to read ```JSON``` data and ```MySQL Connector``` to make SELECT requests to a local ```MySQL``` database in order to retrieve data and parse it into Java Objects through custom Object Models. This proccess takes place inside a method that has the ```@DataProvider``` annotation, so the data can be further used by a test method.
 
 ```java
 @DataProvider(name = "jsonInvalidRegisterDP")
@@ -206,7 +206,7 @@ public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
 }
 ```
 
-The ```ObjectMapper``` class is used to retrieve and parse the JSON data from the ```src\\test\\resources\\Data\\invalidRegisterData.json``` file into ```RegisterModel``` objects that are further added to a ```Collection of Object[]```. An Iterator then loops throgh the Collection and the method returns a ```RegisterModel``` object that is used by the test method. Every object returned represents a different data set, thus the test method runs several times with different data sets, increasing test coverage.
+The ```ObjectMapper``` class is used to retrieve and parse the JSON data from the ```src\\test\\resources\\Data\\invalidRegisterData.json``` file into ```RegisterModel``` objects that are further added to a ```Collection of Object[]```. An Iterator then loops through the Collection and the method returns a ```RegisterModel``` object that is used by the test method. Every object returned represents a different data set, thus the test method runs several times with different data sets, increasing the test coverage.
 
 ```java
 @DataProvider(name = "invalidEditAccountInformationDP")
@@ -243,7 +243,7 @@ The ```Statement``` object sends a query to the database that selects data from 
 
 The reporting is implemented with the ```ExtentReports library```. After every successful run, an html file is generated in the ```target/extent-reports``` folder and is named with a combination of extentReport + current time in milliseconds in order to avoid overriding. 
 
-The ```ExtentTestListener``` implements the ```ITestListener``` interface and has a role in attaching additional information to the test report through the following overriden methods:
+The ```ExtentTestListener``` implements the ```ITestListener``` interface and has the role of attaching additional information to the test report through the following overriden methods:
 
 + ```onStart```: adds the browser information to the test report
 + ```onFinish```: creates the html report 
@@ -265,7 +265,7 @@ The listeners are included in every .xml test suite inside a ```<listener>``` ta
 
 ![reporte](https://user-images.githubusercontent.com/79747055/216765354-870e818c-db84-4c4a-9ed2-1e6c60703e60.png)
 
-On test failures screenshots will automatically be taken and embedded in the report. The screenshot files will be named with a combination of screenshot + current time in milliseconds in order to avoid overriding.
+On test failures, screenshots are automatically taken and embedded in the report. The screenshot files are named with a combination of screenshot + current time in milliseconds in order to avoid overriding.
 
 ## Configuration file
 
