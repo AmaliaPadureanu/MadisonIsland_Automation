@@ -5,6 +5,7 @@ import Pages.NavigationPage;
 import Pages.NewsletterSubscriptionsPage;
 import Tests.ObjectModels.EditAccountInformationModel;
 import Tests.ObjectModels.EditAddressModel;
+import Utils.ConstantUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -74,7 +75,7 @@ public class MyAccountTests extends BaseTest {
    public Iterator<Object[]> jsonInvalidDPCollection() throws IOException {
       Collection<Object[]> dataProvider = new ArrayList<>();
       ObjectMapper objectMapper = new ObjectMapper();
-      File file = new File("src\\test\\resources\\Data\\invalidAddressData.json");
+      File file = new File(ConstantUtils.INVALID_ADDRESS_DATA_JSON_PATH);
       EditAddressModel[] editAddressModels = objectMapper.readValue(file, EditAddressModel[].class);
 
       for (EditAddressModel editAddressModel : editAddressModels) {
@@ -88,7 +89,7 @@ public class MyAccountTests extends BaseTest {
    public Iterator<Object[]> jsonValidDPCollection() throws IOException {
       Collection<Object[]> dataProvider = new ArrayList<>();
       ObjectMapper objectMapper = new ObjectMapper();
-      File file = new File("src\\test\\resources\\Data\\validAddressData.json");
+      File file = new File(ConstantUtils.VALID_ADDRESS_DATA_JSON_PATH);
       EditAddressModel[] editAddressModels = objectMapper.readValue(file, EditAddressModel[].class);
 
       for (EditAddressModel editAddressModel : editAddressModels) {
@@ -123,7 +124,7 @@ public class MyAccountTests extends BaseTest {
     public void beforeClass() {
        navigationPage = new NavigationPage(driver);
        loginPage = navigationPage.navigateToLogin();
-       loginPage.loginWith("test@e.com", "Automation");
+       loginPage.loginWith(ConstantUtils.USER, ConstantUtils.PASSWORD);
    }
 
    @Test (groups = {"regression"})

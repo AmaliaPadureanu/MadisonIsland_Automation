@@ -2,6 +2,7 @@ package Tests;
 
 import Pages.NavigationPage;
 import Utils.CategoriesOfProducts;
+import Utils.ConstantUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -12,7 +13,7 @@ public class WishlistTests extends BaseTest {
     public void beforeClass() {
         navigationPage = new NavigationPage(driver);
         loginPage = navigationPage.navigateToLogin();
-        loginPage.loginWith("test@e.com", "Automation");
+        loginPage.loginWith(ConstantUtils.USER, ConstantUtils.PASSWORD);
     }
 
     @Test (groups = {"regression"})

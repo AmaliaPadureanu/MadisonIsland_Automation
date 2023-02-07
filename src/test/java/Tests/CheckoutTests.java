@@ -4,6 +4,7 @@ import Pages.CheckoutPage;
 import Pages.NavigationPage;
 import Tests.ObjectModels.BillingModel;
 import Utils.CategoriesOfProducts;
+import Utils.ConstantUtils;
 import Utils.WaitUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -128,7 +129,7 @@ public class CheckoutTests extends BaseTest {
         addRandomProductToCart();
         int cartSubtotal = cartPage.getGrandTotal();
         checkoutPage = cartPage.proceedToCheckout();
-        checkoutPage.checkoutMethod(false, true, "test@e.com", "Automation");
+        checkoutPage.checkoutMethod(false, true, ConstantUtils.USER, ConstantUtils.PASSWORD);
         checkoutPage.continueToShippingMethod();
         checkoutPage.selectShippingMethod(cartSubtotal,true, false);
         checkoutPage.addGift(true, false);

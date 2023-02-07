@@ -4,6 +4,7 @@ import Pages.AccountDashboardPage;
 import Pages.LoginPage;
 import Pages.NavigationPage;
 import Tests.ObjectModels.RegisterModel;
+import Utils.ConstantUtils;
 import Utils.GenericUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.Assert;
@@ -21,7 +22,7 @@ public class RegisterTests extends BaseTest {
     public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
         Collection<Object[]> dataProvider = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("src\\test\\resources\\Data\\invalidRegisterData.json");
+        File file = new File(ConstantUtils.INVALID_REGISTER_DATA_JSON_PATH);
         RegisterModel[] registerModels = objectMapper.readValue(file, RegisterModel[].class);
 
         for (RegisterModel registerModel : registerModels) {

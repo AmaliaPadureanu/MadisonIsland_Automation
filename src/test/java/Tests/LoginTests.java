@@ -21,7 +21,7 @@ public class LoginTests extends BaseTest{
     public Iterator<Object[]> jsonDPCollection() throws IOException {
         Collection<Object[]> dataProvider = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("src\\test\\resources\\Data\\invalidLoginData.json");
+        File file = new File(ConstantUtils.INVALID_LOGIN_DATA_JSON_PATH);
         LoginModel[] loginModels = objectMapper.readValue(file, LoginModel[].class);
 
         for (LoginModel loginModel : loginModels) {
@@ -30,7 +30,8 @@ public class LoginTests extends BaseTest{
         return dataProvider.iterator();
     }
 
-    private void loginActions(LoginModel loginModel) {
+    @Test(dataProvider = "jsonInvalidLoginDP", priority = 1, groups = {"regression"})
+    public void invalidLoginTest(LoginModel loginModel) {
         navigationPage = new NavigationPage(driver);
         loginPage = navigationPage.navigateToLogin();
         loginPage.loginWith(loginModel.getAccount().getEmail(), loginModel.getAccount().getPassword());
@@ -39,11 +40,6 @@ public class LoginTests extends BaseTest{
         Assert.assertTrue(loginPage.checkError(loginModel.getPasswordError(), "passwordError"));
         Assert.assertTrue(loginPage.checkError(loginModel.getInvalidUserOrPasswordError(), "invalidUserOrPasswordError"));
         Assert.assertTrue(loginPage.checkError(loginModel.getInvalidUserOrPasswordErrorPopup(), "invalidUserOrPasswordErrorPopup"));
-    }
-
-    @Test(dataProvider = "jsonInvalidLoginDP", priority = 1, groups = {"regression"})
-    public void invalidLoginTest(LoginModel loginModel) {
-        loginActions(loginModel);
     }
 
     @Test (groups = {"smoke", "regression"})
@@ -60,7 +56,7 @@ public class LoginTests extends BaseTest{
         loginPage = navigationPage.navigateToLogin();
         loginPage.forgotYourPassword();
         forgotYourPasswordPage = new ForgotYourPasswordPage(driver);
-        forgotYourPasswordPage.submitEmailAddress("test@e.com");
+        forgotYourPasswordPage.submitEmailAddress(ConstantUtils.USER);
         Assert.assertTrue(loginPage.getResetPasswordMessage().contains("you will receive an email with a link to reset your password"));
     }
 
