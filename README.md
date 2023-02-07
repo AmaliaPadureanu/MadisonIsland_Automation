@@ -206,7 +206,7 @@ public Iterator<Object[]> jsonDPCollectionInvalid() throws IOException {
 }
 ```
 
-The ```ObjectMapper``` class is used to retrieve and parse the JSON data from the ```src\\test\\resources\\Data\\invalidRegisterData.json``` file into ```RegisterModel``` objects that are further added to a ```Collection of Object[]```. An Iterator then loops through the Collection and the method returns a ```RegisterModel``` object that is used by the test method. Every object returned represents a different data set, thus the test method runs several times with different data sets, increasing the test coverage.
+The ```ObjectMapper``` class is used to retrieve and parse the JSON data from the data file into ```RegisterModel``` objects that are further added to a ```Collection of Object[]```. An Iterator then loops through the Collection and the method returns a ```RegisterModel``` object that is used by the test method. Every object returned represents a different data set, thus the test method runs several times with different data sets, increasing the test coverage.
 
 ```java
 @DataProvider(name = "invalidEditAccountInformationDP")
